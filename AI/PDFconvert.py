@@ -4,6 +4,7 @@ import array
 import csv
 import pandas as pd
 from datetime import datetime, timedelta
+import os
 
 
 def printProducts():
@@ -118,37 +119,6 @@ def checkNameInCSV(name):
 # checkNameInCSV('Test')
 # checkNameInCSV('VK Bio D-Fladenbrot')
 
-date = '2023_02_24'
-reader = PyPDF2.PdfReader('bestellungen/{}.pdf'.format(date))
-
-try:
-    for i in range(7):
-        pageNum = i
-        page = reader.pages[pageNum]
-        products = convertPDF()
-        deleteBestellungenColumn()
-        deleteBestellungenColumn()
-
-        # Initialize the CSV if not done yet
-        with open('products.csv', 'r', newline='') as file:
-            reader = csv.reader(file)
-
-            data = list(reader)
-
-            if len(data) < 1:
-                initializeCSV()
-            else:
-                pass
-
-        print(products)
-        insertIntoCSV(getProductNames(), products, date)
-except:
-    pass
-
-
-# pageNum = 3
-# page = reader.pages[pageNum]
-
 def convertPDF():
     parts = []
 
@@ -203,9 +173,8 @@ def convertPDF():
         if '2152io' in text_body:
             index_to_replace = text_body.index('2152io')
             text_body[index_to_replace] = 'VK Bio'
-
         elif '2152' in text_body:
-            index_to_replaxe = text_body.index('2152')
+            index_to_replace = text_body.index('2152')
             text_body[index_to_replace] = 'VK Bio'
     except:
         pass
@@ -253,6 +222,41 @@ def convertPDF():
 
     # !!!bug with Stangenbrote
     # print(products)
+
+
+date = '2023_02_24'
+file_path = '~/AI/Gradwohl/AI/bestellungen/2023_02_24.pdf'
+print(os.path.isfile(file_path))
+
+reader = PyPDF2.PdfReader('~/AI/Gradwohl/AI/bestellungen/{}.pdf'.format(date))
+try:
+    for i in range(100):
+        pageNum = i
+        page = reader.pages[pageNum]
+        products = convertPDF()
+        deleteBestellungenColumn()
+        deleteBestellungenColumn()
+
+        # Initialize the CSV if not done yet
+        with open('products.csv', 'r', newline='') as file:
+            reader = csv.reader(file)
+
+            data = list(reader)
+
+            if len(data) < 1:
+                initializeCSV()
+            else:
+                pass
+
+        print(products)
+        insertIntoCSV(getProductNames(), products, date)
+except:
+    pass
+
+
+# pageNum = 3
+# page = reader.pages[pageNum]
+
 
 df = pd.read_csv('products.csv')
 df.date
