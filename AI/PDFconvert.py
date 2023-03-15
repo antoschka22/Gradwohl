@@ -1,10 +1,8 @@
 import PyPDF2
 import re
-import array
 import csv
 import pandas as pd
-from datetime import datetime, timedelta
-import os
+from datetime import datetime
 
 
 def printProducts():
@@ -124,7 +122,7 @@ def convertPDF():
 
     # delete the header in the first page
     # add text to an array
-    def visitor_body(text, cm, tm, fontDict, fontSize):
+    def visitor_body(text, tm):
         y = tm[5]
         if pageNum == 0 and y < 750:
             parts.append(text)
@@ -224,16 +222,21 @@ def convertPDF():
     # print(products)
 
 
-date = '2023_02_24'
-file_path = '~/AI/Gradwohl/AI/bestellungen/2023_02_24.pdf'
-print(os.path.isfile(file_path))
 
-reader = PyPDF2.PdfReader('~/AI/Gradwohl/AI/bestellungen/{}.pdf'.format(date))
+
+
+
+
+date = '2023_02_23'
+
+reader = PyPDF2.PdfReader('/Users/antoniomolina/AI/Gradwohl/AI/bestellungen/{}.pdf'.format(date))
 try:
     for i in range(100):
         pageNum = i
         page = reader.pages[pageNum]
         products = convertPDF()
+        print(i)
+        #convert PDF problem
         deleteBestellungenColumn()
         deleteBestellungenColumn()
 
@@ -250,17 +253,8 @@ try:
 
         print(products)
         insertIntoCSV(getProductNames(), products, date)
-except:
-    pass
+except Exception as e:
+    print(e)
 
-
-# pageNum = 3
-# page = reader.pages[pageNum]
-
-
-df = pd.read_csv('products.csv')
-df.date
-
-df.head()
 
 # PROBLEME: Datum zusammen und name mit underline

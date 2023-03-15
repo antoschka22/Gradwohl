@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d924f653-3cf0-4bea-b89d-c13cc724adb0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AI/PDFconvert.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/PDFconvert.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
