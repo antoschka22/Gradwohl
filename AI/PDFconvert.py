@@ -5,7 +5,7 @@ import pandas as pd
 from datetime import datetime
 
 
-def printProducts():
+def fnc_print_products():
     try:
         for product in products:
             print(product)
@@ -14,7 +14,7 @@ def printProducts():
 
 
 # delete the bestellungen column
-def deleteBestellungenColumn():
+def fnc_delete_bestellungen_column():
     try:
         for product in products:
             try:
@@ -27,12 +27,10 @@ def deleteBestellungenColumn():
 
 
 # printProducts()
-
-
 # get the names of the products
-def getProductNames():
+def fnc_get_product_names():
     try:
-        productNames = []
+        product_names = []
         for product in products:
             name = product[0]
 
@@ -50,26 +48,23 @@ def getProductNames():
                     break
                 else:
                     name = name[i + 1:]
-            productNames.append(name)
-        return productNames
+            product_names.append(name)
+        return product_names
 
     except:
         pass
 
 
 # print(getProductNames())
-
-
 # get the amount orderer of a product
-def getFrischeBestellung(product_name):
+def fnc_get_frische_bestellung(product_name):
     for product in products:
         if product_name in product[0]:
             return product[1]
 
+
 # getFrischeBestellung('VK Bio D-Brot o.H')
-
-
-def days_diff(date_str):
+def fnc_days_diff(date_str):
     date_obj = datetime.strptime(date_str, '%Y_%m_%d')
     base_date = datetime(2023, 2, 13)
     delta = date_obj - base_date
@@ -77,17 +72,13 @@ def days_diff(date_str):
 
 
 # print(days_diff('2023_02_18')+1)
-
-def insertIntoCSV(productNames, bestellungen, date):
-    for product in productNames:
-        checkNameInCSV(product)
-
+def fnc_insert_into_csv(product_names, bestellungen, date):
     df = pd.read_csv('products.csv')
 
-    new_row = {'date': days_diff(date) + 1}
+    new_row = {'date': fnc_days_diff(date) + 1}
 
     for index, bestellung in enumerate(bestellungen):
-        new_row.update({productNames[index]: bestellung[1]})
+        new_row.update({product_names[index]: bestellung[1]})
 
     new_row_df = pd.DataFrame([new_row])
 
@@ -98,38 +89,30 @@ def insertIntoCSV(productNames, bestellungen, date):
     # put the names of the first order in the csv file
 
 
-def initializeCSV():
-    products = getProductNames()
+def fnc_initialize_csv():
+    products = fnc_get_product_names()
     products.insert(0, 'date')
 
     with open('products.csv', 'a', newline='') as file:
         writer = csv.writer(file)
-
         writer.writerow(products)
 
 
-def checkNameInCSV(name):
-    with open('products.csv', 'r', newline='') as file:
-        reader = csv.reader(file)
-
-        data = list(reader)
-
 # checkNameInCSV('Test')
 # checkNameInCSV('VK Bio D-Fladenbrot')
-
-def convertPDF():
+def fnc_convert_pdf():
     parts = []
 
     # delete the header in the first page
     # add text to an array
-    def visitor_body(text, tm):
+    def fnc_visitor_body(text, tm, font_dict, font_size, cm):
         y = tm[5]
-        if pageNum == 0 and y < 750:
+        if py2_reader.get_page_number(page) == 0 and y < 750:
             parts.append(text)
-        elif pageNum > 0:
+        elif py2_reader.get_page_number(page) > 0:
             parts.append(text)
 
-    page.extract_text(visitor_text=visitor_body)
+    page.extract_text(visitor_text=fnc_visitor_body)
     text_body = "".join(parts).split(" ")
 
     text_body = list(filter(lambda x: x != "", text_body))
@@ -149,7 +132,6 @@ def convertPDF():
                 text_body[i] = text_body[i][:index_of_new_line]
             elif i != 0:  # Check if this is not the first index
                 text_body[i] = text_body[i][:index_of_new_line]
-
     for i in range(len(text_body)):
         index_of_new_line = text_body[i].find('\n')
         if index_of_new_line != -1:
@@ -222,39 +204,36 @@ def convertPDF():
     # print(products)
 
 
-
-
-
-
+global date
+global py2_reader
+global page
+global products
 
 date = '2023_02_23'
-
-reader = PyPDF2.PdfReader('/Users/antoniomolina/AI/Gradwohl/AI/bestellungen/{}.pdf'.format(date))
+py2_reader = PyPDF2.PdfReader('./bestellungen/{}.pdf'.format(date))
 try:
     for i in range(100):
-        pageNum = i
-        page = reader.pages[pageNum]
-        products = convertPDF()
+        page_num = i
+        page = py2_reader.pages[page_num]
+        products = fnc_convert_pdf()
         print(i)
-        #convert PDF problem
-        deleteBestellungenColumn()
-        deleteBestellungenColumn()
+        # convert PDF problem
+        fnc_delete_bestellungen_column()
+        fnc_delete_bestellungen_column()
 
         # Initialize the CSV if not done yet
         with open('products.csv', 'r', newline='') as file:
-            reader = csv.reader(file)
+            csv_reader = csv.reader(file)
 
-            data = list(reader)
+            data = list(csv_reader)
 
             if len(data) < 1:
-                initializeCSV()
+                fnc_initialize_csv()
             else:
                 pass
 
         print(products)
-        insertIntoCSV(getProductNames(), products, date)
+        fnc_insert_into_csv(fnc_get_product_names(), products, date)
 except Exception as e:
     print(e)
-
-
 # PROBLEME: Datum zusammen und name mit underline
