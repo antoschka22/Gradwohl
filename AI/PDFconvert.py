@@ -1,3 +1,5 @@
+import os
+from os.path import isfile, join
 import PyPDF2
 import re
 import csv
@@ -72,34 +74,39 @@ def fnc_days_diff(date_str):
 
 
 # print(days_diff('2023_02_18')+1)
-def fnc_insert_into_csv(product_names, bestellungen, date):
-    df = pd.read_csv('products.csv')
+def fnc_insert_into_csv(products, file_input):
+    # TODO Rewrite this to be more efficient, it literally checks all data, it really only needs to check the file field
+    # check if file is in csv:
+    try:
+        file_local = open('products.csv', 'r')
+        for i in file_local.readlines():
+            # make sure to only check once per file
+            if file_input in i:
+                file_local.close()
+                print("file already in csv")
+                return
+        file_local.close()
+    except:
+        print("file does not exist")
+    with open('products.csv', 'a+', newline='') as csvfile:
+        fieldnames = ['product_name', 'frisch', 'teigig', 'file']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-    new_row = {'date': fnc_days_diff(date) + 1}
-
-    for index, bestellung in enumerate(bestellungen):
-        new_row.update({product_names[index]: bestellung[1]})
-
-    new_row_df = pd.DataFrame([new_row])
-
-    df = pd.concat([df, new_row_df], ignore_index=True)
-
-    df.to_csv('products.csv', index=False)
-
-    # put the names of the first order in the csv file
-
-
-def fnc_initialize_csv():
-    products = fnc_get_product_names()
-    products.insert(0, 'date')
-
-    with open('products.csv', 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(products)
+        for i in products:
+            # print(str(i) + file_input)
+            try:
+                # select indivual data points
+                writer.writerow({'product_name': i[0], 'frisch': i[1], 'teigig': i[2], 'file': file_input})
+            except:
+                try:
+                    print("error in writing data in file: {}, name: {}, skipping".format(file_input,i[0]))
+                    continue
+                except:
+                    print("error in writing data in file: {}, low data integrity, skipping".format(file_input))
+                    continue
+        csvfile.close()
 
 
-# checkNameInCSV('Test')
-# checkNameInCSV('VK Bio D-Fladenbrot')
 def fnc_convert_pdf():
     parts = []
 
@@ -209,31 +216,24 @@ global py2_reader
 global page
 global products
 
-date = '2023_02_23'
-py2_reader = PyPDF2.PdfReader('./bestellungen/{}.pdf'.format(date))
-try:
-    for i in range(100):
-        page_num = i
-        page = py2_reader.pages[page_num]
-        products = fnc_convert_pdf()
-        print(i)
-        # convert PDF problem
-        fnc_delete_bestellungen_column()
-        fnc_delete_bestellungen_column()
+filepath = "./bestellungen"
+# make sure not to read in directories
+onlyfiles = [f for f in os.listdir(filepath) if isfile(join(filepath, f))]
+for file_current in onlyfiles:
+    # empty out products for every file
+    all_products = []
+    py2_reader = PyPDF2.PdfReader(filepath + "/" + file_current)
+    try:
+        # read all pages from pdf, (we just assume less than 100 pages)
+        for i_page_num in range(100):
+            page = py2_reader.pages[i_page_num]
+            products = fnc_convert_pdf()
+            all_products += products
+            # convert PDF problem
+            fnc_delete_bestellungen_column()
+            fnc_delete_bestellungen_column()
+    except Exception as e:
+        print(e)
+    fnc_insert_into_csv(all_products, file_current)
 
-        # Initialize the CSV if not done yet
-        with open('products.csv', 'r', newline='') as file:
-            csv_reader = csv.reader(file)
-
-            data = list(csv_reader)
-
-            if len(data) < 1:
-                fnc_initialize_csv()
-            else:
-                pass
-
-        print(products)
-        fnc_insert_into_csv(fnc_get_product_names(), products, date)
-except Exception as e:
-    print(e)
-# PROBLEME: Datum zusammen und name mit underline
+ # Todo: Add Headline to CSV?
