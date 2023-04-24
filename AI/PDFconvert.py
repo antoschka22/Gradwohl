@@ -75,34 +75,44 @@ def fnc_days_diff(date_str):
 
 # print(days_diff('2023_02_18')+1)
 def fnc_insert_into_csv(products, file_input):
-    # TODO Rewrite this to be more efficient, it literally checks all data, it really only needs to check the file field
+    fieldnames = ['product_name', 'frisch', 'teigig', 'file']
+    # TODO Rewrite this to be more efficient, it literally checks all data, until the element has been found, it really only needs to check the file field
     # check if file is in csv:
     try:
+        # looks ugly, but is as efficient as it gets in python
         file_local = open('products.csv', 'r')
-        for i in file_local.readlines():
-            # make sure to only check once per file
-            if file_input in i:
-                file_local.close()
-                print("file already in csv")
-                return
+        if str(file_input) in str(file_local):
+            file_local.close()
+            print("file already in csv")
+            return
         file_local.close()
     except:
         print("file does not exist")
-    with open('products.csv', 'a+', newline='') as csvfile:
-        fieldnames = ['product_name', 'frisch', 'teigig', 'file']
+        csvfile = open('products.csv', 'a+', newline='')
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        csvfile.close()
+        # csvfile = open('products.csv', 'a+', newline='')
+        # writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        # writer.writeheader()
+        # csvfile.close()
 
+    with open('products.csv', 'a+', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         for i in products:
+            # debug, shows a dataset + the file input
             # print(str(i) + file_input)
+            # the only real error we can get here are out of bounds errors
+            input_file_str = file_input.replace("_", "/").strip(".pdf")
             try:
-                # select indivual data points
-                writer.writerow({'product_name': i[0], 'frisch': i[1], 'teigig': i[2], 'file': file_input})
+                # select individual data points
+                writer.writerow({'product_name': i[0], 'frisch': i[1], 'teigig': i[2], 'file': input_file_str})
             except:
                 try:
-                    print("error in writing data in file: {}, name: {}, skipping".format(file_input,i[0]))
+                    print("error in writing data in file: {}, name: {}, skipping".format(input_file_str,i[0]))
                     continue
                 except:
-                    print("error in writing data in file: {}, low data integrity, skipping".format(file_input))
+                    print("error in writing data in file: {}, low data integrity, skipping".format(input_file_str))
                     continue
         csvfile.close()
 
@@ -172,9 +182,11 @@ def fnc_convert_pdf():
         if match:
             number = match.group(1)
             word = match.group(2)
-            text_body[i] = text.replace(number + word, number)
+            # Test
+            # text_body[i] = text.replace(number + word, number)
+            text_body[i] = text.replace(number, number)
             if i < len(text_body) - 1:
-                text_body[i + 1] = text_body[i + 1].strip() + word
+                text_body[i + 1] = text_body[i + 1].strip()
 
     products = []
     i = 0
@@ -205,6 +217,14 @@ def fnc_convert_pdf():
             products.append(inner_arr)
             i = j - 1  # Skip over the indices that were added to two_d_array
         i += 1
+
+    # Terrible fix to remove any ALPHA chars from ID
+    i = 0  # I hate that i is a global var...
+    while i < len(products):
+        products[i][0] = products[i][0][0:[c for c, x in enumerate(products[i][0]) if x.isalpha()][0]]
+        products[i][0] = ''.join(c for c in products[i][0] if c.isdigit())
+        i += 1
+
     return products
 
     # !!!bug with Stangenbrote
@@ -219,6 +239,8 @@ global products
 filepath = "./bestellungen"
 # make sure not to read in directories
 onlyfiles = [f for f in os.listdir(filepath) if isfile(join(filepath, f))]
+onlyfiles.sort()
+print(onlyfiles)
 for file_current in onlyfiles:
     # empty out products for every file
     all_products = []
@@ -233,7 +255,8 @@ for file_current in onlyfiles:
             fnc_delete_bestellungen_column()
             fnc_delete_bestellungen_column()
     except Exception as e:
-        print(e)
+        e
+    print("insert " + file_current)
     fnc_insert_into_csv(all_products, file_current)
 
  # Todo: Add Headline to CSV?
