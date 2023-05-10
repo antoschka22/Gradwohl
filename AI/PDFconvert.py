@@ -103,7 +103,7 @@ def fnc_insert_into_csv(products, file_input):
             # debug, shows a dataset + the file input
             # print(str(i) + file_input)
             # the only real error we can get here are out of bounds errors
-            input_file_str = file_input.replace("_", "/").strip(".pdf")
+            input_file_str = file_input.replace("_", "").strip(".pdf")
             try:
                 # select individual data points
                 writer.writerow({'product_name': i[0], 'frisch': i[1], 'teigig': i[2], 'file': input_file_str})
@@ -238,7 +238,7 @@ global products
 
 filepath = "./bestellungen"
 # make sure not to read in directories
-onlyfiles = [f for f in os.listdir(filepath) if isfile(join(filepath, f))]
+onlyfiles = [f for f in os.listdir(filepath) if isfile(join(filepath, f)) and f.lower().endswith('.pdf')]
 onlyfiles.sort()
 print(onlyfiles)
 for file_current in onlyfiles:
@@ -258,5 +258,3 @@ for file_current in onlyfiles:
         e
     print("insert " + file_current)
     fnc_insert_into_csv(all_products, file_current)
-
- # Todo: Add Headline to CSV?
