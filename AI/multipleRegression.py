@@ -4,10 +4,15 @@
 import tensorflow as tf
 import pandas as pd
 
-df = pd.read_csv("products.csv")
+df = pd.read_csv("products.csv", dtype={'file': float})
 features = ['product_name', 'frisch', 'teigig']
-X = df[features].values
-y = df['file'].values
+
+df['teigig'] = pd.to_numeric(df['teigig'], errors='coerce')
+
+X = df[features].to_numpy()
+y = df['file'].to_numpy()
+
+print(df[features])
 
 # Split into training / testing
 from sklearn.model_selection import train_test_split
@@ -34,6 +39,10 @@ model.fit(X_train, y_train, epochs=100, validation_data=(X_test, y_test))
 
 # evaluate the model
 model.evaluate(X_test, y_test)
+
+# save the model
+model.save('model_v01_17.5_error.h5')
+
 
 
 
