@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d924f653-3cf0-4bea-b89d-c13cc724adb0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AI/Gradwohl_v2_17.5_error.h5" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/model_v01_17.5_error.h5" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/multipleRegressionv2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/multipleRegressionv3HeavyWIP.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/products.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/testv3_unusable.h5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Gradwohl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Gradwohl.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/multipleRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/multipleRegression.py" afterDir="false" />
-    </list>
+    <list default="true" id="d924f653-3cf0-4bea-b89d-c13cc724adb0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,12 +24,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/AI" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/antoniomolina/Spenger/Gradwohl"
+  }
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="Gradwohl" is-module-sdk="true">
@@ -54,7 +44,7 @@
       <recent name="C:\Users\simon\Documents\GitHub\Gradwohl\AI" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.multipleRegressionv3HeavyWIP">
+  <component name="RunManager">
     <configuration name="multipleRegression" type="PythonConfigurationType" factoryName="Python">
       <module name="Gradwohl" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -118,17 +108,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Python.multipleRegression" />
-      <item itemvalue="Python.multipleRegressionv2" />
-      <item itemvalue="Python.multipleRegressionv3HeavyWIP" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.multipleRegressionv3HeavyWIP" />
-        <item itemvalue="Python.multipleRegressionv2" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -154,16 +133,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AI/multipleRegression.py</url>
-          <line>17</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
