@@ -8,18 +8,19 @@ services:
   image: gradwohl_frontend
   restart: always
   ports:
-    - 8081:80
+    - 8080:80
   
  database:
   container_name: gradwohl_database
-  image:  postgres:13-alpine
+  image: postgres:13
   volumes: 
-   - ~/Spenger/Gradwohl/database/data:/var/lib/postgresql/data
+    - ~/Spenger/Gradwohl/database/data:/var/lib/postgresql/data
   restart: always
   ports:
-   - 5432:5432
+    - 5432:5432 
   environment:
-   - POSTGRES_PASSWORD=Gradwohl_Vollkornbaeckerei_Burgenland
+    - POSTGRES_PASSWORD=gradwohl_Diplom
+    - POSTGRES_DB= postgres
   
  backend:
   container_name: gradwohl_backend
@@ -27,7 +28,7 @@ services:
   build: ./backend
   restart: always
   environment:
-   - server=database
+   - DB_HOST=database
    - name=postgres
    - user=postgres
    - password=gradwohl_Diplom

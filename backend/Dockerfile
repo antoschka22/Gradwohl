@@ -2,7 +2,6 @@
 FROM maven:3.8.3-openjdk-17 as builder
 WORKDIR /app
 COPY /spring /app
-RUN mvn clean package
 
 # create light weigh image to run
 FROM openjdk:17
