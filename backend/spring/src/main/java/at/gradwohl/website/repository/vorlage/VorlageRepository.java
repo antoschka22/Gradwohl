@@ -1,4 +1,4 @@
-package at.gradwohl.website.repository;
+package at.gradwohl.website.repository.vorlage;
 
 import at.gradwohl.website.model.vorlage.Vorlage;
 import at.gradwohl.website.model.vorlage.VorlageId;

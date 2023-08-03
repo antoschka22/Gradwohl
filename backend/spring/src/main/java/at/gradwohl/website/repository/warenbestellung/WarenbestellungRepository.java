@@ -1,4 +1,4 @@
-package at.gradwohl.website.repository;
+package at.gradwohl.website.repository.warenbestellung;
 
 import at.gradwohl.website.model.warenbestellung.Warenbestellung;
 import at.gradwohl.website.model.warenbestellung.WarenbestellungId;

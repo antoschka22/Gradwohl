@@ -1,4 +1,4 @@
-package at.gradwohl.website.repository;
+package at.gradwohl.website.repository.role;
 
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
 import org.springframework.data.jpa.repository.JpaRepository;

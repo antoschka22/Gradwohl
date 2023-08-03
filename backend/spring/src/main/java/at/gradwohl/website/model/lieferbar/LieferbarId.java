@@ -4,10 +4,16 @@ import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.model.produkt.Produkt;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Embeddable
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LieferbarId implements Serializable {
     @MapsId("Produkt")
     @ManyToOne

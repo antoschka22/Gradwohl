@@ -1,4 +1,4 @@
-package at.gradwohl.website.repository;
+package at.gradwohl.website.repository.filiale;
 
 import at.gradwohl.website.model.filiale.Filiale;
 import org.springframework.data.jpa.repository.JpaRepository;

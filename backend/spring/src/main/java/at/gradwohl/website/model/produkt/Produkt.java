@@ -2,8 +2,14 @@ package at.gradwohl.website.model.produkt;
 
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Produkt")
 public class Produkt {
     @Id
@@ -11,9 +17,8 @@ public class Produkt {
     private int id;
 
     @Column(name = "P_Name")
-    private int name;
+    private String name;
 
-    @MapsId("produktgruppe")
     @ManyToOne
     @JoinColumn(name = "P_Gruppe", referencedColumnName = "PG_Name")
     private Produktgruppe produktgruppe;

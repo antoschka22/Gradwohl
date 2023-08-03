@@ -1,4 +1,4 @@
-package at.gradwohl.website.repository;
+package at.gradwohl.website.repository.nachricht;
 
 import at.gradwohl.website.model.nachricht.Nachricht;
 import org.springframework.data.jpa.repository.JpaRepository;

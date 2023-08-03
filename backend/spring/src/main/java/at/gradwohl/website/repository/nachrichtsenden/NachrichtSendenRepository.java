@@ -1,4 +1,4 @@
-package at.gradwohl.website.repository;
+package at.gradwohl.website.repository.nachrichtsenden;
 
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSenden;
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;

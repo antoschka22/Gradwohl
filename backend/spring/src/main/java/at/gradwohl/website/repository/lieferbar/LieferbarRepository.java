@@ -1,4 +1,4 @@
-package at.gradwohl.website.repository;
+package at.gradwohl.website.repository.lieferbar;
 
 import at.gradwohl.website.model.lieferbar.Lieferbar;
 import at.gradwohl.website.model.lieferbar.LieferbarId;

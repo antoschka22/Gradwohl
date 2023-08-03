@@ -3,15 +3,22 @@ package at.gradwohl.website.model.dienstplan;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.security.Timestamp;
-import java.util.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Embeddable
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DienstplanId implements Serializable {
     @Column(name = "D_Datum")
-    private Date datum;
+    private LocalDate datum;
 
     @MapsId("filiale")
     @ManyToOne
@@ -19,7 +26,7 @@ public class DienstplanId implements Serializable {
     private Filiale filiale;
 
     @Column(name = "D_von")
-    private Timestamp von;
+    private LocalTime von;
 
     @MapsId("mitarbeiter")
     @ManyToOne
