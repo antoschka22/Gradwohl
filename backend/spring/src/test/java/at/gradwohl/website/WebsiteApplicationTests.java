@@ -14,6 +14,7 @@ import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
 import at.gradwohl.website.model.nachricht.Nachricht;
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSenden;
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;
+import at.gradwohl.website.model.produkt.Mehl;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
 import at.gradwohl.website.model.vorlage.Vorlage;
@@ -156,7 +157,7 @@ class WebsiteApplicationTests {
 						.id(1)
 						.name("Topfenstrudel")
 						.bio(true)
-						.mehl("Dinkel")
+						.mehl(Mehl.Dinkel)
 						.hb(true)
 						.produktgruppe(produktgruppe)
 						.build();
@@ -203,7 +204,7 @@ class WebsiteApplicationTests {
 						.id(1)
 						.name("Topfenstrudel")
 						.bio(true)
-						.mehl("Dinkel")
+						.mehl(Mehl.Dinkel)
 						.hb(true)
 						.produktgruppe(produktgruppe)
 						.build();
@@ -251,7 +252,7 @@ class WebsiteApplicationTests {
 						.id(1)
 						.name("Topfenstrudel")
 						.bio(true)
-						.mehl("Dinkel")
+						.mehl(Mehl.Dinkel)
 						.hb(true)
 						.produktgruppe(produktgruppe)
 						.build();
@@ -299,7 +300,7 @@ class WebsiteApplicationTests {
 						.id(1)
 						.name("Topfenstrudel")
 						.bio(true)
-						.mehl("Dinkel")
+						.mehl(Mehl.Dinkel)
 						.hb(true)
 						.produktgruppe(produktgruppe)
 						.build();
@@ -349,7 +350,6 @@ class WebsiteApplicationTests {
 		filialeRepository.save(filiale2);
 
 		Nachricht nachricht = Nachricht.builder()
-				.id(1)
 				.build();
 
 		nachricht.setParagraphs(List.of(

@@ -5,13 +5,17 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.*;
+
+import java.io.Serializable;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Produkt")
-public class Produkt {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Produkt implements Serializable {
     @Id
     @Column(name = "P_ID")
     private int id;
@@ -27,11 +31,46 @@ public class Produkt {
     private boolean bio;
 
     @Column(name = "P_Mehl")
-    private String mehl;
+    private Mehl mehl;
 
     @Column(name = "P_HB")
     private boolean hb;
 
-    // Getters and setters
-}
+    @Column(name = "P_Mehl_Mischung")
+    private Mehl mehlMischung;
 
+    @JsonGetter("id")
+    public int getId() {
+        return id;
+    }
+
+    @JsonGetter("name")
+    public String getName() {
+        return name;
+    }
+
+    @JsonGetter("produktgruppe")
+    public Produktgruppe getProduktgruppe() {
+        return produktgruppe;
+    }
+
+    @JsonGetter("bio")
+    public boolean isBio() {
+        return bio;
+    }
+
+    @JsonGetter("mehl")
+    public Mehl getMehl() {
+        return mehl;
+    }
+
+    @JsonGetter("hb")
+    public boolean isHb() {
+        return hb;
+    }
+
+    @JsonGetter("mehlMischung")
+    public Mehl getMehlMischung() {
+        return mehlMischung;
+    }
+}
