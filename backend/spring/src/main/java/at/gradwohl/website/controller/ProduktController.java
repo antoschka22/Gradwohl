@@ -31,6 +31,12 @@ public class ProduktController {
         return produktService.getProduktbyGruppeAndHB(produktgruppeName, hb);
     }
 
+    @GetMapping("/hb/{hb}")
+    public List<Produkt> getProductsByProduktgruppe(
+            @PathVariable boolean hb) {
+        return produktService.getHBProdukte(hb);
+    }
+
     @GetMapping
     public  List<Produkt> getAllProducts(){
         return produktService.getAllProdukts();
