@@ -1368,7 +1368,7 @@ public class initApplication {
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
-                            .hb(true)
+                            .hb(false)
                             .produktgruppe(mehlspeisen)
                             .build();
 
@@ -2003,8 +2003,762 @@ public class initApplication {
                             .build();
 
 
+
+
+            Produkt jourSemmerl =
+                    Produkt.builder()
+                            .id(15)
+                            .name("Jour Semmerl Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourSemmerlHB =
+                    Produkt.builder()
+                            .id(3015)
+                            .name("Jour Semmerl Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourWachauer =
+                    Produkt.builder()
+                            .id(23)
+                            .name("Jour Wachauer Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourWachauerHB =
+                    Produkt.builder()
+                            .id(3023)
+                            .name("Jour Wachauer Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourlaugenstanger =
+                    Produkt.builder()
+                            .id(45)
+                            .name("Jour Laugenstanger Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourlaugenstangerHB =
+                    Produkt.builder()
+                            .id(3045)
+                            .name("Jour Laugenstanger Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourkaesestangerl =
+                    Produkt.builder()
+                            .id(70)
+                            .name("Jour Käsestanger Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourkaesestangerlHB =
+                    Produkt.builder()
+                            .id(3070)
+                            .name("Jour Käsestanger Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourSalzstangerl =
+                    Produkt.builder()
+                            .id(73)
+                            .name("Jour Salzstangerl Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt grammelpogatscherl =
+                    Produkt.builder()
+                            .id(162)
+                            .name("Grammelpogatscherl Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt grammelpogatscherlHB =
+                    Produkt.builder()
+                            .id(3162)
+                            .name("Grammelpogatscherl Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourMohnlaibchen =
+                    Produkt.builder()
+                            .id(175)
+                            .name("Jour Mohnlaibchen Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourMohnlaibchenHB =
+                    Produkt.builder()
+                            .id(3175)
+                            .name("Jour Mohnlaibchen Stk.HB")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt joursesamlaibchen =
+                    Produkt.builder()
+                            .id(176)
+                            .name("Jour Sesamlaibchen Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt joursesamlaibchenHB =
+                    Produkt.builder()
+                            .id(3176)
+                            .name("Jour Sesamlaibchen Stk.HB")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourNussMandelweckerl =
+                    Produkt.builder()
+                            .id(180)
+                            .name("Jour Nuss-Mandelweckerl Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourNussMandelweckerlHB =
+                    Produkt.builder()
+                            .id(3180)
+                            .name("Jour Nuss-Mandelweckerl Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourSalzstangerlBioStk =
+                    Produkt.builder()
+                            .id(183)
+                            .name("Jour Salzstangerl Bio Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourPharaoweckerl =
+                    Produkt.builder()
+                            .id(187)
+                            .name("Jour Pharaoweckerl Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourPharaoweckerlHB =
+                    Produkt.builder()
+                            .id(3187)
+                            .name("Jour Pharaoweckerl Stk.HB")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt jourKornspitz =
+                    Produkt.builder()
+                            .id(215)
+                            .name("Jour Kornspitz Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt jourKornspitzHB =
+                    Produkt.builder()
+                            .id(3215)
+                            .name("Jour Kornspitz Stk.HB")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourGrahamweckerl =
+                    Produkt.builder()
+                            .id(235)
+                            .name("Jour Grahamweckerl Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt jourGrahamweckerlHB =
+                    Produkt.builder()
+                            .id(235)
+                            .name("Jour Grahamweckerl Stk.HB")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourTomMozzTascherlab30Stueck =
+                    Produkt.builder()
+                            .id(85)
+                            .name("Jour Tom/Mozz.tascherl ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt jourTomMozzTascherlab30StueckHB =
+                    Produkt.builder()
+                            .id(3085)
+                            .name("Jour Tom/Mozz.tascherl ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourKuerbiskernweckerlab30Stueck =
+                    Produkt.builder()
+                            .id(179)
+                            .name("Jour Kürbiskernweckerl ab30Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt jourKuerbiskernweckerlab30StueckHB =
+                    Produkt.builder()
+                            .id(3179)
+                            .name("Jour Kürbiskernweckerl ab30Stk.HB")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt Kaesestangerlab30Stueck =
+                    Produkt.builder()
+                            .id(186)
+                            .name("Jour Käsestangerl ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt Kaesestangerlab30StueckHB =
+                    Produkt.builder()
+                            .id(3186)
+                            .name("Jour Käsestangerl ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt hirseweckerlab30Stueck =
+                    Produkt.builder()
+                            .id(424)
+                            .name("Jour Hirseweckerl ab30Stk.")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt hirseweckerlab30StueckHB =
+                    Produkt.builder()
+                            .id(3424)
+                            .name("Jour Hirseweckerl ab30Stk.HB")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt spinattascheab30Stueck =
+                    Produkt.builder()
+                            .id(338)
+                            .name("Jour Spinattasche ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt spinattascheab30StueckHB =
+                    Produkt.builder()
+                            .id(3338)
+                            .name("Jour Spinattasche ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt lauchtascheab30Stueck =
+                    Produkt.builder()
+                            .id(463)
+                            .name("Jour Lauchtasche ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt lauchtascheab30StueckHB =
+                    Produkt.builder()
+                            .id(3463)
+                            .name("Jour Lauchtasche ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt briochekipferlab20Stueck =
+                    Produkt.builder()
+                            .id(21)
+                            .name("Jour Briochekipferl ab20Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt kipferlab20Stueck =
+                    Produkt.builder()
+                            .id(34)
+                            .name("Jour Kipferl ab20Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourTopfengolatscheStueck =
+                    Produkt.builder()
+                            .id(81)
+                            .name("Jour Topfengolatsche Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourTopfengolatscheStueckHB =
+                    Produkt.builder()
+                            .id(3081)
+                            .name("Jour Topfengolatsche Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourNusskipferStueck =
+                    Produkt.builder()
+                            .id(88)
+                            .name("Jour Nusskipfer Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourNusskipferStueckHB =
+                    Produkt.builder()
+                            .id(3088)
+                            .name("Jour Nusskipfer Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourMohnkipferab20Stueck =
+                    Produkt.builder()
+                            .id(122)
+                            .name("Jour Mohnkipfer ab20Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourMohnkipferab20StueckHB =
+                    Produkt.builder()
+                            .id(3122)
+                            .name("Jour Mohnkipfer ab20Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourSchokostangerlab20Stueck =
+                    Produkt.builder()
+                            .id(184)
+                            .name("Jour Schokostangerl ab20Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourSchokostangerab20StueckHB =
+                    Produkt.builder()
+                            .id(3184)
+                            .name("Jour Mohnkipfer ab20Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourKirschpolsterab20Stueck =
+                    Produkt.builder()
+                            .id(185)
+                            .name("Jour Kirschpolster ab20Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourKirschpolsterab20StueckHB =
+                    Produkt.builder()
+                            .id(3185)
+                            .name("Jour Kirschpolster ab20Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+
+            Produkt yourVanillestangerlab20Stueck =
+                    Produkt.builder()
+                            .id(291)
+                            .name("Jour Vanillestangerl ab20Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourVanillestangerlab20StueckHB =
+                    Produkt.builder()
+                            .id(3291)
+                            .name("Jour Vanillestangerl ab20Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourKastanienzipfab20Stueck =
+                    Produkt.builder()
+                            .id(312)
+                            .name("Jour Kastanienzipf ab20Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourKastanienzipfab20StueckHB =
+                    Produkt.builder()
+                            .id(3312)
+                            .name("Jour Kastanienzipf ab20Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourNusstascherlab30Stueck =
+                    Produkt.builder()
+                            .id(195)
+                            .name("Jour Nusstascherl ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourNusstascherlab30StueckHB =
+                    Produkt.builder()
+                            .id(3195)
+                            .name("Jour Nusstascherl ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourPowidlgolatscheab30Stueck =
+                    Produkt.builder()
+                            .id(219)
+                            .name("Jour Powidlgolatsche ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
+            Produkt yourPowidlgolatscheab30StueckHB =
+                    Produkt.builder()
+                            .id(3219)
+                            .name("Jour Powidlgolatsche ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourTopfengolatscheab30Stueck =
+                    Produkt.builder()
+                            .id(289)
+                            .name("Jour Topfengolatsche ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourTopfengolatscheab30StueckHB =
+                    Produkt.builder()
+                            .id(3289)
+                            .name("Jour Topfengolatsche ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourSchokostangerab30Stueck =
+                    Produkt.builder()
+                            .id(355)
+                            .name("Jour Schokostangerl ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourSchokostangerab30StueckHB =
+                    Produkt.builder()
+                            .id(3355)
+                            .name("Jour Schokostangerl ab30StkHB.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourRosinenweckerlab30Stueck =
+                    Produkt.builder()
+                            .id(375)
+                            .name("Jour Rosinenweckerl ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourRosinenweckerlab30StueckHB =
+                    Produkt.builder()
+                            .id(3375)
+                            .name("Jour Rosinenweckerl ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourZauberkipferlab30Stueck =
+                    Produkt.builder()
+                            .id(426)
+                            .name("Jour Zauberkipferl ab30Stk.")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+            Produkt yourZauberkipferlab30StueckHB =
+                    Produkt.builder()
+                            .id(3426)
+                            .name("Jour Zauberkipferl ab30Stk.HB")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(jourGebaeck)
+                    .build();
+
+
             List<Produkt> produkte = Arrays.asList(
-                    bauernbrot, roggenbrot, dinkelbrotOhneHefe, pharaobrotOhneHefe, dinkelbrot, dinkeltoast, 
+                    bauernbrot, roggenbrot, dinkelbrotOhneHefe, pharaobrotOhneHefe, dinkelbrot, dinkeltoast,
                     leinsamenAmaranthbrotOhneHefe, backfermentbrotOhneHefe, karottenNussbrot, kraftbrotOhneHefe, 
                     chiabrotOhneHefe, dinkelbrotStange, bauernbrotStange, siebenkornStange, kuerbiskernbrot, 
                     suesskartoffelbrot, olivenbrot, roteRuebenbrot, zwiebelbrot, nussbrotstange, nussbrotleibRund,
@@ -2031,7 +2785,24 @@ public class initApplication {
                     dinkelweckerlOhneHefeHB, kurkumaweckerlHB, studentenfutterHB, dinkelSchneckeHB, pharaobriochestriezerlHB,
                     topfengolatscheHB, powidlgolatscheHB, nusskipferlHB, mohnkipferHB, topfenmarilleHB, dinkelcroissantHB,
                     schokostangerHB, pharaocroissantHB, ribiselstangerlHB, nussinoHB, kastanienzipfHB, kirschpolsterHB,
-                    apfeltascherlHB, birnentascherlHB, kuerbiskipferHB, marzipankroneHB
+                    apfeltascherlHB, birnentascherlHB, kuerbiskipferHB, marzipankroneHB, jourSemmerl, jourSemmerlHB,
+                    jourWachauer, jourWachauerHB, jourlaugenstanger, jourlaugenstangerHB, jourkaesestangerl, jourkaesestangerlHB,
+                    jourSalzstangerl, grammelpogatscherl, grammelpogatscherlHB, jourMohnlaibchen, jourMohnlaibchenHB,
+                    joursesamlaibchen, joursesamlaibchenHB, jourNussMandelweckerl, jourNussMandelweckerlHB, jourSalzstangerl,
+                    jourSalzstangerlBioStk, jourPharaoweckerl, jourPharaoweckerlHB, jourKornspitz, jourKornspitzHB,
+                    jourGrahamweckerl, jourGrahamweckerlHB, jourTomMozzTascherlab30StueckHB, jourTomMozzTascherlab30Stueck,
+                    jourKuerbiskernweckerlab30StueckHB, jourKuerbiskernweckerlab30Stueck, Kaesestangerlab30Stueck,
+                    Kaesestangerlab30StueckHB, hirseweckerlab30Stueck, hirseweckerlab30StueckHB, spinattascheab30StueckHB,
+                    spinattascheab30Stueck, lauchtascheab30Stueck, lauchtascheab30StueckHB, briochekipferlab20Stueck,
+                    kipferlab20Stueck, yourTopfengolatscheStueck, yourTopfengolatscheStueckHB, yourNusskipferStueck,
+                    yourNusskipferStueckHB, yourNusskipferStueckHB, yourMohnkipferab20StueckHB, yourMohnkipferab20Stueck,
+                    yourSchokostangerab20StueckHB, yourSchokostangerab30Stueck, yourSchokostangerlab20Stueck,
+                    yourKirschpolsterab20Stueck, yourKirschpolsterab20StueckHB, yourVanillestangerlab20Stueck,
+                    yourVanillestangerlab20StueckHB, yourKastanienzipfab20StueckHB, yourKastanienzipfab20Stueck,
+                    yourNusstascherlab30StueckHB, yourNusstascherlab30Stueck, yourPowidlgolatscheab30StueckHB,
+                    yourPowidlgolatscheab30Stueck, yourTopfengolatscheab30Stueck, yourTopfengolatscheab30StueckHB,
+                    yourSchokostangerab30StueckHB, yourSchokostangerab30Stueck, yourRosinenweckerlab30Stueck,
+                    yourRosinenweckerlab30StueckHB, yourZauberkipferlab30StueckHB, yourZauberkipferlab30Stueck
             );
 
 

@@ -1,4 +1,4 @@
-package at.gradwohl.website.controller.produktgruppe;
+package at.gradwohl.website.controller;
 
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;

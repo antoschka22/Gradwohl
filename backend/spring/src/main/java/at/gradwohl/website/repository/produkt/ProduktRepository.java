@@ -14,4 +14,6 @@ public interface ProduktRepository extends JpaRepository<Produkt, Integer> {
     @Query("SELECT p FROM Produkt p WHERE p.produktgruppe.name = :gruppe AND p.hb = :hb")
     List<Produkt> findByGruppeAndHb(@Param("gruppe") String gruppe, @Param("hb") boolean hb);
 
+    @Query("SELECT p FROM Produkt p WHERE p.hb = :hb")
+    List<Produkt> findByHb(@Param("hb") boolean hb);
 }

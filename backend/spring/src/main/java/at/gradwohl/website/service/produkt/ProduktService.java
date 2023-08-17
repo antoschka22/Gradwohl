@@ -29,4 +29,8 @@ public class ProduktService {
     public List<Produkt> getProduktbyGruppeAndHB(String produktgruppeName, boolean hb){
         return produktRepository.findByGruppeAndHb(produktgruppeName, hb);
     }
+
+    public List<Produkt> getHBProdukte(boolean hb){
+        return produktRepository.findByHb(hb);
+    }
 }
