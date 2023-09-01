@@ -15,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Table(name = "Produkt")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Produkt implements Serializable {
     @Id
     @Column(name = "P_ID")
@@ -72,5 +73,33 @@ public class Produkt implements Serializable {
     @JsonGetter("mehlMischung")
     public Mehl getMehlMischung() {
         return mehlMischung;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setProduktgruppe(Produktgruppe produktgruppe) {
+        this.produktgruppe = produktgruppe;
+    }
+
+    public void setBio(boolean bio) {
+        this.bio = bio;
+    }
+
+    public void setMehl(Mehl mehl) {
+        this.mehl = mehl;
+    }
+
+    public void setHb(boolean hb) {
+        this.hb = hb;
+    }
+
+    public void setMehlMischung(Mehl mehlMischung) {
+        this.mehlMischung = mehlMischung;
     }
 }

@@ -1,5 +1,6 @@
 package at.gradwohl.website.service;
 
+import at.gradwohl.website.model.dienstplan.DienstplanId;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
@@ -7,6 +8,8 @@ import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
 import at.gradwohl.website.model.produkt.Mehl;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
+import at.gradwohl.website.model.warenbestellung.Warenbestellung;
+import at.gradwohl.website.model.warenbestellung.WarenbestellungId;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.firma.FirmaRepository;
@@ -24,6 +27,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -264,8 +268,6 @@ public class initApplication {
               barbara, szimone, nicole, christa
             );
 
-            //filialeRepository.findBy()
-
             mitarbeiterRepository.saveAll(mitarbeiter);
 
 
@@ -301,7 +303,22 @@ public class initApplication {
 
             Produktgruppe torten=
                     Produktgruppe.builder()
-                            .name("VK Torten")
+                            .name("VK ostern")
+                            .build();
+
+            Produktgruppe ostern =
+                    Produktgruppe.builder()
+                            .name("Ostersachen")
+                            .build();
+
+            Produktgruppe weihnachten =
+                    Produktgruppe.builder()
+                            .name("Weihnachtensachen")
+                            .build();
+
+            Produktgruppe muttertag =
+                    Produktgruppe.builder()
+                            .name("Muttertagsachen")
                             .build();
 
             Produktgruppe sontiges=
@@ -311,7 +328,7 @@ public class initApplication {
 
             Produktgruppe organisatorisch=
                     Produktgruppe.builder()
-                            .name("Organisatorisch")
+                            .name("organisatorisch")
                             .build();
 
             Produktgruppe stange =
@@ -326,7 +343,7 @@ public class initApplication {
 
 
             List<Produktgruppe> produktgruppen = Arrays.asList(
-                    snack, brote, gebaeck, jourGebaeck, mehlspeisen, kuchen, torten, sontiges, organisatorisch, kekse, stange
+                    ostern, weihnachten, muttertag, snack, brote, gebaeck, jourGebaeck, mehlspeisen, kuchen, torten, sontiges, organisatorisch, kekse, stange
             );
 
             produktgruppeRepository.saveAll(produktgruppen);
@@ -445,7 +462,7 @@ public class initApplication {
             Produkt leinsamenAmaranthbrotOhneHefeHB =
                     Produkt.builder()
                             .id(2196)
-                            .name("Leinsamen-Amarantbrot ohne Hefe HB")
+                            .name("Leinsamen-Amaranthbrot ohne Hefe HB")
                             .bio(true)
                             .mehl(Mehl.Roggen)
                             .mehlMischung(Mehl.Roggen)
@@ -478,7 +495,7 @@ public class initApplication {
             Produkt karottenNussHB =
                     Produkt.builder()
                             .id(2288)
-                            .name("Karotte-Nussbrot HB")
+                            .name("Karotten-Nussbrot HB")
                             .bio(true)
                             .mehl(Mehl.Dinkel)
                             .hb(true)
@@ -488,7 +505,7 @@ public class initApplication {
             Produkt kraftbrotOhneHefe =
                     Produkt.builder()
                             .id(492)
-                            .name("BT Kraftbrot ohne Hefe")
+                            .name("Kraftbrot ohne Hefe")
                             .bio(true)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -549,6 +566,17 @@ public class initApplication {
                             .produktgruppe(stange)
                             .build();
 
+            Produkt vkBioKuerbiskernbrotStange =
+                    Produkt.builder()
+                            .id(410)
+                            .name("VK Bio KürbiskernbrotStange")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(stange)
+                            .build();
+
             Produkt bauernbrotStange =
                     Produkt.builder()
                             .id(450)
@@ -574,7 +602,7 @@ public class initApplication {
             Produkt kuerbisbrotHB =
                     Produkt.builder()
                             .id(2821)
-                            .name("Kürbisbrot HB")
+                            .name("Kürbiskernbrot HB")
                             .bio(true)
                             .mehl(Mehl.Dinkel)
                             .hb(true)
@@ -595,7 +623,7 @@ public class initApplication {
             Produkt suesskartoffelbrotHB =
                     Produkt.builder()
                             .id(2831)
-                            .name("Sueßkartoffelbrot HB")
+                            .name("Süßkartoffelbrot HB")
                             .bio(true)
                             .mehl(Mehl.Dinkel)
                             .hb(true)
@@ -692,7 +720,7 @@ public class initApplication {
             Produkt nussbrotlaibRundHB =
                     Produkt.builder()
                             .id(2074)
-                            .name("Nussbrotlaib Rund HB")
+                            .name("Nussbrotleib Rund HB")
                             .bio(true)
                             .mehl(Mehl.Dinkel)
                             .hb(true)
@@ -2757,24 +2785,2782 @@ public class initApplication {
                     .build();
 
 
+
+            Produkt vkMinipinzeMitMarmelade =
+                    Produkt.builder()
+                            .id(462)
+                            .name("VK Minipinze mit Marmelade")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkMinipinzeOhnMarmelade =
+                    Produkt.builder()
+                            .id(446)
+                            .name("VK Minipinze ohne Marmelade")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkOsterlammOhneRosinenKlein =
+                    Produkt.builder()
+                            .id(161)
+                            .name("VK Osterlamm ohne rosinen klein")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkOsterlammGross =
+                    Produkt.builder()
+                            .id(163)
+                            .name("VK Osterlamm Groß")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkOsterhase =
+                    Produkt.builder()
+                            .id(164)
+                            .name("VK Osterhase")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkOsterei =
+                    Produkt.builder()
+                            .id(425)
+                            .name("VK Osterei")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkSacherei =
+                    Produkt.builder()
+                            .id(967)
+                            .name("VK Sacherei")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkBriochhase =
+                    Produkt.builder()
+                            .id(919)
+                            .name("VK Briochhase")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkOsterpinzeGross =
+                    Produkt.builder()
+                            .id(165)
+                            .name("VK Osterpinze Groß")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkKrapfenhase =
+                    Produkt.builder()
+                            .id(107)
+                            .name("VK Krapfenhase")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkOsternestMitBioei =
+                    Produkt.builder()
+                            .id(372)
+                            .name("VK Osternest mit Bioei")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt vkOsterkipferlOhneBestreuung =
+                    Produkt.builder()
+                            .id(267)
+                            .name("VK Osterkipferl ohne Bestreuung")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt osterpinze =
+                    Produkt.builder()
+                            .id(20)
+                            .name("Osterpinze")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt osterlamm =
+                    Produkt.builder()
+                            .id(218)
+                            .name("Ostelamm")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt weihbrot =
+                    Produkt.builder()
+                            .id(254)
+                            .name("Weihbrot")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt OsterlammGross =
+                    Produkt.builder()
+                            .id(283)
+                            .name("Osterlamm Gross")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt ostereierBunt =
+                    Produkt.builder()
+                            .id(401)
+                            .name("Ostereier Bunt")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt osternest =
+                    Produkt.builder()
+                            .id(455)
+                            .name("Osternest")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt osterkipferlMit05kg =
+                    Produkt.builder()
+                            .id(460)
+                            .name("Osterkipferl mit 0,5 kg")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt minipinzeohneMarmelade =
+                    Produkt.builder()
+                            .id(466)
+                            .name("Mini Pinze ohne Marmelde")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt osterSackerl =
+                    Produkt.builder()
+                            .id(2690)
+                            .name("Oster Sackerl")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt krapfenhaseMarille =
+                    Produkt.builder()
+                            .id(105)
+                            .name("Krapfenhase Marille")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt osterhase =
+                    Produkt.builder()
+                            .id(217)
+                            .name("Osterhase")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt bioosterei =
+                    Produkt.builder()
+                            .id(249)
+                            .name("Bio Osterei")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt minipinzeNormalmitMarmelade =
+                    Produkt.builder()
+                            .id(456)
+                            .name("Mini Pinze normal mit Marmelade")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+            Produkt OsterkipferlOhne05kg =
+                    Produkt.builder()
+                            .id(468)
+                            .name("Osterkipferl ohne 0,5")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(ostern)
+                            .build();
+
+
+            Produkt vkSchokoherz =
+                    Produkt.builder()
+                            .id(261)
+                            .name("VK Schokoherz")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt vkBriochherzGeflochten =
+                    Produkt.builder()
+                            .id(310)
+                            .name("VK Briochherz geflochten")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt vkBriochherzBio =
+                    Produkt.builder()
+                            .id(376)
+                            .name("VK Briochherz Bio")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt vkSchokoOrangenherz =
+                    Produkt.builder()
+                            .id(812)
+                            .name("VK Schoko-Orangenherz")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+
+            Produkt vkSchokotorte =
+                    Produkt.builder()
+                            .id(157)
+                            .name("VK Schokotorte")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt vkBriochherz =
+                    Produkt.builder()
+                            .id(317)
+                            .name("VK Briochherz")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt vkHerzkrapfen =
+                    Produkt.builder()
+                            .id(546)
+                            .name("VK Herzkrapfen")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+
+            Produkt vkLinzertorteHerz =
+                    Produkt.builder()
+                            .id(752)
+                            .name("VK Linzertorte Herz")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt briochherz =
+                    Produkt.builder()
+                            .id(35)
+                            .name("Briochherz")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt briochherzGefuelltOhnZucker =
+                    Produkt.builder()
+                            .id(461)
+                            .name("Briochherz gefüllt ohnr Zucker")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt herzkrapfen =
+                    Produkt.builder()
+                            .id(583)
+                            .name("Herz Krapfen")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+            Produkt briochherzGefuelltMitZucker =
+                    Produkt.builder()
+                            .id(20)
+                            .name("Briochherz gefüllt mit Zucker")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(muttertag)
+                            .build();
+
+
+            Produkt vkBioTeegebaeck250g =
+                    Produkt.builder()
+                            .id(108)
+                            .name("VK Bio Teegebäck 250g")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkNikololebkuchen =
+                    Produkt.builder()
+                            .id(166)
+                            .name("VK Nikololebkuchen")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkChriststollen500g =
+                    Produkt.builder()
+                            .id(169)
+                            .name("VK Christstollen")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkKletzenbrot500g =
+                    Produkt.builder()
+                            .id(174)
+                            .name("VK Kletzenbrot 500g")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkTeegebaeckVegan =
+                    Produkt.builder()
+                            .id(231)
+                            .name("VK Teegebäck vegan")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkButternuesse =
+                    Produkt.builder()
+                            .id(257)
+                            .name("VK Butternüsse")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vollwertZimtsterne =
+                    Produkt.builder()
+                            .id(292)
+                            .name("Vollwert Zimtsterne")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkDinkelLebkuchenbaum =
+                    Produkt.builder()
+                            .id(294)
+                            .name("VK D-Lebkuchenbaum")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkDinkelAdventstollen500g =
+                    Produkt.builder()
+                            .id(298)
+                            .name("VK D-Adventstollen")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkLebkuchenGemischt =
+                    Produkt.builder()
+                            .id(359)
+                            .name("VK Lebkuchen Gemischt")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkAdventstollenDiabetiker =
+                    Produkt.builder()
+                            .id(388)
+                            .name("VK Adventstollen Diabetiker")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkLebkuchenNatur =
+                    Produkt.builder()
+                            .id(421)
+                            .name("VK Lebkuchen Natur")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkBriochkrampus =
+                    Produkt.builder()
+                            .id(445)
+                            .name("VK Briochkrampus")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkLebkuchenSchoko =
+                    Produkt.builder()
+                            .id(857)
+                            .name("VK Lebkuchen Schoko")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkBioTeegebaeck500g =
+                    Produkt.builder()
+                            .id(138)
+                            .name("VK Bio Teegebäck 500g")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkKrampuslebkuchen =
+                    Produkt.builder()
+                            .id(167)
+                            .name("VK Krampuslebkuchen")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkDinkelChriststollen380g =
+                    Produkt.builder()
+                            .id(170)
+                            .name("VK D-Christstollen 380g")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkVanillekipferl =
+                    Produkt.builder()
+                            .id(246)
+                            .name("VK Vanillekipferl")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkDinkelChriststollen650g =
+                    Produkt.builder()
+                            .id(284)
+                            .name("VK D-Christstollen 650g")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vollwertZimtsternbaum =
+                    Produkt.builder()
+                            .id(293)
+                            .name("VK Vollwert Zimtsternbaum")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkWeihnachtsSchachtel=
+                    Produkt.builder()
+                            .id(296)
+                            .name("VK Weihnachts Schachtel")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkDinkelSacherwuerfelEiHerz =
+                    Produkt.builder()
+                            .id(357)
+                            .name("VK D-Sacherw/Ei/Herz")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+
+            Produkt vkBioTeegebaeckLinzeraugen =
+                    Produkt.builder()
+                            .id(360)
+                            .name("VK Bio Teeg Linzeraugen")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkLebkuchenteig750g =
+                    Produkt.builder()
+                            .id(387)
+                            .name("VK Lebkuchenteig 750g")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkVanillekipferlTeig =
+                    Produkt.builder()
+                            .id(400)
+                            .name("VK Vanillekipferl-teig")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkLebkuchenSchneemann =
+                    Produkt.builder()
+                            .id(423)
+                            .name("VK Lebkuchen Schneemann")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkBioTeegebaeckSchoko =
+                    Produkt.builder()
+                            .id(432)
+                            .name("VK Bio Teegebäck Schoko")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkWeihnachtsstern =
+                    Produkt.builder()
+                            .id(964)
+                            .name("VK Weihnachtsstern")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+
+            Produkt vkChriststollengross =
+                    Produkt.builder()
+                            .id(169)
+                            .name("VK Christstollen Groß")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkLebkuchentaler =
+                    Produkt.builder()
+                            .id(374)
+                            .name("VK Lebkuchentaler")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt lichtinDunkelSterne=
+                    Produkt.builder()
+                            .id(431)
+                            .name("Licht ins Dunkel Sterne")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt briochkrampus =
+                    Produkt.builder()
+                            .id(439)
+                            .name("Briochkrampus")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+
+            Produkt vkLebkuchenEngel=
+                    Produkt.builder()
+                            .id(469)
+                            .name("VK Lebkuchen Engel")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+
+            Produkt vkLebkuchenBaum=
+                    Produkt.builder()
+                            .id(481)
+                            .name("VK Lebkuchen Baum")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkDinkelWeihnachtstorte=
+                    Produkt.builder()
+                            .id(484)
+                            .name("VK Dinkel Weihnachtstorte")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt teegebaeckDinkel500kg=
+                    Produkt.builder()
+                            .id(488)
+                            .name("Teegebäck Dinkel 500kg")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt teegebaeckDinkel250kg=
+                    Produkt.builder()
+                            .id(490)
+                            .name("Teegebäck Dinkel 250kg")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vanillekipfer150g=
+                    Produkt.builder()
+                            .id(487)
+                            .name("Vanillekipfer 150g")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkVanillekipfer1kg=
+                    Produkt.builder()
+                            .id(482)
+                            .name("VK Vanillekipfer 1kg")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkDinkelFruechtelebkuchen=
+                    Produkt.builder()
+                            .id(465)
+                            .name("VK Dinkel-Früchtelebkuchen")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+
+            Produkt vkDBadTatzmFruechtestollen=
+                    Produkt.builder()
+                            .id(442)
+                            .name("VK D-BadTatzm.Früchtestollen")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+            Produkt vkMandelkekse250g=
+                    Produkt.builder()
+                            .id(212)
+                            .name("VK Mandelkekse 250g")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(weihnachten)
+                            .build();
+
+
+            Produkt vkLauchTofutascherl =
+                    Produkt.builder()
+                            .id(149)
+                            .name("VK LauchTofutascherl")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt vkLauchTofutascherlHB =
+                    Produkt.builder()
+                            .id(2149)
+                            .name("VK LauchTofutascherlHB (3)")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt vkTomatenMozzarellatscherltascherl =
+                    Produkt.builder()
+                            .id(272)
+                            .name("VK Tomaten Mozzarellatascherl")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt vkTomatenMozzarellatscherltascherlHB =
+                    Produkt.builder()
+                            .id(2272)
+                            .name("VK Tomaten MozzarellatascherlHB (3)")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt vkSpinatSchafkaesetascherltascherl =
+                    Produkt.builder()
+                            .id(302)
+                            .name("VK SpinatSchafkäsetascherl")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt vkSpinatSchafkaesetascherltascherlHB =
+                    Produkt.builder()
+                            .id(2302)
+                            .name("VK SpinatSchafkäsetascherl HB (3)")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(true)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt vkPizzaSchinkenMais =
+                    Produkt.builder()
+                            .id(2010)
+                            .name("VK SchinkenMais Pizza")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt vkPizzaGemuese =
+                    Produkt.builder()
+                            .id(2012)
+                            .name("VK Gemüse Pizza")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt steinpilzErdaepfelLauchsuppe =
+                    Produkt.builder()
+                            .id(949)
+                            .name("Strinpilz-Erdäpfel-Lauchsuppe")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt spargelcremesuppe =
+                    Produkt.builder()
+                            .id(803)
+                            .name("Spargelcremesuppe")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt karottenKokosIngwersuppe=
+                    Produkt.builder()
+                            .id(986)
+                            .name("Karotten-Kokos-Ingwersuppe")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt baerlauchsuppe =
+                    Produkt.builder()
+                            .id(802)
+                            .name("Bärlauchsuppe")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt suesskartoffelsuppe =
+                    Produkt.builder()
+                            .id(918)
+                            .name("Süßkartoffelsuppe")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt kuerbiscremesuppe =
+                    Produkt.builder()
+                            .id(945)
+                            .name("Kürbiscremesuppe")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt erbsensuppe =
+                    Produkt.builder()
+                            .id(816)
+                            .name("Erbsensuppe")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt vkGemuesestrudel =
+                    Produkt.builder()
+                            .id(1622)
+                            .name("VK Gemüsestrudel")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+
+            Produkt vkBroccholiKarfiolstrudel =
+                    Produkt.builder()
+                            .id(182)
+                            .name("VK Beoccholi-Karfiolstrudel")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt vitaljoghurt =
+                    Produkt.builder()
+                            .id(265)
+                            .name("Vitaljoghurt")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt chiaJoghurt =
+                    Produkt.builder()
+                            .id(265)
+                            .name("Chia Joghurt")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt kuerbisBalsamicodressing =
+                    Produkt.builder()
+                            .id(391)
+                            .name("Kürbis-Balsamicodressing")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt joghurtdressing =
+                    Produkt.builder()
+                            .id(556)
+                            .name("Joghurtdressing")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt grischischerSalat =
+                    Produkt.builder()
+                            .id(703)
+                            .name("Grichischer Salat")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt thunfischSalat =
+                    Produkt.builder()
+                            .id(701)
+                            .name("Thunfisch Salat")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt huehnerstreifenSalat =
+                    Produkt.builder()
+                            .id(870)
+                            .name("Hühnerstreifen Salat")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt nudelsalat =
+                    Produkt.builder()
+                            .id(900)
+                            .name("Nudelsalat")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt herbstsalat =
+                    Produkt.builder()
+                            .id(580)
+                            .name("Herbstsalat")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt chillikaeseSnack =
+                    Produkt.builder()
+                            .id(787)
+                            .name("Chillikäse Snack")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt dKornweckerlOhneHefeSchafkaese =
+                    Produkt.builder()
+                            .id(551)
+                            .name("VK Dinkelkornweckerl ohne Hefe mit Schafkäse")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt lachsweckerl =
+                    Produkt.builder()
+                            .id(868)
+                            .name("Lachsweckerl")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt humussnaek =
+                    Produkt.builder()
+                            .id(224)
+                            .name("Humussnäck")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt dinkelkaeseweckerlMitEmmentaler =
+                    Produkt.builder()
+                            .id(693)
+                            .name("VK Dinkelkäseweckerl mit Emmentaler")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt laugenCammenbertweckerl =
+                    Produkt.builder()
+                            .id(385)
+                            .name("Laugen-Cammenbertweckerl")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt kornspitzSchinkenweckerl =
+                    Produkt.builder()
+                            .id(550)
+                            .name("Kornspitzschinkenweckerl")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt prosciuttosnack =
+                    Produkt.builder()
+                            .id(499)
+                            .name("ProsciuttoSnack")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt grahamEiSnack =
+                    Produkt.builder()
+                            .id(871)
+                            .name("Graham Ei-Snack")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt pharaoweckerlMitTofu =
+                    Produkt.builder()
+                            .id(548)
+                            .name("Pharaoweckerl mit Tofu")
+                            .bio(false)
+                            .mehl(Mehl.Pharao)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt karottenCurrySnack =
+                    Produkt.builder()
+                            .id(690)
+                            .name("Karotten-Curry Snack")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+            Produkt schinkenKaesecroissant =
+                    Produkt.builder()
+                            .id(639)
+                            .name("Schinken-Käsecroissant")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt vitalsnack =
+                    Produkt.builder()
+                            .id(452)
+                            .name("Vitalsnack")
+                            .bio(false)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt heurigensnack =
+                    Produkt.builder()
+                            .id(229)
+                            .name("Heurigensnack (Hirseweckerl mit Linsenaufstrich")
+                            .bio(true)
+                            .mehl(Mehl.Dinkel)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(snack)
+                            .build();
+
+
+            Produkt mistschaufelUndBsesen  =
+                    Produkt.builder()
+                            .id(1970)
+                            .name("Mistschaufel und Besen")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt putzbuersteOval  =
+                    Produkt.builder()
+                            .id(1975)
+                            .name("Putzbürste Oval")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt geschirrtuecher =
+                    Produkt.builder()
+                            .id(1979)
+                            .name("GESCHIRRTÜCHER")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt kuechenrollen4er =
+                    Produkt.builder()
+                            .id(1913)
+                            .name("Küchenrollen 4er")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt wettexTuecher =
+                    Produkt.builder()
+                            .id(1914)
+                            .name("Wettex Tücher")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt frischhaltefolie =
+                    Produkt.builder()
+                            .id(1924)
+                            .name("Frischhaltefolie")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt mikrofasertuecher =
+                    Produkt.builder()
+                            .id(1922)
+                            .name("Microfasertücher")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt bodenMicrofasertuch =
+                    Produkt.builder()
+                            .id(1923)
+                            .name("Boden Microfasertuch")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt teppich80x120 =
+                    Produkt.builder()
+                            .id(1984)
+                            .name("Teppich 80x120")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt rollenhandtuchBlau =
+                    Produkt.builder()
+                            .id(1903)
+                            .name("Rollenhandtuch Blau")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt falthandtuchFuerSpaender =
+                    Produkt.builder()
+                            .id(1921)
+                            .name("Falthandtuch für Spender")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt abwaschschwaemme =
+                    Produkt.builder()
+                            .id(1969)
+                            .name("Abwaschschwämme")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt reziTopfreiniger =
+                    Produkt.builder()
+                            .id(1968)
+                            .name("rezi Topfreiniger")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt spuckschutzfuerVerkostung =
+                    Produkt.builder()
+                            .id(1966)
+                            .name("Spuckschutz für Verkostung")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt spuckschutz =
+                    Produkt.builder()
+                            .id(1933)
+                            .name("Spuckschutz")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(true)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt einweghandschuheL =
+                    Produkt.builder()
+                            .id(1986)
+                            .name("Einweghandschuhe L")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt einweghandschuheM  =
+                    Produkt.builder()
+                            .id(1987)
+                            .name("Einweghandschuhe M")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(organisatorisch)
+                            .build();
+
+            Produkt plastikhandschuhe  =
+                    Produkt.builder()
+                            .id(1905)
+                            .name("Plastikhandschuhe")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt ofenhandschuhe  =
+                    Produkt.builder()
+                            .id(1939)
+                            .name("Ofenhandschuhe")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt gebaeckszangeLang  =
+                    Produkt.builder()
+                            .id(1982)
+                            .name("Gebäckszange Lang")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt gebaeckszangeKurz =
+                    Produkt.builder()
+                            .id(1983)
+                            .name("Gebäckszange Kurz")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt geldsackerlRot =
+                    Produkt.builder()
+                            .id(1985)
+                            .name("Geldsackerl Rot")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt geschenkband =
+                    Produkt.builder()
+                            .id(1943)
+                            .name("Geschenkband")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt a4PaoierFax =
+                    Produkt.builder()
+                            .id(2645)
+                            .name("A4 Papier Fax")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt kassarollen =
+                    Produkt.builder()
+                            .id(1878)
+                            .name("Kassarollen")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt gradwohlEtikettenKl =
+                    Produkt.builder()
+                            .id(1938)
+                            .name("Gradwohl Etiketten kl.")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt prospektInternetshop =
+                    Produkt.builder()
+                            .id(1948)
+                            .name("Prospekt Internetshop")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt sammelpaesse =
+                    Produkt.builder()
+                            .id(100)
+                            .name("Sammelpässe")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt allergieliste =
+                    Produkt.builder()
+                            .id(1894)
+                            .name("Allergieliste")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt waldhonig450g =
+                    Produkt.builder()
+                            .id(1402)
+                            .name("Waldhonig 450g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt waldhonig220g =
+                    Produkt.builder()
+                            .id(1401)
+                            .name("Waldhonig 220g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt bluetencremehonig450g =
+                    Produkt.builder()
+                            .id(1408)
+                            .name("Blütencremehobig 450g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .build();
+
+            Produkt bluetencremehonig220g =
+                    Produkt.builder()
+                            .id(1407)
+                            .name("Blütencremehobig 220g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .build();
+
+            Produkt lindenbluetenhonig450g =
+                    Produkt.builder()
+                            .id(1404)
+                            .name("Lindenblütenhonig 450g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt lindenbluetenhonig220g =
+                    Produkt.builder()
+                            .id(1403)
+                            .name("Lindenblütenhonig 220g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt akazienhonig450g =
+                    Produkt.builder()
+                            .id(1406)
+                            .name("Akazienhonig 450g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt akazienhonig220g =
+                    Produkt.builder()
+                            .id(1405)
+                            .name("Akazienhonig 220g")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt portionsmarmelade =
+                    Produkt.builder()
+                            .id(1149)
+                            .name("Portions Marmelade")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(organisatorisch)
+                            .build();
+
+            Produkt zwetschkenMarelade =
+                    Produkt.builder()
+                            .id(2657)
+                            .name("Zwetschken Marmelade")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(organisatorisch)
+                            .build();
+
+
+            Produkt erdbeerMarelade =
+                    Produkt.builder()
+                            .id(2658)
+                            .name("Erdbeer Marmelade")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                            .produktgruppe(organisatorisch)
+                            .build();
+
+
+            Produkt weichselMarelade =
+                    Produkt.builder()
+                            .id(2629)
+                            .name("Weichsel Marmelade")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt marillenMarelade =
+                    Produkt.builder()
+                            .id(2660)
+                            .name("Marillen Marmelade")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt waldheidelbeerMarelade =
+                    Produkt.builder()
+                            .id(2661)
+                            .name("Waldheidelbeer Marmelade")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt schokoKirschMarelade =
+                    Produkt.builder()
+                            .id(2659)
+                            .name("Schoko/Kirsch Marmelade")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt becherFrischGebresterSaft =
+                    Produkt.builder()
+                            .id(2664)
+                            .name("Becher frisch gepr.Säfte(MH/LST")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt koffeinfreiHaag250g =
+                    Produkt.builder()
+                            .id(1839)
+                            .name("Koffeinfrei Haag")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt kaffeeExcelsior1kg =
+                    Produkt.builder()
+                            .id(1842)
+                            .name("Kaffee Excelsior 1kg")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt trinkschokoPompadurWMF1kg=
+                    Produkt.builder()
+                            .id(1840)
+                            .name("WMF Trinkschoko Pompadur 1kg")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt klDeckelfKaffeeb =
+                    Produkt.builder()
+                            .id(1945)
+                            .name("kl.Deckel für Kaffeeb. ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt mittelDeckelfKaffeeb =
+                    Produkt.builder()
+                            .id(1951)
+                            .name("mittelere Deckel für Kaffeeb. ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt grDeckelfKaffeeb =
+                    Produkt.builder()
+                            .id(1952)
+                            .name("gr.Deckel für Kaffeeb. ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt klKaffeeb =
+                    Produkt.builder()
+                            .id(1841)
+                            .name("kl. Kaffeeb. ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt mittlereKaffeeb =
+                    Produkt.builder()
+                            .id(1843)
+                            .name("mittlere Kaffeeb. ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt geKaffeeb =
+                    Produkt.builder()
+                            .id(1844)
+                            .name("gr. Kaffeeb. ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt kaffeebecherhalter2er =
+                    Produkt.builder()
+                            .id(1845)
+                            .name("Kaffeebecherhalter 2er ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt kaffeestaebchen=
+                    Produkt.builder()
+                            .id(1846)
+                            .name("Kaffeestäbchen")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt plastikLoeffelGr =
+            Produkt.builder()
+                    .id(1932)
+                    .name("Plastik Löffel groß")
+                    .bio(false)
+                    .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt plastikGabelGR =
+            Produkt.builder()
+                    .id(1941)
+                    .name("Plastik Gabel groß")
+                    .bio(false)
+                    .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+
+            Produkt plastiMesserGR =
+            Produkt.builder()
+                    .id(1942)
+                    .name("Plastik Messer groß")
+                    .bio(false)
+                    .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt strohhalme =
+                    Produkt.builder()
+                            .id(2068)
+                            .name("Strohhalme")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt zuckerportionen =
+                    Produkt.builder()
+                            .id(1849)
+                            .name("Zuckerportionen")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt ruebenzuckerPortionen =
+                    Produkt.builder()
+                            .id(1850)
+                            .name("Rübenzucker Portionen")
+                            .bio(true)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt bruanerPorionszucker =
+                    Produkt.builder()
+                            .id(1851)
+                            .name("Brauner Porionszucker")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt kandisinPortioniert =
+                    Produkt.builder()
+                            .id(1852)
+                            .name("Kandisin Portioniert")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt tragtaschenNeu =
+                    Produkt.builder()
+                            .id(854)
+                            .name("Tragtaschen Neu")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt stofftaschen =
+                    Produkt.builder()
+                            .id(758)
+                            .name("Stofftaschen")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt sackerl1kg =
+                    Produkt.builder()
+                            .id(1856)
+                            .name("Sackerl 1kg")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt sackerl15kg =
+                    Produkt.builder()
+                            .id(1857)
+                            .name("Sackerl 1,5kg")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt sackerl2kg =
+                    Produkt.builder()
+                            .id(1858)
+                            .name("Sackerl 2kg")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt sackerl35kg =
+                    Produkt.builder()
+                            .id(1859)
+                            .name("Sackerl 3,5kg")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt pergaminsackerl =
+                    Produkt.builder()
+                            .id(1860)
+                            .name("Pergaminsackerl")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt snacksackerlGelocht =
+                    Produkt.builder()
+                            .id(1861)
+                            .name("Snacksackerl gelocht")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt baguettesackerl =
+                    Produkt.builder()
+                            .id(1862)
+                            .name("Baguettesackerl")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt cellophansackerl =
+                    Produkt.builder()
+                            .id(1940)
+                            .name("Cellophansackerl")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt pappteller10x16 =
+                    Produkt.builder()
+                            .id(1864)
+                            .name("Pappteller 10x16")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt pappteller13x20 =
+                    Produkt.builder()
+                            .id(1865)
+                            .name("Pappteller 13x20")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt pappteller16x23 =
+                    Produkt.builder()
+                            .id(1866)
+                            .name("Pappteller 16x23")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt blechpapierGeschnitten =
+                    Produkt.builder()
+                            .id(1870)
+                            .name("Blechpapier Geschnitten")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt servietten =
+                    Produkt.builder()
+                            .id(1871)
+                            .name("Servietten")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt tortenspitzenpapier =
+                    Produkt.builder()
+                            .id(1931)
+                            .name("Tortenspitzenpapier")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt tortenpapierDurchsichtigGeschnitten =
+                    Produkt.builder()
+                            .id(1872)
+                            .name("Tortenpapier durchsichtig geschnitten")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt bedrucktesGradwohlpapier =
+                    Produkt.builder()
+                            .id(1873)
+                            .name("Bedrucktes Gradwohlpapier")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt geschenkfolieBedruckt =
+                    Produkt.builder()
+                            .id(1874)
+                            .name("Geschenkfolie Bedruckt")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt plastiksackerlZumAbreissenKlein =
+                    Produkt.builder()
+                            .id(1875)
+                            .name("PLastiksackerl Zum Abreißen klein")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt plastiksackerlZumAbreissenMittel =
+                    Produkt.builder()
+                            .id(1876)
+                            .name("PLastiksackerl Zum Abreißen mittel")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt plastiksackerlZumAbreissenGross =
+                    Produkt.builder()
+                            .id(1877)
+                            .name("PLastiksackerl Zum Abreißen groß")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt tortenkartonGefaltenGr4 =
+                    Produkt.builder()
+                            .id(1885)
+                            .name("Tortenkarton gefalten Gr.4(groß)")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt tortenkartonGefaltenGr3 =
+                    Produkt.builder()
+                            .id(1886)
+                            .name("Tortenkarton gefalten Gr.3")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt tortenkartonGefaltenGr2 =
+                    Produkt.builder()
+                            .id(1887)
+                            .name("Tortenkarton gefalten Gr.2")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt tortenkartonGefaltenGr1 =
+                    Produkt.builder()
+                            .id(1888)
+                            .name("Tortenkarton gefalten Gr.1")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+
+            Produkt krapfenschachtelKL =
+            Produkt.builder()
+                    .id(1936)
+                    .name("Krapfenschachtel klein")
+                    .bio(false)
+                    .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt krapfenschachtelGr =
+            Produkt.builder()
+                    .id(1937)
+                    .name("Krapfenschachtel groß")
+                    .bio(false)
+                    .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt dieKraftDerKoerner =
+                    Produkt.builder()
+                            .id(1891)
+                            .name("Die Kraft der Körner ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt bleche60x40 =
+                    Produkt.builder()
+                            .id(1896)
+                            .name("Bleche 60x40 ")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt hafermilch1Liter =
+                    Produkt.builder()
+                            .id(565)
+                            .name("Hafermilch 1 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt sojamilch1Liter =
+                    Produkt.builder()
+                            .id(566)
+                            .name("Sojamilch 1 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt zwergenwieseBasillikum =
+                    Produkt.builder()
+                            .id(575)
+                            .name("Zwergenwiese Basilikum")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt zwergenwieseMeerettich =
+                    Produkt.builder()
+                            .id(576)
+                            .name("Zwergenwiese Meerettich")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt zwergenwiesePaprika =
+                    Produkt.builder()
+                            .id(577)
+                            .name("Zwergenwiese Paprika")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt zwergenwieseSchnittlauch =
+                    Produkt.builder()
+                            .id(578)
+                            .name("Zwergenwiese Schnittlauch")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt kalkreiniger1Liter =
+                    Produkt.builder()
+                            .id(1981)
+                            .name("Kalkreiniger 1 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+
+            Produkt feinsteinzeugreiniger1Liter =
+                    Produkt.builder()
+                            .id(1904)
+                            .name("Feinsteinzeugreiniger 1 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt uNI810Allzwekreiniger1Liter =
+                    Produkt.builder()
+                            .id(1910)
+                            .name("UNI810 Allzwekreiniger 1 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt danclorKanister =
+                    Produkt.builder()
+                            .id(2089)
+                            .name("Danclor Kanister")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt holluvitDuroKanister =
+                    Produkt.builder()
+                            .id(1897)
+                            .name("Holluvit Duro Kanister")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt holluGlanzreinigerKanister =
+                    Produkt.builder()
+                            .id(1898)
+                            .name("Hollu Glanzreiniger Kanister")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt ofenProCleaner2in1 =
+                    Produkt.builder()
+                            .id(1895)
+                            .name("Ofen Pro Cleaner 2in1")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt wmfEntkalker =
+                    Produkt.builder()
+                            .id(2673)
+                            .name("WMF Entkalker")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt wmfRinigungstabletten =
+                    Produkt.builder()
+                            .id(1900)
+                            .name("WMF Reinigungstabletten")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt wmfMilchreiniger =
+                    Produkt.builder()
+                            .id(1901)
+                            .name("WMF Milchreiniger")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt muellsaecke35Liter =
+                    Produkt.builder()
+                            .id(1907)
+                            .name("Müllsäcke 35 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt muellsaecke110Liter =
+                    Produkt.builder()
+                            .id(1908)
+                            .name("Müllsäcke1 10 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt muellsaecke150Liter =
+                    Produkt.builder()
+                            .id(1909)
+                            .name("Müllsäcke 150 Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt priBlau =
+                    Produkt.builder()
+                            .id(1925)
+                            .name("Pril Blau")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt tabsGeschirrspueler =
+                    Produkt.builder()
+                            .id(1916)
+                            .name("TabsGeschirrspüler")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt salzGeschirrspueler =
+                    Produkt.builder()
+                            .id(1917)
+                            .name("SalzGeschirrspüler")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt klarspuelerGeschirrspueler =
+                    Produkt.builder()
+                            .id(1918)
+                            .name("KlarspülerGeschirrspüler")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt seifeFuerSpender =
+                    Produkt.builder()
+                            .id(1920)
+                            .name("Seife für Spender")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            Produkt wcReiniger1Liter =
+                    Produkt.builder()
+                            .id(2677)
+                            .name("WcReiniger1Liter")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt pissoirEinleger =
+                    Produkt.builder()
+                            .id(2676)
+                            .name("Pissoie Einleger")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt blueStarEinhaenger =
+                    Produkt.builder()
+                            .id(1977)
+                            .name("BlueStar Einhänger")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+            Produkt blueStarNachfuellung =
+                    Produkt.builder()
+                            .id(1978)
+                            .name("BlueStar nachfüllung")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+            
+            Produkt duftsprueherNachfuellung =
+                    Produkt.builder()
+                            .id(2678)
+                            .name("Duftsprüher Nachfüllung")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+            Produkt wcPapier10er =
+                    Produkt.builder()
+                            .id(1919)
+                            .name("WC Papier 10er")
+                            .bio(false)
+                            .mehl(null)
+                            .mehlMischung(null)
+                            .hb(false)
+                    .produktgruppe(organisatorisch)
+                    .build();
+
+
+
+
+
+
+
             List<Produkt> produkte = Arrays.asList(
                     bauernbrot, roggenbrot, dinkelbrotOhneHefe, pharaobrotOhneHefe, dinkelbrot, dinkeltoast,
-                    leinsamenAmaranthbrotOhneHefe, backfermentbrotOhneHefe, karottenNussbrot, kraftbrotOhneHefe, 
-                    chiabrotOhneHefe, dinkelbrotStange, bauernbrotStange, siebenkornStange, kuerbiskernbrot, 
+                    leinsamenAmaranthbrotOhneHefe, backfermentbrotOhneHefe, karottenNussbrot, kraftbrotOhneHefe,
+                    chiabrotOhneHefe, dinkelbrotStange, bauernbrotStange, siebenkornStange, kuerbiskernbrot,
                     suesskartoffelbrot, olivenbrot, roteRuebenbrot, zwiebelbrot, nussbrotstange, nussbrotleibRund,
-                    baerlauchbrot, sandwich, baguette, kaesestangerl, vitalwecker, olinebweckerl, dinkelsemmel, 
-                    dinkelkornsitz, dinkelkornspitzSalz, dinkelweckerl,  dinkelkornspitzOhneBestreu, pharaoweckerl, 
-                    chiaweckerl, dinkellaugenstangerl, hirseweckerl, salzstangerl, salzbrezerlKlein, 
-                    pharaoamaranthweckerOhnHefe, kornweckerlOhneHefe, dinkelweckerlOhneHefe, foccachia, 
+                    baerlauchbrot, sandwich, baguette, kaesestangerl, vitalwecker, olinebweckerl, dinkelsemmel,
+                    dinkelkornsitz, dinkelkornspitzSalz, dinkelweckerl,  dinkelkornspitzOhneBestreu, pharaoweckerl,
+                    chiaweckerl, dinkellaugenstangerl, hirseweckerl, salzstangerl, salzbrezerlKlein,
+                    pharaoamaranthweckerOhnHefe, kornweckerlOhneHefe, dinkelweckerlOhneHefe, foccachia,
                     kuerbislaibchen, basilikumweckerl, kuemmelweckerl, baerlauchweckerl, kurkumaweckerl,
-                    rosinenweckerl, nussMandelweckerl, studentenfutter, dinkelSchnecke, pharaobriochestriezerl, 
-                    topfengolatsche, powidlgolatsche, nusskipferl, mohnkipfer, topfenmarille, dinkelcroissant, 
-                    Schokostanger, pharaocroissant, ribiselstangerl, nussino, kastanienzipf, kirschpolster, 
-                    apfeltascherl, birnentascherl, marzipankrone, kuerbiskipfer, fruechteplunder, marillenKrapfen, 
-                    vanillekKapfen, powidlKrapfen, marillenKrapfenVegan, marillenKrapfenYour, erdbeerkrapfen, 
-                    apfelsrtudel, topfensrtudel, marillensrtudel, birneMohnstrudel, obststrudel, egerlaender, 
-                    pharaoLinzerschnitte, obstfleck, birnenStreuselschnitte, apfelschnitte, mohnZitronenschnitte, 
-                    karottenroelchen, karottenZucchinischnitte, nussecke, linzerstanger, linzerauge, nougartherz, 
+                    rosinenweckerl, nussMandelweckerl, studentenfutter, dinkelSchnecke, pharaobriochestriezerl,
+                    topfengolatsche, powidlgolatsche, nusskipferl, mohnkipfer, topfenmarille, dinkelcroissant,
+                    Schokostanger, pharaocroissant, ribiselstangerl, nussino, kastanienzipf, kirschpolster,
+                    apfeltascherl, birnentascherl, marzipankrone, kuerbiskipfer, fruechteplunder, marillenKrapfen,
+                    vanillekKapfen, powidlKrapfen, marillenKrapfenVegan, marillenKrapfenYour, erdbeerkrapfen,
+                    apfelsrtudel, topfensrtudel, marillensrtudel, birneMohnstrudel, obststrudel, egerlaender,
+                    pharaoLinzerschnitte, obstfleck, birnenStreuselschnitte, apfelschnitte, mohnZitronenschnitte,
+                    karottenroelchen, karottenZucchinischnitte, nussecke, linzerstanger, linzerauge, nougartherz,
                     sacherwuerfelHerzEi, schokoberg, striezelMitMandelspliter, striezelOhneBestreuung, bauernbrotHB,
                     dinkelbrotOhneHefeHB, dinkelbrotHB, leinsamenAmaranthbrotOhneHefeHB, karottenNussHB, kraftbrotOhneHefeHB,
                     chiabrotOhneHefeHB, kuerbislaibchenHB, kuerbisbrotHB, suesskartoffelbrotHB, olivenbrotHB, roteRuebenbrotHB,
@@ -2801,14 +5587,118 @@ public class initApplication {
                     yourVanillestangerlab20StueckHB, yourKastanienzipfab20StueckHB, yourKastanienzipfab20Stueck,
                     yourNusstascherlab30StueckHB, yourNusstascherlab30Stueck, yourPowidlgolatscheab30StueckHB,
                     yourPowidlgolatscheab30Stueck, yourTopfengolatscheab30Stueck, yourTopfengolatscheab30StueckHB,
-                    yourSchokostangerab30StueckHB, yourSchokostangerab30Stueck, yourRosinenweckerlab30Stueck,
-                    yourRosinenweckerlab30StueckHB, yourZauberkipferlab30StueckHB, yourZauberkipferlab30Stueck
-            );
+                    yourSchokostangerab30StueckHB, yourRosinenweckerlab30Stueck,
+                    yourRosinenweckerlab30StueckHB, yourZauberkipferlab30StueckHB, yourZauberkipferlab30Stueck,
+                    vkBioKuerbiskernbrotStange, vkMinipinzeOhnMarmelade,
+                    vkOsterlammOhneRosinenKlein, vkOsterlammGross, vkOsterhase, vkOsterpinzeGross, vkBriochhase,
+                    vkOsterei, vkSacherei, vkKrapfenhase, vkOsternestMitBioei, osterpinze, osterlamm, weihbrot,
+                    vkOsterkipferlOhneBestreuung, ostereierBunt, osternest, OsterlammGross,
+                    minipinzeohneMarmelade, osterSackerl, krapfenhaseMarille, osterhase, bioosterei, minipinzeNormalmitMarmelade,
+                    osterkipferlMit05kg, vkSchokoherz, vkBriochherzGeflochten, vkBriochherz, vkSchokoOrangenherz,
+                    vkHerzkrapfen, vkLinzertorteHerz, briochherz, briochherzGefuelltOhnZucker, OsterkipferlOhne05kg,
+                    vkBriochherzBio, vkSchokotorte, briochherzGefuelltMitZucker, vkBioTeegebaeck250g, vkChriststollen500g,
+                    vkNikololebkuchen, herzkrapfen, vkKletzenbrot500g, vkTeegebaeckVegan, vkButternuesse, vkDinkelAdventstollen500g,
+                    vollwertZimtsterne, vkDinkelLebkuchenbaum, vkLebkuchenNatur, vkBriochkrampus, vkLebkuchenGemischt,
+                    vkAdventstollenDiabetiker, vkLebkuchenSchoko, vkBioTeegebaeck500g, vkKrampuslebkuchen, vkDinkelChriststollen380g,
+                    vkVanillekipferl, vkDinkelChriststollen650g, vollwertZimtsternbaum, vkWeihnachtsSchachtel, vkDinkelSacherwuerfelEiHerz,
+                    vkBioTeegebaeckLinzeraugen, vkLebkuchenteig750g, vkVanillekipferlTeig, vkLebkuchenSchneemann, vkWeihnachtsstern,
+                    vanillekipfer150g, teegebaeckDinkel250kg, teegebaeckDinkel500kg, vkDinkelFruechtelebkuchen, vkMandelkekse250g,
+                    vkDBadTatzmFruechtestollen, vkVanillekipfer1kg, vkDinkelWeihnachtstorte, vkLebkuchenBaum, vkLebkuchenEngel,
+                    briochkrampus, lichtinDunkelSterne, vkLebkuchentaler, vkChriststollengross, vkBioTeegebaeckSchoko,
+                    vkMinipinzeMitMarmelade, vkLauchTofutascherl, vkLauchTofutascherlHB, vkTomatenMozzarellatscherltascherl,
+                    vkTomatenMozzarellatscherltascherlHB, vkSpinatSchafkaesetascherltascherl, vkSpinatSchafkaesetascherltascherlHB,
+                    vkPizzaSchinkenMais, vkPizzaGemuese, steinpilzErdaepfelLauchsuppe, spargelcremesuppe, karottenKokosIngwersuppe,
+                    baerlauchsuppe, suesskartoffelsuppe, kuerbiscremesuppe, erbsensuppe, vkGemuesestrudel, vkBroccholiKarfiolstrudel,
+                    vitaljoghurt, chiaJoghurt, kuerbisBalsamicodressing, joghurtdressing, grischischerSalat, thunfischSalat,
+                    huehnerstreifenSalat, nudelsalat, herbstsalat, chillikaeseSnack, dKornweckerlOhneHefeSchafkaese, lachsweckerl,
+                    humussnaek, dinkelkaeseweckerlMitEmmentaler, laugenCammenbertweckerl, kornspitzSchinkenweckerl, prosciuttosnack,
+                    grahamEiSnack, pharaoweckerlMitTofu, karottenCurrySnack, vitalsnack, heurigensnack, schinkenKaesecroissant,
+                    mistschaufelUndBsesen, putzbuersteOval, geschirrtuecher, wettexTuecher, kuechenrollen4er, mikrofasertuecher,
+                    frischhaltefolie, bodenMicrofasertuch, teppich80x120, rollenhandtuchBlau, falthandtuchFuerSpaender,
+                    abwaschschwaemme, reziTopfreiniger, spuckschutz, spuckschutzfuerVerkostung, einweghandschuheL, einweghandschuheM,
+                    plastikhandschuhe, gebaeckszangeLang, gebaeckszangeKurz, ofenhandschuhe, geldsackerlRot, geschenkband,
+                    a4PaoierFax, kassarollen, gradwohlEtikettenKl, prospektInternetshop, sammelpaesse, allergieliste,
+                    waldhonig450g, waldhonig220g, bluetencremehonig220g, bluetencremehonig450g, lindenbluetenhonig220g, lindenbluetenhonig450g,
+                    akazienhonig220g, akazienhonig450g, portionsmarmelade, zwetschkenMarelade, erdbeerMarelade,
+                    weichselMarelade, marillenMarelade, waldheidelbeerMarelade, schokoKirschMarelade, becherFrischGebresterSaft,
+                    koffeinfreiHaag250g, kaffeeExcelsior1kg, trinkschokoPompadurWMF1kg, klDeckelfKaffeeb, mittelDeckelfKaffeeb,
+                    grDeckelfKaffeeb, klKaffeeb, mittlereKaffeeb, geKaffeeb, kaffeebecherhalter2er, kaffeestaebchen,
+                    plastikLoeffelGr, plastikGabelGR, plastiMesserGR, strohhalme, zuckerportionen, ruebenzuckerPortionen, bruanerPorionszucker,
+                    kandisinPortioniert, tragtaschenNeu, stofftaschen, sackerl1kg, sackerl2kg, sackerl15kg, sackerl35kg,
+                    pergaminsackerl, snacksackerlGelocht, baguettesackerl, cellophansackerl, pappteller10x16, pappteller13x20,
+                    pappteller16x23, blechpapierGeschnitten, servietten,wcPapier10er, duftsprueherNachfuellung, blueStarEinhaenger,
+                    blueStarNachfuellung, pissoirEinleger, wcReiniger1Liter, seifeFuerSpender, klarspuelerGeschirrspueler, salzGeschirrspueler,
+                    tabsGeschirrspueler, priBlau, muellsaecke35Liter, muellsaecke110Liter, muellsaecke150Liter, wmfMilchreiniger,
+                    wmfRinigungstabletten, wmfEntkalker, ofenProCleaner2in1, holluGlanzreinigerKanister, holluvitDuroKanister,
+                    danclorKanister, uNI810Allzwekreiniger1Liter, feinsteinzeugreiniger1Liter, kalkreiniger1Liter, zwergenwiesePaprika,
+                    zwergenwieseMeerettich, zwergenwieseBasillikum, zwergenwieseSchnittlauch, sojamilch1Liter, hafermilch1Liter, bleche60x40,
+                    dieKraftDerKoerner, krapfenschachtelGr, krapfenschachtelKL, tortenkartonGefaltenGr1, tortenkartonGefaltenGr2, tortenkartonGefaltenGr3,
+                    tortenkartonGefaltenGr4, plastiksackerlZumAbreissenMittel, plastiksackerlZumAbreissenGross, plastiksackerlZumAbreissenKlein,
+                    geschenkfolieBedruckt, bedrucktesGradwohlpapier, tortenpapierDurchsichtigGeschnitten, tortenspitzenpapier
+                    );
 
 
-            
 
             produktRepository.saveAll(produkte);
+
+            WarenbestellungId id1 =
+                    WarenbestellungId.builder()
+                                    .datum(LocalDate.of(2022, 8, 30))
+                                    .filiale(hietzing)
+                                    .produkt(baerlauchbrot)
+                                    .build();
+
+            Warenbestellung bestellung1 =
+                    Warenbestellung.builder()
+                                    .id(id1)
+                                    .menge(2)
+                                    .build();
+
+            WarenbestellungId id2 =
+                    WarenbestellungId.builder()
+                            .datum(LocalDate.of(2022, 8, 30))
+                            .filiale(hietzing)
+                            .produkt(dinkelbrotStange)
+                            .build();
+
+            Warenbestellung bestellung2 =
+                    Warenbestellung.builder()
+                            .id(id2)
+                            .menge(0.5)
+                            .build();
+
+            WarenbestellungId id3 =
+                    WarenbestellungId.builder()
+                            .datum(LocalDate.of(2022, 8, 30))
+                            .filiale(hietzing)
+                            .produkt(pharaobriochestriezerl)
+                            .build();
+
+            Warenbestellung bestellung3 =
+                    Warenbestellung.builder()
+                            .id(id3)
+                            .menge(3)
+                            .build();
+
+            WarenbestellungId id4 =
+                    WarenbestellungId.builder()
+                            .datum(LocalDate.of(2022, 8, 29))
+                            .filiale(mariahilfer)
+                            .produkt(pharaocroissant)
+                            .build();
+
+            Warenbestellung bestellung4 =
+                    Warenbestellung.builder()
+                            .id(id4)
+                            .menge(5)
+                            .build();
+
+
+            List<Warenbestellung> bestellungen = Arrays.asList(
+                    bestellung1, bestellung2, bestellung3, bestellung4
+            );
+
+            warenbestellungRepository.saveAll(bestellungen);
         };
     }
 }

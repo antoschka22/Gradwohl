@@ -5,10 +5,9 @@ import at.gradwohl.website.model.produktgruppe.Produktgruppe;
 import at.gradwohl.website.service.produkt.ProduktService;
 import at.gradwohl.website.service.produktgruppe.ProduktgruppeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +23,39 @@ public class ProduktgruppeController {
     public List<Produktgruppe> getAllProduktgruppen() {
         List<Produktgruppe> gruppen = produktgruppeService.getAllProdukts();
         return gruppen;
+    }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity<String> deleteProduktgruppeByName(@PathVariable String name) {
+        try {
+            produktgruppeService.deleteProduktgruppeByName(name);
+            return ResponseEntity.ok("Product group deleted successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Produktgruppe> createProduktgruppe(@RequestBody Produktgruppe produktgruppe) {
+        try {
+            Produktgruppe createdProduktgruppe = produktgruppeService.createProduktgruppe(produktgruppe);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdProduktgruppe);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produktgruppe> updateProduktgruppe(
+            @PathVariable String id,
+            @RequestBody Produktgruppe updatedProduktgruppe) {
+        try {
+            Produktgruppe updated = produktgruppeService.updateProduktgruppe(id, updatedProduktgruppe);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

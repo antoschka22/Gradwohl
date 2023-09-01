@@ -2,6 +2,8 @@ package at.gradwohl.website.model.dienstplan;
 
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +18,8 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DienstplanId implements Serializable {
     @Column(name = "D_Datum")
     private LocalDate datum;

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProduktRepository extends JpaRepository<Produkt, Integer> {
 
@@ -16,4 +17,8 @@ public interface ProduktRepository extends JpaRepository<Produkt, Integer> {
 
     @Query("SELECT p FROM Produkt p WHERE p.hb = :hb")
     List<Produkt> findByHb(@Param("hb") boolean hb);
+
+    Produkt findById(int id);
+
+    Optional<Produkt> findByName(String name);
 }
