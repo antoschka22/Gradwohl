@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProduktgruppeService {
@@ -26,7 +27,11 @@ public class ProduktgruppeService {
             throw new IllegalArgumentException("Produktgruppe with name " + name + " not found");
         }
 
-        produktgruppeRepository.deleteById(name);
+        Optional<Produktgruppe> test = produktgruppeRepository.findById(name);
+        if(test.isPresent()){
+            produktgruppeRepository.setProduktgruppeToNullForProdukte(test.get());
+            produktgruppeRepository.deleteById(name);
+        }
     }
 
     @Transactional

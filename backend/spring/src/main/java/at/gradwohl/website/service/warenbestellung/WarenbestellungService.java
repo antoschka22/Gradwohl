@@ -32,6 +32,12 @@ public class WarenbestellungService {
 
     @Transactional
     public List<Warenbestellung> addWarenbestellungen(List<Warenbestellung> warenbestellungen) {
+        List<Warenbestellung> bestellungenVorhanden = getAllWarenbestellungen();
+        for(Warenbestellung w : warenbestellungen){
+            if(bestellungenVorhanden.contains(w))
+                throw new IllegalArgumentException("Already exists");
+
+        }
         return warenbestellungRepository.saveAll(warenbestellungen);
     }
 

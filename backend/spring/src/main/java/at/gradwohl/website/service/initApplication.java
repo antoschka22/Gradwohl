@@ -3,11 +3,18 @@ package at.gradwohl.website.service;
 import at.gradwohl.website.model.dienstplan.DienstplanId;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
+import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
+import at.gradwohl.website.model.kundenbestellung.KundenbestellungId;
+import at.gradwohl.website.model.lieferbar.Lieferbar;
+import at.gradwohl.website.model.lieferbar.LieferbarId;
+import at.gradwohl.website.model.lieferbar.Wochentag;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
 import at.gradwohl.website.model.produkt.Mehl;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
+import at.gradwohl.website.model.vorlage.Vorlage;
+import at.gradwohl.website.model.vorlage.VorlageId;
 import at.gradwohl.website.model.warenbestellung.Warenbestellung;
 import at.gradwohl.website.model.warenbestellung.WarenbestellungId;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
@@ -5699,6 +5706,133 @@ public class initApplication {
             );
 
             warenbestellungRepository.saveAll(bestellungen);
+
+            KundenbestellungId kundenbestellungId1 =
+                    KundenbestellungId.builder()
+                            .datum(LocalDate.of(2023,9,1))
+                            .filiale(hietzing)
+                            .produkt(nusskipferl)
+                            .kunde("Daniel")
+                            .build();
+
+            Kundenbestellung kundenbestellung1 =
+                    Kundenbestellung.builder()
+                            .menge(1)
+                            .id(kundenbestellungId1)
+                            .build();
+
+            KundenbestellungId kundenbestellungId2 =
+                    KundenbestellungId.builder()
+                            .datum(LocalDate.of(2023, 9,2))
+                            .filiale(hietzing)
+                            .produkt(kastanienzipf)
+                            .kunde("Herbert")
+                            .build();
+
+            Kundenbestellung kundenbestellung2 =
+                    Kundenbestellung.builder()
+                            .menge(2)
+                            .id(kundenbestellungId2)
+                            .build();
+
+            List<Kundenbestellung> kundenbestellungen = Arrays.asList(
+              kundenbestellung1, kundenbestellung2
+            );
+
+            kundenbestellungRepository.saveAll(kundenbestellungen);
+
+            VorlageId vorlageId1 =
+                    VorlageId.builder()
+                            .id(1)
+                            .filiale(hietzing)
+                            .produkt(bauernbrot)
+                            .build();
+
+            Vorlage vorlage1 =
+                    Vorlage.builder()
+                            .id(vorlageId1)
+                            .menge(2)
+                            .build();
+
+            VorlageId vorlageId2 =
+                    VorlageId.builder()
+                            .id(1)
+                            .filiale(hietzing)
+                            .produkt(roggenbrot)
+                            .build();
+
+            Vorlage vorlage2 =
+                    Vorlage.builder()
+                            .id(vorlageId2)
+                            .menge(1)
+                            .build();
+
+            VorlageId vorlageId3 =
+                    VorlageId.builder()
+                            .id(2)
+                            .filiale(mariahilfer)
+                            .produkt(bauernbrotStange)
+                            .build();
+
+            Vorlage vorlage3 =
+                    Vorlage.builder()
+                            .id(vorlageId3)
+                            .menge(0.5)
+                            .build();
+
+            List<Vorlage> vorlagen = Arrays.asList(
+              vorlage1, vorlage2,  vorlage3
+            );
+
+            vorlageRepository.saveAll(vorlagen);
+
+            LieferbarId lieferbarId1 =
+                    LieferbarId.builder()
+                            .firma(wien)
+                            .produkt(topfengolatsche)
+                            .build();
+
+
+            Lieferbar lieferbar1 =
+                    Lieferbar.builder()
+                            .id(lieferbarId1)
+                            .von(Wochentag.Montag)
+                            .bis(Wochentag.Donnerstag)
+                            .build();
+
+            LieferbarId lieferbarId2 =
+                    LieferbarId.builder()
+                            .firma(wien)
+                            .produkt(marillenKrapfen)
+                            .build();
+
+
+            Lieferbar lieferbar2 =
+                    Lieferbar.builder()
+                            .id(lieferbarId2)
+                            .von(Wochentag.Montag)
+                            .bis(Wochentag.Dienstag)
+                            .build();
+
+            LieferbarId lieferbarId3 =
+                    LieferbarId.builder()
+                            .firma(teigwerkstatt)
+                            .produkt(bauernbrot)
+                            .build();
+
+
+            Lieferbar lieferbar3 =
+                    Lieferbar.builder()
+                            .id(lieferbarId3)
+                            .von(Wochentag.Montag)
+                            .bis(Wochentag.Freitag)
+                            .build();
+
+            List<Lieferbar> lieferbar = Arrays.asList(
+                    lieferbar1, lieferbar2, lieferbar3
+            );
+
+            lieferbarRepository.saveAll(lieferbar);
         };
     }
 }

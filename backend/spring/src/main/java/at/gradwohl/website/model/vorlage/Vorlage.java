@@ -1,5 +1,6 @@
 package at.gradwohl.website.model.vorlage;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -22,6 +23,22 @@ public class Vorlage {
     @Column(name = "V_Menge")
     private double menge;
 
-    // Getters and setters
+    @JsonGetter("id")
+    public VorlageId getId() {
+        return id;
+    }
+
+    @JsonGetter("menge")
+    public double getMenge() {
+        return menge;
+    }
+
+    public void setId(VorlageId id) {
+        this.id = id;
+    }
+
+    public void setMenge(double menge) {
+        this.menge = menge;
+    }
 }
 

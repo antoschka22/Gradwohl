@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 
 @Embeddable
 @Builder
@@ -67,5 +68,27 @@ public class KundenbestellungId implements Serializable {
 
     public void setFiliale(Filiale filiale) {
         this.filiale = filiale;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        KundenbestellungId that = (KundenbestellungId) o;
+
+        if (!Objects.equals(datum, that.datum)) return false;
+        if (!Objects.equals(produkt, that.produkt)) return false;
+        if (!Objects.equals(kunde, that.kunde)) return false;
+        return Objects.equals(filiale, that.filiale);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = datum != null ? datum.hashCode() : 0;
+        result = 31 * result + (produkt != null ? produkt.hashCode() : 0);
+        result = 31 * result + (kunde != null ? kunde.hashCode() : 0);
+        result = 31 * result + (filiale != null ? filiale.hashCode() : 0);
+        return result;
     }
 }
