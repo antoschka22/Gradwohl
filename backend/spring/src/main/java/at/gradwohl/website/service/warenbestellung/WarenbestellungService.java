@@ -1,11 +1,11 @@
 package at.gradwohl.website.service.warenbestellung;
 
 import at.gradwohl.website.model.filiale.Filiale;
-import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.warenbestellung.Warenbestellung;
 import at.gradwohl.website.model.warenbestellung.WarenbestellungId;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class WarenbestellungService {
     private final WarenbestellungRepository warenbestellungRepository;
-
-    @Autowired
-    public WarenbestellungService(WarenbestellungRepository warenbestellungRepository) {
-        this.warenbestellungRepository = warenbestellungRepository;
-    }
 
     public List<Warenbestellung> getAllWarenbestellungen() {
         return warenbestellungRepository.findAll();

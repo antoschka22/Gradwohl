@@ -5,6 +5,7 @@ import at.gradwohl.website.model.lieferbar.Lieferbar;
 import at.gradwohl.website.model.lieferbar.LieferbarId;
 import at.gradwohl.website.repository.lieferbar.LieferbarRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class LiefebarService {
 
     private final LieferbarRepository lieferbarRepository;
-
-    @Autowired
-    public LiefebarService(LieferbarRepository lieferbarRepository){
-        this.lieferbarRepository = lieferbarRepository;
-    }
 
     public List<Lieferbar> getLieferbarByFirma(Firma firma) {
         return lieferbarRepository.findAllById_Firma(firma);

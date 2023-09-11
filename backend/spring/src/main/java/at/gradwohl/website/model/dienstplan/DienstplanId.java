@@ -5,9 +5,7 @@ import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -18,6 +16,8 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DienstplanId implements Serializable {
@@ -36,6 +36,4 @@ public class DienstplanId implements Serializable {
     @ManyToOne
     @JoinColumn(name = "D_Mitarbeiter", referencedColumnName = "M_ID")
     private Mitarbeiter mitarbeiter;
-
-    // Getters and setters
 }

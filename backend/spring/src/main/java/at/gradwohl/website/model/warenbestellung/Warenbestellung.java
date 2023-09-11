@@ -6,14 +6,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "Warenbestellung")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -23,22 +23,4 @@ public class Warenbestellung {
 
     @Column(name = "WB_Menge")
     private double menge;
-
-    @JsonGetter("id")
-    public WarenbestellungId getId() {
-        return id;
-    }
-
-    @JsonGetter("menge")
-    public double getMenge() {
-        return menge;
-    }
-
-    public void setId(WarenbestellungId id) {
-        this.id = id;
-    }
-
-    public void setMenge(double menge) {
-        this.menge = menge;
-    }
 }

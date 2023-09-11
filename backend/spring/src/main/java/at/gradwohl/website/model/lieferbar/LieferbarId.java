@@ -5,9 +5,7 @@ import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.model.produkt.Produkt;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -15,6 +13,8 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class LieferbarId implements Serializable {
     @MapsId("Produkt")
     @ManyToOne
@@ -25,23 +25,5 @@ public class LieferbarId implements Serializable {
     @ManyToOne
     @JoinColumn(name = "LF_Firma", referencedColumnName = "F_Name")
     private Firma firma;
-
-    @JsonGetter("produkt")
-    public Produkt getProdukt() {
-        return produkt;
-    }
-
-    @JsonGetter("firma")
-    public Firma getFirma() {
-        return firma;
-    }
-
-    public void setProdukt(Produkt produkt) {
-        this.produkt = produkt;
-    }
-
-    public void setFirma(Firma firma) {
-        this.firma = firma;
-    }
 }
 

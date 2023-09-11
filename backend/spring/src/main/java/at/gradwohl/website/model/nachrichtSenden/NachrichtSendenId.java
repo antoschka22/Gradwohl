@@ -3,9 +3,7 @@ package at.gradwohl.website.model.nachrichtSenden;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.nachricht.Nachricht;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -13,6 +11,8 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class NachrichtSendenId implements Serializable {
 
     @MapsId("filiale")
@@ -25,6 +25,5 @@ public class NachrichtSendenId implements Serializable {
     @JoinColumn(name = "NS_Nachricht", referencedColumnName = "N_ID")
     private Nachricht nachricht;
 
-    // Getters and setters
 }
 

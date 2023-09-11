@@ -1,4 +1,4 @@
-package at.gradwohl.website.controller;
+package at.gradwohl.website.controller.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "Filiale")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,41 +34,6 @@ public class Filiale {
     @ManyToOne
     @JoinColumn(name = "F_Firma", referencedColumnName = "F_Name")
     private Firma firma;
-
-    @JsonGetter("id")
-    public int getId(){
-        return id;
-    }
-    @JsonGetter("filialeName")
-    public String getName() {
-        return name;
-    }
-
-    @JsonGetter("filialleiterId")
-    public int getFilialleiterId() {
-        return filialleiter != null ? filialleiter.getId() : 0;
-    }
-
-    @JsonGetter("firmaName")
-    public String getFirmaName() {
-        return firma != null ? firma.getName() : null;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setFilialleiter(Mitarbeiter filialleiter) {
-        this.filialleiter = filialleiter;
-    }
-
-    public void setFirma(Firma firma) {
-        this.firma = firma;
-    }
 }
 
 

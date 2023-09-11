@@ -1,5 +1,6 @@
 package at.gradwohl.website.controller;
 
+import at.gradwohl.website.config.JwtService;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
@@ -7,7 +8,9 @@ import at.gradwohl.website.model.kundenbestellung.KundenbestellungId;
 import at.gradwohl.website.service.filiale.FilialeService;
 import at.gradwohl.website.service.kundenbestellung.KundenbestellungService;
 import at.gradwohl.website.service.produkt.ProduktService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,35 +19,44 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@SecurityRequirement(name ="jwt-auth")
 @RequestMapping(path = "kundenbestellung")
 public class KundenbestellungController {
 
     private final KundenbestellungService kundenbestellungService;
     private final FilialeService filialeService;
     private final ProduktService produktService;
-
-    @Autowired
-    public KundenbestellungController(
-            KundenbestellungService kundenbestellungService,
-            FilialeService filialeService,
-            ProduktService produktService) {
-        this.kundenbestellungService = kundenbestellungService;
-        this.filialeService = filialeService;
-        this.produktService = produktService;
-    }
+    private final JwtService jwtService;
 
     @GetMapping
-    public List<Kundenbestellung> getAllKundenbestellungen() {
-        return kundenbestellungService.getAllKundenbestellung();
+    public ResponseEntity<List<Kundenbestellung>> getAllKundenbestellungen(HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(kundenbestellungService.getAllKundenbestellung(), HttpStatus.OK);
     }
 
     @GetMapping("/date/{datum}")
-    public List<Kundenbestellung> getKundenbestellungenByDate(@PathVariable("datum") LocalDate datum) {
-        return kundenbestellungService.getKundenbestellungByDate(datum);
+    public ResponseEntity<List<Kundenbestellung>> getKundenbestellungenByDate(
+            @PathVariable("datum") LocalDate datum,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(kundenbestellungService.getKundenbestellungByDate(datum), HttpStatus.OK);
     }
 
     @GetMapping("/filiale/{filialeId}")
-    public ResponseEntity<List<Kundenbestellung>> getKundenbestellungenByFiliale(@PathVariable("filialeId") int filialeId) {
+    public ResponseEntity<List<Kundenbestellung>> getKundenbestellungenByFiliale(
+            @PathVariable("filialeId") int filialeId,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
         Filiale filiale = filialeService.getFilialeById(filialeId);
         List<Kundenbestellung> kundenbestellungen = kundenbestellungService.getKundenbestellungByFiliale(filiale);
         return new ResponseEntity<>(kundenbestellungen, HttpStatus.OK);
@@ -52,8 +64,14 @@ public class KundenbestellungController {
 
 
     @PostMapping
-    public List<Kundenbestellung> addKundenbestellungen(@RequestBody List<Kundenbestellung> kundenbestellungen) {
-        return kundenbestellungService.addKundenbestellung(kundenbestellungen);
+    public ResponseEntity<List<Kundenbestellung>> addKundenbestellungen(
+            @RequestBody List<Kundenbestellung> kundenbestellungen,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(kundenbestellungService.addKundenbestellung(kundenbestellungen), HttpStatus.OK);
     }
 
     @PutMapping("/{datum}/{produktId}/{filialeId}/{kunde}")
@@ -62,7 +80,11 @@ public class KundenbestellungController {
             @PathVariable("produktId") int produktId,
             @PathVariable("filialeId") int filialeId,
             @PathVariable("kunde") String kunde,
-            @RequestBody Kundenbestellung updatedKundenbestellung) {
+            @RequestBody Kundenbestellung updatedKundenbestellung,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Produkt produkt = produktService.getProduktById(produktId);
         Filiale filiale = filialeService.getFilialeById(filialeId);
@@ -82,7 +104,11 @@ public class KundenbestellungController {
             @PathVariable("datum") String datum,
             @PathVariable("produktId") int produktId,
             @PathVariable("filialeId") int filialeId,
-            @PathVariable("kunde") String kunde) {
+            @PathVariable("kunde") String kunde,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Produkt produkt = produktService.getProduktById(produktId);
         Filiale filiale = filialeService.getFilialeById(filialeId);

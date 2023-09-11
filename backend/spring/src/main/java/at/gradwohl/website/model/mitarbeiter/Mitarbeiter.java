@@ -6,27 +6,34 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "Mitarbeiter")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Mitarbeiter {
+public class Mitarbeiter implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "M_ID")
     private int id;
 
-    @Column(name = "M_Name")
+    @Column(name = "M_Name", unique = true)
     private String name;
+
+    @Column(name = "M_Passwort")
+    private String password;
 
     @ManyToOne
     @JoinColumn(name = "M_Role", referencedColumnName = "MR_Role")
@@ -36,24 +43,39 @@ public class Mitarbeiter {
     @JoinColumn(name = "M_Filiale", referencedColumnName = "F_ID")
     private Filiale filiale;
 
-    @JsonGetter("employeeId")
-    public int getId() {
-        return id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.getRole()));
     }
 
-    @JsonGetter("employeeName")
-    public String getName() {
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
         return name;
     }
 
-    @JsonGetter("employeeRole")
-    public MitarbeiterRole getRole() {
-        return role;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    @JsonGetter("employeeFiliale")
-    public Filiale getFiliale() {
-        return filiale;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
 

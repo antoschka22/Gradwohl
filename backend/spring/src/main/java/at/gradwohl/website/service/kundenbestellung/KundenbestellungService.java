@@ -5,7 +5,7 @@ import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
 import at.gradwohl.website.model.kundenbestellung.KundenbestellungId;
 import at.gradwohl.website.repository.kundenbestellung.KundenbestellungRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,14 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class KundenbestellungService {
 
     private final KundenbestellungRepository kundenbestellungRepository;
-
-    @Autowired
-    public KundenbestellungService (KundenbestellungRepository kundenbestellungRepository){
-        this.kundenbestellungRepository = kundenbestellungRepository;
-    }
 
     public List<Kundenbestellung> getAllKundenbestellung() {
         return kundenbestellungRepository.findAll();

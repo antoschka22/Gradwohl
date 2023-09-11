@@ -6,6 +6,7 @@ import at.gradwohl.website.repository.produkt.ProduktRepository;
 import at.gradwohl.website.repository.produktgruppe.ProduktgruppeRepository;
 import at.gradwohl.website.service.produktgruppe.ProduktgruppeService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProduktService {
 
 
     private final ProduktRepository produktRepository;
     private final ProduktgruppeRepository produktgruppeRepository;
-
-    @Autowired
-    public ProduktService(ProduktRepository produktRepository, ProduktgruppeRepository produktgruppeRepository) {
-        this.produktRepository = produktRepository;
-        this.produktgruppeRepository = produktgruppeRepository;
-    }
 
     public List<Produkt> getProductsByProduktgruppeName(String produktgruppeName) {
         return produktRepository.findByProduktgruppe_Name(produktgruppeName);

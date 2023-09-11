@@ -1,5 +1,6 @@
 package at.gradwohl.website.service;
 
+import at.gradwohl.website.config.JwtService;
 import at.gradwohl.website.model.dienstplan.DienstplanId;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
@@ -30,16 +31,21 @@ import at.gradwohl.website.repository.produktgruppe.ProduktgruppeRepository;
 import at.gradwohl.website.repository.role.RoleRepository;
 import at.gradwohl.website.repository.vorlage.VorlageRepository;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class initApplication {
+
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     CommandLineRunner commandLineRunner(DienstplanRepository dienstplanRepo,
@@ -248,6 +254,7 @@ public class initApplication {
                     Mitarbeiter.builder()
                             .role(leiter)
                             .name("Barbara")
+                            .password(passwordEncoder.encode("admin"))
                             .filiale(hietzing)
                             .build();
 
@@ -255,6 +262,7 @@ public class initApplication {
                     Mitarbeiter.builder()
                             .role(verkauf)
                             .name("Szimone")
+                            .password(passwordEncoder.encode("admin"))
                             .filiale(hietzing)
                             .build();
 
@@ -269,6 +277,7 @@ public class initApplication {
                     Mitarbeiter.builder()
                             .role(zentrale)
                             .name("Nicole")
+                            .password(passwordEncoder.encode("admin"))
                             .filiale(null)
                             .build();
             List<Mitarbeiter> mitarbeiter = Arrays.asList(

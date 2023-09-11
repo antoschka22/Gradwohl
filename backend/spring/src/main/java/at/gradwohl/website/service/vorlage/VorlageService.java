@@ -7,6 +7,7 @@ import at.gradwohl.website.model.vorlage.Vorlage;
 import at.gradwohl.website.model.vorlage.VorlageId;
 import at.gradwohl.website.repository.vorlage.VorlageRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class VorlageService {
 
     private final VorlageRepository vorlageRepository;
-
-    @Autowired
-    public VorlageService(VorlageRepository vorlageRepository){
-        this.vorlageRepository = vorlageRepository;
-    }
 
     public List<Vorlage> getAllVorlagen(){ return vorlageRepository.findAll(); }
 

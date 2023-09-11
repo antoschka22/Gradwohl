@@ -3,6 +3,7 @@ package at.gradwohl.website.service.role;
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
 import at.gradwohl.website.repository.role.RoleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
 
     private final RoleRepository roleRepository;
     private final MitarbeiterRepository mitarbeiterRepository;
-
-    @Autowired
-    public RoleService(RoleRepository roleRepository,
-                       MitarbeiterRepository mitarbeiterRepository){
-        this.roleRepository = roleRepository;
-        this.mitarbeiterRepository = mitarbeiterRepository;
-    }
 
     public List<MitarbeiterRole> getAllRole() { return roleRepository.findAll(); }
 

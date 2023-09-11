@@ -1,36 +1,22 @@
 package at.gradwohl.website.service.filiale;
 
 import at.gradwohl.website.model.filiale.Filiale;
-import at.gradwohl.website.model.firma.Firma;
-import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
-import at.gradwohl.website.repository.firma.FirmaRepository;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Service
+@RequiredArgsConstructor
 public class FilialeService {
 
     private final FilialeRepository filialeRepository;
     private final MitarbeiterRepository mitarbeiterRepository;
     private final WarenbestellungRepository warenbestellungRepository;
-    private final FirmaRepository firmaRepository;
-    @Autowired
-    public FilialeService(FilialeRepository filialeRepository,
-                          MitarbeiterRepository mitarbeiterRepository,
-                          WarenbestellungRepository warenbestellungRepository,
-                          FirmaRepository firmaRepository) {
-        this.filialeRepository = filialeRepository;
-        this.mitarbeiterRepository = mitarbeiterRepository;
-        this.warenbestellungRepository = warenbestellungRepository;
-        this.firmaRepository = firmaRepository;
-    }
 
     public List<Filiale> getAllFilialen() {
         return filialeRepository.findAll();

@@ -1,5 +1,6 @@
 package at.gradwohl.website.controller;
 
+import at.gradwohl.website.config.JwtService;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.warenbestellung.Warenbestellung;
@@ -7,7 +8,9 @@ import at.gradwohl.website.model.warenbestellung.WarenbestellungId;
 import at.gradwohl.website.service.filiale.FilialeService;
 import at.gradwohl.website.service.produkt.ProduktService;
 import at.gradwohl.website.service.warenbestellung.WarenbestellungService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,34 +19,42 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@SecurityRequirement(name="jwt-auth")
+@RequiredArgsConstructor
 @RequestMapping(path = "warenbestellung")
 public class WarenbestellungController {
     private final WarenbestellungService warenbestellungService;
     private final FilialeService filialeService;
     private final ProduktService produktService;
-
-    @Autowired
-    public WarenbestellungController(
-            WarenbestellungService warenbestellungService,
-            FilialeService filialeService,
-            ProduktService produktService) {
-        this.warenbestellungService = warenbestellungService;
-        this.filialeService = filialeService;
-        this.produktService = produktService;
-    }
+    private final JwtService jwtService;
 
     @GetMapping
-    public List<Warenbestellung> getAllWarenbestellungen() {
-        return warenbestellungService.getAllWarenbestellungen();
+    public ResponseEntity<List<Warenbestellung>> getAllWarenbestellungen(HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(warenbestellungService.getAllWarenbestellungen(), HttpStatus.OK);
     }
 
     @GetMapping("/date/{datum}")
-    public List<Warenbestellung> getWarenbestellungenByDate(@PathVariable("datum") LocalDate datum) {
-        return warenbestellungService.getWarenbestellungenByDate(datum);
+    public ResponseEntity<List<Warenbestellung>> getWarenbestellungenByDate(
+            @PathVariable("datum") LocalDate datum,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(warenbestellungService.getWarenbestellungenByDate(datum), HttpStatus.OK);
     }
 
     @GetMapping("/filiale/{filialeId}")
-    public ResponseEntity<List<Warenbestellung>> getWarenbestellungenByFiliale(@PathVariable("filialeId") int filialeId) {
+    public ResponseEntity<List<Warenbestellung>> getWarenbestellungenByFiliale(
+            @PathVariable("filialeId") int filialeId,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
         Filiale filiale = filialeService.getFilialeById(filialeId);
         List<Warenbestellung> warenbestellungen = warenbestellungService.getWarenbestellungenByFiliale(filiale);
         return new ResponseEntity<>(warenbestellungen, HttpStatus.OK);
@@ -51,8 +62,14 @@ public class WarenbestellungController {
 
 
     @PostMapping
-    public List<Warenbestellung> addWarenbestellungen(@RequestBody List<Warenbestellung> warenbestellungen) {
-        return warenbestellungService.addWarenbestellungen(warenbestellungen);
+    public ResponseEntity<List<Warenbestellung>> addWarenbestellungen(
+            @RequestBody List<Warenbestellung> warenbestellungen,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(warenbestellungService.addWarenbestellungen(warenbestellungen), HttpStatus.OK);
     }
 
     @PutMapping("/{datum}/{produktId}/{filialeId}")
@@ -60,7 +77,12 @@ public class WarenbestellungController {
             @PathVariable("datum") String datum,
             @PathVariable("produktId") int produktId,
             @PathVariable("filialeId") int filialeId,
-            @RequestBody Warenbestellung updatedWarenbestellung) {
+            @RequestBody Warenbestellung updatedWarenbestellung,
+            HttpServletRequest request) {
+
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Produkt produkt = produktService.getProduktById(produktId);
         Filiale filiale = filialeService.getFilialeById(filialeId);
@@ -79,7 +101,12 @@ public class WarenbestellungController {
     public ResponseEntity<Void> deleteWarenbestellung(
             @PathVariable("datum") String datum,
             @PathVariable("produktId") int produktId,
-            @PathVariable("filialeId") int filialeId) {
+            @PathVariable("filialeId") int filialeId,
+            HttpServletRequest request) {
+
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Produkt produkt = produktService.getProduktById(produktId);
         Filiale filiale = filialeService.getFilialeById(filialeId);

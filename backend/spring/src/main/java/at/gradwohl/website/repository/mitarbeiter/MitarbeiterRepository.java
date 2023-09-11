@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, Integer> {
 
     @Modifying
@@ -20,4 +22,6 @@ public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, Intege
     @Transactional
     @Query("UPDATE Mitarbeiter m SET m.role = null WHERE m.role = :role")
     void updateRoleToNull(MitarbeiterRole role);
+
+    Optional<Mitarbeiter> findByName(String name);
 }

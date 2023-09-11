@@ -4,6 +4,7 @@ import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.firma.FirmaRepository;
 import at.gradwohl.website.repository.lieferbar.LieferbarRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,20 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FirmaService {
 
     private final FirmaRepository firmaRepository;
     private final FilialeRepository filialeRepository;
     private final LieferbarRepository lieferbarRepository;
-
-    @Autowired
-    public FirmaService(FirmaRepository firmaRepository,
-                        FilialeRepository filialeRepository,
-                        LieferbarRepository lieferbarRepository){
-        this.firmaRepository = firmaRepository;
-        this.filialeRepository = filialeRepository;
-        this.lieferbarRepository = lieferbarRepository;
-    }
 
     public List<Firma> getAllFirma() {
         return firmaRepository.findAll();
