@@ -65,7 +65,7 @@ public class ProduktController {
 
         try {
             produktService.deleteProduktById(id);
-            return ResponseEntity.ok("Produkt deleted");
+            return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {

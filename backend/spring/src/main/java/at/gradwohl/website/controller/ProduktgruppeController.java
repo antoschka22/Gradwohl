@@ -43,7 +43,7 @@ public class ProduktgruppeController {
 
         try {
             produktgruppeService.deleteProduktgruppeByName(name);
-            return ResponseEntity.ok("Product group deleted successfully");
+            return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {

@@ -19,14 +19,6 @@ public class RoleService {
 
     public List<MitarbeiterRole> getAllRole() { return roleRepository.findAll(); }
 
-    public MitarbeiterRole getRoleById(String role){
-        Optional<MitarbeiterRole> optionalRole =  roleRepository.findById(role);
-        if(optionalRole.isPresent())
-            return optionalRole.get();
-        else
-            throw new IllegalArgumentException("Role doesnt exist");
-    }
-
     public MitarbeiterRole addRole(MitarbeiterRole role) {
         Optional<MitarbeiterRole> optionalRole = roleRepository.findById(role.getRole());
 

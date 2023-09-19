@@ -1,9 +1,13 @@
 package at.gradwohl.website.service.produkt;
 
+import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
+import at.gradwohl.website.repository.kundenbestellung.KundenbestellungRepository;
+import at.gradwohl.website.repository.lieferbar.LieferbarRepository;
 import at.gradwohl.website.repository.produkt.ProduktRepository;
 import at.gradwohl.website.repository.produktgruppe.ProduktgruppeRepository;
+import at.gradwohl.website.repository.vorlage.VorlageRepository;
 import at.gradwohl.website.service.produktgruppe.ProduktgruppeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,9 @@ public class ProduktService {
 
     private final ProduktRepository produktRepository;
     private final ProduktgruppeRepository produktgruppeRepository;
+    private final LieferbarRepository lieferbarRepository;
+    private final VorlageRepository vorlageRepository;
+    private final KundenbestellungRepository kundenbestellung;
 
     public List<Produkt> getProductsByProduktgruppeName(String produktgruppeName) {
         return produktRepository.findByProduktgruppe_Name(produktgruppeName);
@@ -85,6 +92,12 @@ public class ProduktService {
         if (!produktRepository.existsById(id)) {
             throw new IllegalArgumentException("Product with ID " + id + " not found");
         }
+
+        Produkt produkt = produktRepository.findById(id);
+
+        lieferbarRepository.deleteByProdukt(produkt);
+        vorlageRepository.deleteByProdukt(produkt);
+        kundenbestellung.deleteByProdukt(produkt);
 
         produktRepository.deleteById(id);
     }

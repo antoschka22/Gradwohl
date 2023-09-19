@@ -1,8 +1,11 @@
 package at.gradwohl.website.service.filiale;
 
 import at.gradwohl.website.model.filiale.Filiale;
+import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
+import at.gradwohl.website.repository.kundenbestellung.KundenbestellungRepository;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
+import at.gradwohl.website.repository.vorlage.VorlageRepository;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,9 @@ public class FilialeService {
     private final FilialeRepository filialeRepository;
     private final MitarbeiterRepository mitarbeiterRepository;
     private final WarenbestellungRepository warenbestellungRepository;
+    private final DienstplanRepository dienstplanRepository;
+    private final KundenbestellungRepository kundenbestellungRepository;
+    private final VorlageRepository vorlageRepository;
 
     public List<Filiale> getAllFilialen() {
         return filialeRepository.findAll();
@@ -47,7 +53,10 @@ public class FilialeService {
         if (optionalFiliale.isPresent()) {
             Filiale filiale = optionalFiliale.get();
             mitarbeiterRepository.updateFilialeToNull(filiale);
+            dienstplanRepository.deleteFilialeIfTrue(filiale);
             warenbestellungRepository.deleteByFiliale(filiale);
+            kundenbestellungRepository.deleteByFiliale(filiale);
+            vorlageRepository.deleteByFiliale(filiale);
             filialeRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("Filiale doesn't exist");
@@ -68,11 +77,25 @@ public class FilialeService {
 
 /*
 {
-    "id": 14,
-    "filialeName": "Hietzing",
-    "filialleiterId": 0,
+    "id": 1000,
+    "name": "adfdf",
+    "filialleiter": {
+      "id": 1,
+      "name": "Barbara",
+      "password": "$2a$10$EYGa1zYzo5MJD5wDmHklfuyH4yd89eHrPHHUozWdKQA43u22uUb2W",
+      "role": {
+        "role": "Leiter"
+      },
+      "filiale": {
+        "id": 14,
+        "name": "Hietzing",
+        "firma": {
+          "name": "Wien"
+        }
+      }
+    },
     "firma": {
-    "firmName": "Burgenland"
+      "name": "Olivers Teigwerkstätte"
+    }
   }
-}
  */

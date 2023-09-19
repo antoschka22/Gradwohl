@@ -17,7 +17,6 @@ import java.time.LocalTime;
 @Setter
 @Table(name = "Dienstplan")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Dienstplan {
 
     @EmbeddedId
@@ -25,5 +24,8 @@ public class Dienstplan {
 
     @Column(name = "D_bis")
     private LocalTime bis;
+
+    @Column(name="D_Anfrage")
+    private boolean anfrage;
 
 }

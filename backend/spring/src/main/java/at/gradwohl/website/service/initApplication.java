@@ -1,6 +1,7 @@
 package at.gradwohl.website.service;
 
 import at.gradwohl.website.config.JwtService;
+import at.gradwohl.website.model.dienstplan.Dienstplan;
 import at.gradwohl.website.model.dienstplan.DienstplanId;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
@@ -31,6 +32,7 @@ import at.gradwohl.website.repository.produktgruppe.ProduktgruppeRepository;
 import at.gradwohl.website.repository.role.RoleRepository;
 import at.gradwohl.website.repository.vorlage.VorlageRepository;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
+import at.gradwohl.website.service.filiale.FilialeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +40,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,7 +63,8 @@ public class initApplication {
                                         WarenbestellungRepository warenbestellungRepository,
                                         LieferbarRepository lieferbarRepository,
                                         NachrichtRepository nachrichtRepository,
-                                        NachrichtSendenRepository nachrichtSendenRepository) {
+                                        NachrichtSendenRepository nachrichtSendenRepository,
+                                        FilialeService filialeService) {
         return args -> {
             Firma wien =
                     Firma.builder()
@@ -87,139 +91,119 @@ public class initApplication {
                     Filiale.builder()
                             .name("Fleischmarkt")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale naglergasse =
                     Filiale.builder()
                             .name("Naglergasse")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
             Filiale landstrasse =
                     Filiale.builder()
                             .name("Landstraße")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale mariahilfer =
                     Filiale.builder()
                             .name("Mariahilferstraße")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale ziegler =
                     Filiale.builder()
                             .name("Zieglergasse")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale josefstadt =
                     Filiale.builder()
                             .name("Josefstadt")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale hietzing =
                     Filiale.builder()
                             .name("Hietzing")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale doebling =
                     Filiale.builder()
                             .name("Döbling")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale schwechat =
                     Filiale.builder()
                             .name("Schwechat")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale moedling =
                     Filiale.builder()
                             .name("Mödling")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale baden =
                     Filiale.builder()
                             .name("Baden")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale neustadt =
                     Filiale.builder()
                             .name("Wiener Neustadt")
                             .firma(wien)
-                            .filialleiter(null)
                             .build();
 
             Filiale eisenstadt =
                     Filiale.builder()
                             .name("Eisenstadt")
                             .firma(burgenland)
-                            .filialleiter(null)
                             .build();
 
             Filiale deutschkreutz =
                     Filiale.builder()
                             .name("Deutschkreutz")
                             .firma(burgenland)
-                            .filialleiter(null)
                             .build();
 
             Filiale weppersdorf =
                     Filiale.builder()
                             .name("Weppersdorf")
                             .firma(burgenland)
-                            .filialleiter(null)
                             .build();
 
             Filiale oberpullendorf =
                     Filiale.builder()
                             .name("Oberpullendorf")
                             .firma(burgenland)
-                            .filialleiter(null)
                             .build();
 
             Filiale alserStrasse =
                     Filiale.builder()
                             .name("Alser Straße")
                             .firma(teigwerkstatt)
-                            .filialleiter(null)
                             .build();
 
             Filiale goldschmied =
                     Filiale.builder()
                             .name("Goldschmiedgasse")
                             .firma(teigwerkstatt)
-                            .filialleiter(null)
                             .build();
 
             Filiale krugerstrasse =
                     Filiale.builder()
                             .name("Krugerstrasse")
                             .firma(teigwerkstatt)
-                            .filialleiter(null)
                             .build();
 
             Filiale plankengasse =
                     Filiale.builder()
                             .name("Plankengasse")
                             .firma(teigwerkstatt)
-                            .filialleiter(null)
                             .build();
 
             List<Filiale> filialen = Arrays.asList(
@@ -5842,6 +5826,55 @@ public class initApplication {
             );
 
             lieferbarRepository.saveAll(lieferbar);
+
+            DienstplanId dienstplanId1 =
+                    DienstplanId.builder()
+                            .mitarbeiter(szimone)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 9, 11))
+                            .build();
+
+            Dienstplan dienstplan1 =
+                    Dienstplan.builder()
+                            .id(dienstplanId1)
+                            .bis(LocalTime.of(12,0))
+                            .build();
+
+            DienstplanId dienstplanId2 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(12, 0))
+                            .datum(LocalDate.of(2023, 9, 11))
+                            .build();
+
+            Dienstplan dienstplan2 =
+                    Dienstplan.builder()
+                            .id(dienstplanId2)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
+            DienstplanId dienstplanId3 =
+                    DienstplanId.builder()
+                            .mitarbeiter(szimone)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 10, 11))
+                            .build();
+
+            Dienstplan dienstplan3 =
+                    Dienstplan.builder()
+                            .id(dienstplanId3)
+                            .bis(LocalTime.of(13,0))
+                            .build();
+
+            List<Dienstplan> dienstplans = Arrays.asList(
+                    dienstplan1, dienstplan2, dienstplan3
+            );
+
+            dienstplanRepo.saveAll(dienstplans);
+
         };
     }
 }

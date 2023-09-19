@@ -19,7 +19,6 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DienstplanId implements Serializable {
     @Column(name = "D_Datum")
     private LocalDate datum;
