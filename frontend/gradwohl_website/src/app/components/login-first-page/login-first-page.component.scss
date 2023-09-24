@@ -1,0 +1,131 @@
+
+/* Alles für die zwei grauen Boxen*/
+.boxOnTop {
+  height: auto;
+  background-color: whitesmoke;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+
+/* Die Schriftgröße wegen der Bildschirmbreite (innerhalb der Boxen) */
+.text-inBox {
+  font-size: 4vw;
+  margin-left: 10px;
+  color: #6E6E6E;
+}
+
+/* Wenn der Bildschirm größer oder gleich 769px ist */
+@media (min-width: 769px) {
+  .text-inBox {
+    font-size: 25px;
+  }
+
+  .img-fluid {
+    width: 80px;
+  }
+}
+
+/* Wenn der Bildschirm kleiner als 769px ist */
+@media (max-width: 768px) {
+  .img-fluid {
+    width: 10vw;
+  }
+}
+
+/* Kleine Box innerhalb der grauen Boxen */
+.little-box {
+  display: inline-block;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.box {
+  background-color: whitesmoke;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+
+.textInfoLeftBox{
+  font-size: 10px;
+  color: #6F6B6B;
+  text-align: center;
+}
+
+/*Links Menü Startseite */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 5px 16px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Rechte Menüleiste */
+
+.naviOnRightSide{
+  height: auto;
+  background-color: whitesmoke;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #f9f9f9;
+  color: white;
+  padding: 20px;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #6F6B6B;
+}
+/* Kalenderbox */
+.custom-calendar {
+  background-color: whitesmoke;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Schatten */
+}
+
+
+
+
+
+
+

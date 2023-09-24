@@ -1,0 +1,65 @@
+.header{
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.logo{
+    height: 70px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 40px;
+}
+
+/* User-Symbol */
+  
+  /* Runder Stil für das Benutzersymbol */
+  .nav-link.user-icon .user-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #ffffff; /* Hintergrundfarbe des Symbols */
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Stil für das Klappmenü */
+  .user-dropdown {
+    position: relative;
+  }
+
+  .nav-link.user-icon .user-dropdown {
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: none;
+  }
+  
+  .nav-link.user-icon:hover .user-dropdown {
+    display: block;
+  }
+  
+  /* Klappmenü */
+  .nav-link.user-icon .user-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-link.user-icon .user-dropdown li {
+    padding: 8px 12px;
+  }
+  
+  .nav-link.user-icon .user-dropdown li a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .nav-link.user-icon .user-dropdown li a:hover {
+    background-color: #f8f9fa;
+  }
+  
+  
