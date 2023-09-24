@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,36 +21,11 @@ public class Nachricht {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "N_ID")
-    private int id;
+    private long id;
 
-    @Column(name = "N_Nachricht", columnDefinition = "TEXT") // For JSON data type
+    @Column(name = "N_Nachricht", columnDefinition = "TEXT")
     private String nachricht;
 
-    @Getter(onMethod = @__({@JsonInclude}))
-    private transient List<String> paragraphs; // Transient field for deserialization
-
-    // Getter and setter for 'nachricht' (for direct access)
-
-    @PrePersist
-    @PostLoad
-    private void updateParagraphs() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            paragraphs = objectMapper.readValue(nachricht, ArrayList.class);
-        } catch (JsonProcessingException e) {
-            paragraphs = new ArrayList<>();
-            e.printStackTrace();
-        }
-    }
-
-    public void setParagraphs(List<String> paragraphs) {
-        this.paragraphs = paragraphs;
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            nachricht = objectMapper.writeValueAsString(paragraphs);
-        } catch (JsonProcessingException e) {
-            nachricht = "[]";
-            e.printStackTrace();
-        }
-    }
+    @Column(name = "N_Datum")
+    private LocalDate datum;
 }

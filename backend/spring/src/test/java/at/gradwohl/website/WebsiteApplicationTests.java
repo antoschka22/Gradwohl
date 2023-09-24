@@ -330,47 +330,4 @@ class WebsiteApplicationTests {
 		lieferbarRepository.save(lieferbar);
 
 	}
-
-	@Test
-	void saveNachrichtSenden(){
-		Firma firma =
-				Firma.builder()
-						.name("Wien")
-						.build();
-
-		firmaRepository.save(firma);
-
-		Filiale filiale2 =
-				Filiale.builder()
-						.id(2)
-						.name("Mariahilfer")
-						.firma(firma)
-						.build();
-
-		filialeRepository.save(filiale2);
-
-		Nachricht nachricht = Nachricht.builder()
-				.build();
-
-		nachricht.setParagraphs(List.of(
-				"This is the first paragraph.",
-				"This is the second paragraph.",
-				"And this is the third paragraph."
-		));
-
-		nachrichtRepository.save(nachricht);
-
-		NachrichtSendenId nachrichtSendenId =
-				NachrichtSendenId.builder()
-						.filiale(filiale2)
-						.nachricht(nachricht)
-						.build();
-
-		NachrichtSenden nachrichtSenden =
-				NachrichtSenden.builder()
-								.id(nachrichtSendenId)
-						        .build();
-
-		nachrichtSendenRepository.save(nachrichtSenden);
-	}
 }

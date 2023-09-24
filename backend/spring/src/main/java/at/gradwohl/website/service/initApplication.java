@@ -12,6 +12,9 @@ import at.gradwohl.website.model.lieferbar.LieferbarId;
 import at.gradwohl.website.model.lieferbar.Wochentag;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
+import at.gradwohl.website.model.nachricht.Nachricht;
+import at.gradwohl.website.model.nachrichtSenden.NachrichtSenden;
+import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;
 import at.gradwohl.website.model.produkt.Mehl;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
@@ -5874,6 +5877,63 @@ public class initApplication {
             );
 
             dienstplanRepo.saveAll(dienstplans);
+
+            Nachricht nachricht1 =
+                    Nachricht.builder()
+                            .nachricht("Das ist eine Testnachricht")
+                            .datum(LocalDate.of(2023, 9, 24))
+                            .build();
+
+            Nachricht nachricht2 =
+                    Nachricht.builder()
+                            .nachricht("Andere Nachrich \n Test")
+                            .datum(LocalDate.of(2023, 9, 25))
+                            .build();
+
+            List<Nachricht> nachrichten = Arrays.asList(
+              nachricht1, nachricht2
+            );
+
+            nachrichtRepository.saveAll(nachrichten);
+
+            NachrichtSendenId nachrichtSendenId1 =
+                    NachrichtSendenId.builder()
+                            .filiale(hietzing)
+                            .nachricht(nachricht1)
+                            .build();
+
+            NachrichtSendenId nachrichtSendenId2 =
+                    NachrichtSendenId.builder()
+                            .filiale(mariahilfer)
+                            .nachricht(nachricht2)
+                            .build();
+
+            NachrichtSendenId nachrichtSendenId3 =
+                    NachrichtSendenId.builder()
+                            .filiale(hietzing)
+                            .nachricht(nachricht2)
+                            .build();
+
+            NachrichtSenden nachrichtSenden1 =
+                    NachrichtSenden.builder()
+                            .id(nachrichtSendenId1)
+                            .build();
+
+            NachrichtSenden nachrichtSenden2 =
+                    NachrichtSenden.builder()
+                            .id(nachrichtSendenId2)
+                            .build();
+
+            NachrichtSenden nachrichtSenden3 =
+                    NachrichtSenden.builder()
+                            .id(nachrichtSendenId3)
+                            .build();
+
+            List<NachrichtSenden> nachrichtenSenden = Arrays.asList(
+                    nachrichtSenden1, nachrichtSenden2, nachrichtSenden3
+            );
+
+            nachrichtSendenRepository.saveAll(nachrichtenSenden);
 
         };
     }
