@@ -1,18 +1,20 @@
 package at.gradwohl.website.controller;
 
 import at.gradwohl.website.config.AuthenticationService;
-import at.gradwohl.website.config.JwtService;
 import at.gradwohl.website.controller.model.AuthenticationRequest;
 import at.gradwohl.website.controller.model.AuthenticationResponse;
 import at.gradwohl.website.controller.model.RegisterRequest;
-import at.gradwohl.website.model.filiale.Filiale;
-import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @RestController
 @RequestMapping("auth")
@@ -20,7 +22,6 @@ import java.util.List;
 public class AuthenticationController {
 
     private final AuthenticationService service;
-    private final JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -37,5 +38,19 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } else
             return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @GetMapping("/test")
+    public String test() throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://ai_python:4000"))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("---------------------");
+        System.out.println("Response from Python server: " + response.body());
+
+        return response.body();
     }
 }

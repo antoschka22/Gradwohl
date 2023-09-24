@@ -40,3 +40,15 @@ services:
    - database
   depends_on:
    - database
+
+ ai_python:
+  container_name: gradwohl_ai
+  image: gradwohl_ai
+  build: ./AI
+  restart: always
+  ports:
+   - 4000:4000
+  links:
+   - database
+  depends_on:
+   - database
