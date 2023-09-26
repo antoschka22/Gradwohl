@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SecurityRequirement(name ="jwt-auth")
 @RequestMapping(path = "role")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class RoleController {
 
     private final RoleService roleService;

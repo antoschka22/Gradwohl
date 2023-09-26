@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @SecurityRequirement(name ="jwt-auth")
 @RequestMapping(path = "filiale")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class FilialeController {
     private final FilialeService filialeService;
     private final JwtService jwtService;

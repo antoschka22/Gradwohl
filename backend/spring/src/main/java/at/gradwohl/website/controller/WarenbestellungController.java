@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @SecurityRequirement(name="jwt-auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping(path = "warenbestellung")
 public class WarenbestellungController {
     private final WarenbestellungService warenbestellungService;

@@ -22,6 +22,7 @@ import java.util.List;
 @SecurityRequirement(name ="jwt-auth")
 @RequiredArgsConstructor
 @RequestMapping(path = "vorlage")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class VorlageController {
 
     private final VorlageService vorlageService;

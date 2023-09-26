@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SecurityRequirement(name ="jwt-auth")
 @RequestMapping(path = "nachrichtSenden/senden")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class NachrichtSendenController {
 
     private final JwtService jwtService;

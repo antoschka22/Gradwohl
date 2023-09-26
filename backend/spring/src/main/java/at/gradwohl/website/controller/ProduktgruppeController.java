@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SecurityRequirement(name ="jwt-auth")
 @RequestMapping(path = "produktgruppe")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class ProduktgruppeController {
     private final ProduktgruppeService produktgruppeService;
     private final JwtService jwtService;

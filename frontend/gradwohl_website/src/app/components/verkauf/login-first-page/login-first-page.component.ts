@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
+import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
 
 @Component({
   selector: 'app-login-first-page',
@@ -13,6 +15,21 @@ export class LoginFirstPageComponent {
 
   currentDate = new Date();
   selectedDate: Date | null = null;
+
+  warenbestellungen: warenbestellung | undefined;
+
+  constructor(private warenbestellungService: WarenbestellungService) { }
+
+  ngOnInit(): void {
+    this.getWarenbestellungen();
+  }
+
+  getWarenbestellungen() {
+  this.warenbestellungService.getAllWarenbestellung().subscribe((data: any) => {
+    this.warenbestellungen = data;
+  });
+  }
+
 
   onDateSelect(date: Date | null): void {
     if (date) {

@@ -15,23 +15,22 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 
-import { LoginFirstPageComponent } from './components/login-first-page/login-first-page.component';
-import { NavbarHeaderComponent } from './components/navbar-header/navbar-header.component';
-import { StaffRosterMainComponent } from './components/staff-roster-main/staff-roster-main.component';
+import { LoginFirstPageComponent } from './components/verkauf/login-first-page/login-first-page.component';
+import { NavbarHeaderComponent } from './components/verkauf/navbar-header/navbar-header.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptorService } from './interceptor/auth.interceptor.service';
 
 
 const routes : Routes = [
   {path: '', component: LoginFirstPageComponent},
-  {path: 'staff-roster-main', component: StaffRosterMainComponent}
 ];
 @NgModule({
   declarations: [
     AppComponent,
     LoginFirstPageComponent,
     NavbarHeaderComponent,
-    StaffRosterMainComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -44,8 +43,13 @@ const routes : Routes = [
     MatNativeDateModule,
     MatIconModule,
     MatTableModule,
+    HttpClientModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent,LoginFirstPageComponent,NavbarHeaderComponent, StaffRosterMainComponent]
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    multi: true,
+  }],
+  bootstrap: [AppComponent,LoginFirstPageComponent,NavbarHeaderComponent]
 })
 export class AppModule {}

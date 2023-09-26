@@ -19,6 +19,7 @@ import java.net.http.HttpResponse;
 @RestController
 @RequestMapping("auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class AuthenticationController {
 
     private final AuthenticationService service;
