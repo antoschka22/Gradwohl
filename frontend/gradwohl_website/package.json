@@ -1,5 +1,5 @@
 {
-  "name": "gradwohlv2",
+  "name": "gradwohl_website",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@angular/animations": "^15.1.0",
     "@angular/cdk": "^15.2.9",
-    "@angular/common": "^15.1.0",
+    "@angular/common": "^15.2.9",
     "@angular/compiler": "^15.1.0",
     "@angular/core": "^15.1.0",
     "@angular/forms": "^15.1.0",

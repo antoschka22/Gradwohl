@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/service/auth/auth.service';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
 
@@ -16,17 +17,20 @@ export class LoginFirstPageComponent {
   currentDate = new Date();
   selectedDate: Date | null = null;
 
-  warenbestellungen: warenbestellung | undefined;
+  warenbestellungen: warenbestellung[] = [];
 
-  constructor(private warenbestellungService: WarenbestellungService) { }
+  constructor(private warenbestellungService: WarenbestellungService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getWarenbestellungen();
   }
 
   getWarenbestellungen() {
-  this.warenbestellungService.getAllWarenbestellung().subscribe((data: any) => {
-    this.warenbestellungen = data;
+    //console.log(this.authService.getUsernameFromToken())
+
+  this.warenbestellungService.getWarenbestellungByFiliale(14).subscribe((data: any) => {
+    console.log(data)
   });
   }
 
