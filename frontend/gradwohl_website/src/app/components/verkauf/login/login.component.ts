@@ -11,8 +11,14 @@ export class LoginComponent {
   password: string = '';
   passwordHidden: boolean = true;
 
+  eyeOn: boolean= true;
+
 
   togglePasswordVisibility() {
     this.passwordHidden = !this.passwordHidden;
+  }
+
+  toggleEyeButtonOn(){
+    this.eyeOn = !this.eyeOn;
   }
 }

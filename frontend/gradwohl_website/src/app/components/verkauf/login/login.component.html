@@ -24,9 +24,11 @@
               <label for="password" class ="text-left">Passwort</label>
               <div class="input-group">
                 <input type="{{ passwordHidden ? 'password' : 'text' }}" class="form-control" id="password" [(ngModel)]="password">
-                <div class="input-group-append">
+                <div class="input-group-append"(click)="toggleEyeButtonOn()"  >
                   <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
-                    
+                    <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
+
+                    <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
                   </button>
                 </div>
               </div>
