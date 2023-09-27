@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // zusaetzliche Module
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ToastrModule } from 'ngx-toastr';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -48,6 +49,8 @@ const routes : Routes = [
     MatIconModule,
     MatTableModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(), 
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
