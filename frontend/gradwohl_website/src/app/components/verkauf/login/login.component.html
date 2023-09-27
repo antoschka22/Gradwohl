@@ -17,26 +17,42 @@
           <div class="col-md p-5 text-left">
             <label for="benutzername" class="text-left">Benutzer:in</label>
 
-            <input type="text" class="form-control" id="benutzername">
-            <br />
+            <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-control" id="benutzername">
+              <input type="text" 
+                class="form-control"
+                name="name"
+                required
+                ngModel
+                [(ngModel)] = "loginModel.name"
+                #name="ngModel">            
+                <br />
 
-            <div class="form-group">
-              <label for="password" class ="text-left">Passwort</label>
-              <div class="input-group">
-                <input type="{{ passwordHidden ? 'password' : 'text' }}" class="form-control" id="password" [(ngModel)]="password">
-                <div class="input-group-append"(click)="toggleEyeButtonOn()"  >
-                  <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
-                    <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
+              <div class="form-group">
+                <label for="password" class ="text-left">Passwort</label>
 
-                    <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
-                  </button>
+                <div class="input-group">
+                  <input id="password"
+                    type="{{ passwordHidden ? 'password' : 'text' }}"
+                    class="form-control" 
+                    name="name"
+                    required
+                    ngModel
+                    [(ngModel)] = "loginModel.password"
+                    #name="ngModel">
+                  <div class="input-group-append"(click)="toggleEyeButtonOn()"  >
+                    <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                      <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
+
+                      <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <br />
-            <input type="submit" value="Anmelden" class="btn btn-outline-dark">
-          </div>
+              <br />
+              <button type="submit" class="btn btn-outline-dark" [disabled]="f.invalid">Anmelden</button>
+            </form>
+          </div>      
 
         </div>
   </section>

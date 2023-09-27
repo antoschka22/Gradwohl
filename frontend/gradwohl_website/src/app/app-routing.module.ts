@@ -7,7 +7,7 @@ import { LoginComponent } from './components/verkauf/login/login.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent },
-  {path: 'test', component: LoginComponent },
+  {path: 'login', component: LoginComponent },
 ];
 
 @NgModule({

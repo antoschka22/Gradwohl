@@ -71,11 +71,13 @@ export class AuthService {
   }
 
   private setToken(authResponse: string, keepLogin: boolean){
-    authResponse = authResponse.replace(/['"]+/g, '')
+    const jsonObject = JSON.parse(authResponse);
+    const jwtToken = jsonObject.token;
+
     if(keepLogin){
-      localStorage.setItem('authToken', authResponse);
+      localStorage.setItem('authToken', jwtToken);
     }else{
-      sessionStorage.setItem('authToken', authResponse);
+      sessionStorage.setItem('authToken', jwtToken);
     }
   }
 
