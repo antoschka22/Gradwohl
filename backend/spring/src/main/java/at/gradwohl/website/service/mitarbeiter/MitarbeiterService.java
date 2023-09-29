@@ -1,10 +1,12 @@
 package at.gradwohl.website.service.mitarbeiter;
 
+import at.gradwohl.website.config.JwtService;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class MitarbeiterService {
     private final MitarbeiterRepository mitarbeiterRepository;
     private final DienstplanRepository dienstplanRepository;
     private final FilialeRepository filialeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Mitarbeiter getMitarbeiterById(int id) {
         Optional<Mitarbeiter> existingMitarbeiter = mitarbeiterRepository.findById(id);
@@ -36,7 +39,14 @@ public class MitarbeiterService {
         if(test.isPresent())
             throw new IllegalArgumentException("Mitarbeiter already exists");
 
-        return mitarbeiterRepository.save(mitarbeiter);
+        var mitarbeiterHash = Mitarbeiter.builder()
+                .name(mitarbeiter.getName())
+                .password(passwordEncoder.encode(mitarbeiter.getPassword()))
+                .role(mitarbeiter.getRole())
+                .filiale(mitarbeiter.getFiliale())
+                .build();
+
+        return mitarbeiterRepository.save(mitarbeiterHash);
     }
 
 
