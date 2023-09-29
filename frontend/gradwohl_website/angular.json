@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "gradwohl_website:build:production"
+              "browserTarget": "gradwohlv2:build:production"
             },
             "development": {
-              "browserTarget": "gradwohl_website:build:development"
+              "browserTarget": "gradwohlv2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "gradwohl_website:build"
+            "browserTarget": "gradwohlv2:build"
           }
         },
         "test": {

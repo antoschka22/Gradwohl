@@ -7,55 +7,99 @@
 
 </head>
 <body>
-  <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-    <section class="p-5 card text-center mx-auto" style="max-width: 500px;">
-      <div class="container">
-          <div class="col-md">
-            <img [src]="gradwohlLogo" class="mx-auto d-block logo-style">
-          </div>
+  <div *ngIf="isScreenSizeSmall; else desktopLayout">
+    <br /><br />        <br /><br />
+    <div style="justify-content: center; align-items: center;">
+      <section class="p-5 card text-center mx-auto" style="max-width: 500px;">
+        <div class="container-fluid row">
+            <div class="col-md row">
+              <img [src]="gradwohlLogo" class="mx-auto d-block logo-style" style="width: 380px;">
+            </div>
 
-          <div class="col-md p-5 text-left">
-            <label for="benutzername" class="text-left">Benutzer:in</label>
+            <div class="col-md p-5">
+              <label for="benutzername" class="text-left">Benutzer:in</label>
 
-            <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-control" id="benutzername">
-              <input type="text" 
-                class="form-control"
-                name="name"
-                required
-                ngModel
-                [(ngModel)] = "loginModel.name"
-                #name="ngModel">            
-                <br />
+              <form (ngSubmit)="onSubmit()" #f="ngForm" id="benutzername">
+                <input type="text" 
+                  class="form-control"
+                  name="name"
+                  required
+                  ngModel
+                  [(ngModel)] = "loginModel.name"
+                  #name="ngModel">            
+                  <br />
 
-              <div class="form-group">
-                <label for="password" class ="text-left">Passwort</label>
+                <div class="form-group">
+                  <label for="password" class ="text-left">Passwort</label>
 
-                <div class="input-group">
-                  <input id="password"
-                    type="{{ passwordHidden ? 'password' : 'text' }}"
-                    class="form-control" 
-                    name="name"
-                    required
-                    ngModel
-                    [(ngModel)] = "loginModel.password"
-                    #name="ngModel">
-                  <div class="input-group-append"(click)="toggleEyeButtonOn()"  >
-                    <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
-                      <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
+                  <div class="input-group">
+                    <input id="password"
+                      type="{{ passwordHidden ? 'password' : 'text' }}"
+                      class="form-control" 
+                      name="name"
+                      required
+                      ngModel
+                      [(ngModel)] = "loginModel.password"
+                      #name="ngModel">
+                    <div class="input-group-append"(click)="toggleEyeButtonOn()"  >
+                      <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                        <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
 
-                      <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
-                    </button>
+                        <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <br />
-              <button type="submit" class="btn btn-outline-dark" [disabled]="f.invalid">Anmelden</button>
-            </form>
-          </div>      
+                <br />
+                <button type="submit" class="btn btn-outline-dark" [disabled]="f.invalid">Anmelden</button>
+              </form>
+            </div>      
 
-        </div>
-  </section>
+          </div>
+    </section>
+    </div>
   </div>
+
+  <ng-template #desktopLayout>
+
+    <section class="p-2 d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+      <div class="container">
+        <!-- align-item-center justify-content-between row-->
+        <div class="row justify-content-between">
+          <!-- span col-6 text-left-->
+          <div class="col-6">
+            <img [src]="gradwohlLogo" class="img-fluid mx-auto my-5 logo-style" style="width: 500px;">
+          </div>
+    
+          <!-- col-md text-left text-center vertikaleLinie-->
+          <div class="col-1 vertikaleLinie">
+          </div>
+    
+          <!-- "col-5 text-center form-group" style="margin-top: 5vh"-->
+          <div class="col-5" style="margin-top: 5vh">
+            <label for="benutzername" class="text-left">Benutzer:in</label>
+            <input type="text" class="form-control" id="benutzername">
+            <br />
+    
+            <div class="form-group">
+              <label for="password" class="text-left">Passwort</label>
+              <div class="input-group">
+                <input type="{{ passwordHidden ? 'password' : 'text' }}" class="form-control" id="password" [(ngModel)]="password">
+                <div class="input-group-append"(click)="toggleEyeButtonOn()">
+                  <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                    <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
+                    <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
+                  </button>
+                </div>
+              </div>
+              <br />
+              <button type="submit" class="btn btn-style" style="background-color: #8C5263;color:white">Anmelden</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </ng-template>
 </body>
 </html>

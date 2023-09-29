@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
@@ -20,10 +21,13 @@ export class LoginFirstPageComponent {
   warenbestellungen: warenbestellung[] = [];
 
   constructor(private warenbestellungService: WarenbestellungService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getWarenbestellungen();
+    this.toastr.success('Hello world!', 'Toastr fun!');
+
   }
 
   getWarenbestellungen() {

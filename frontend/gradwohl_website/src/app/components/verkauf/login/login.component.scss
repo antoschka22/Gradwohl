@@ -2,14 +2,45 @@
     width: 380px;
   }
   
-  /* Button?
-  .btn-style {
-    background-color: #8C5263;
-    color: white;
-  }
-  */
-  
   .text-left {
     float: left;
   }
+
+  body{
+    margin: 80px;
+  }
+
+  .vertikaleLinie{
+    border-left: 1px solid #6E6E6E;
+    height: 730px;
+    margin-top: -200px;
+  }
+  
+  
+  body{
+    margin-top: 100px;
+    overflow: hidden;
+    margin-bottom: 0px;
+    
+  }
+  
+  // 1205
+  @media (max-width: 1205px) {
+    .logo-style {
+      width: 30vw;
+    }
+  }
+
+  @media (max-width: 885px) {
+    body{
+      margin: 0px;
+    }
+    .vertikaleLinie{
+      height: 500px;
+      margin-top: -100px;
+    }
+
+  }
+
+  
   
