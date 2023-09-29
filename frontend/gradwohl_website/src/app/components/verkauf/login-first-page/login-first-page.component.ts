@@ -22,11 +22,12 @@ export class LoginFirstPageComponent {
 
   constructor(private warenbestellungService: WarenbestellungService,
               private authService: AuthService,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService) {}
+
 
   ngOnInit(): void {
     this.getWarenbestellungen();
-    this.toastr.success('Hello world!', 'Toastr fun!');
+    this.toastr.success('Willkommen, ' + this.authService.getUsernameFromToken() + "!");
 
   }
 

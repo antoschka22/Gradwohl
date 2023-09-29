@@ -7,7 +7,7 @@
 
 </head>
 <body>
-  <div *ngIf="isScreenSizeSmall; else desktopLayout">
+  <div *ngIf="isScreenSizeSmall">
     <br /><br />        <br /><br />
     <div style="justify-content: center; align-items: center;">
       <section class="p-5 card text-center mx-auto" style="max-width: 500px;">
@@ -61,8 +61,7 @@
     </div>
   </div>
 
-  <ng-template #desktopLayout>
-
+  <div *ngIf="!isScreenSizeSmall">
     <section class="p-2 d-flex justify-content-center align-items-center" style="min-height: 100vh;">
       <div class="container">
         <!-- align-item-center justify-content-between row-->
@@ -77,29 +76,49 @@
           </div>
     
           <!-- "col-5 text-center form-group" style="margin-top: 5vh"-->
+          
           <div class="col-5" style="margin-top: 5vh">
             <label for="benutzername" class="text-left">Benutzer:in</label>
-            <input type="text" class="form-control" id="benutzername">
-            <br />
-    
-            <div class="form-group">
-              <label for="password" class="text-left">Passwort</label>
-              <div class="input-group">
-                <input type="{{ passwordHidden ? 'password' : 'text' }}" class="form-control" id="password" [(ngModel)]="password">
-                <div class="input-group-append"(click)="toggleEyeButtonOn()">
-                  <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
-                    <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
-                    <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
-                  </button>
+            <form (ngSubmit)="onSubmit()" #f="ngForm" id="benutzername">
+                <input class="form-control"
+                      name="name"
+                      required
+                      ngModel
+                      [(ngModel)] = "loginModel.name"
+                      #name="ngModel"
+                      [ngModelOptions]="{standalone: true}"> 
+                
+                <br />
+        
+                <div class="form-group">
+                  <label for="password" class="text-left">Passwort</label>
+                  <div class="input-group">
+                    <input id="password"
+                      type="{{ passwordHidden ? 'password' : 'text' }}"
+                      class="form-control" 
+                      name="name"
+                      required
+                      ngModel
+                      [(ngModel)] = "loginModel.password"
+                      #name="ngModel"
+                      [ngModelOptions]="{standalone: true}">
+
+                    <div class="input-group-append"(click)="toggleEyeButtonOn()">
+                      <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                        <i class="bi bi-eye-fill" *ngIf="eyeOn"></i>
+                        <i class="bi bi-eye-slash-fill" *ngIf="!eyeOn"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <br />
+                  
+                  <button type="submit" class="btn btn-style" style="background-color: #8C5263;color:white" [disabled]="f.invalid">Anmelden</button>
                 </div>
-              </div>
-              <br />
-              <button type="submit" class="btn btn-style" style="background-color: #8C5263;color:white">Anmelden</button>
-            </div>
+          </form>
           </div>
         </div>
       </div>
     </section>
-  </ng-template>
+  </div>
 </body>
 </html>

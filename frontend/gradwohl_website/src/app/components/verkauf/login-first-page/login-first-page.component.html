@@ -37,7 +37,7 @@
           <div class="col-lg-2 mb-lg-0 mb-3">
             <p style="font-size: 14px">Bestellungen einsehen vom...</p>
 
-            <div class="calendar-container">
+            <div class="calendar-container row">
               <mat-calendar
                 [(selected)]="selectedDate"
                 [startAt]="currentDate"
@@ -58,8 +58,9 @@
               </div>
             </div>
           </div>
+          
 
-          <div class="col-lg-7 mb-lg-0 mb-3" style="background-color: lightyellow;">
+          <div class="col-lg-7 mb-lg-0 mb-3">
             <div *ngFor="let warenbestellung of warenbestellungen">
               {{warenbestellung.id.datum}}
           </div>
@@ -72,16 +73,13 @@
               <h1 style="color:rgb(128,128,128);">Übersicht</h1>
               <ul class="menu">
                 <li (click)="toggleKundenbestellungDropdown()">
-                  <a href="#">
 
-                    <svg *ngIf="dropdownUp" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-                    </svg>
+                  <p style="color:rgb(128,128,128);">
+                    <i *ngIf="dropdownUp" class="bi bi-chevron-down"></i>
 
-                    <svg *ngIf="!dropdownUp" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
-                    </svg>
-                    Kundenbestellungen</a>
+                    <i *ngIf="!dropdownUp"class="bi bi-chevron-right"></i>
+
+                    Kundenbestellungen</p>
                   <ul *ngIf="isKundenbestellungDropdown" class="home-dropdown-menu">
                     <li><a href="#">
                                     <u>Gesamtübersicht</u>

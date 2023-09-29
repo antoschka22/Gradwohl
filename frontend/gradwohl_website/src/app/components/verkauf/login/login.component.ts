@@ -1,4 +1,5 @@
 import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { authRequest } from 'src/model/auth/AuthRequest';
@@ -30,9 +31,12 @@ export class LoginComponent {
   @ViewChild('f') form:any
 
 
+
   loginModel: loginModel = new loginModel("", "")
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService,
+              private toastr: ToastrService,
+              private router: Router){}
 
   ngOnInit() {
     this.checkScreenSize();
@@ -45,7 +49,7 @@ export class LoginComponent {
   }
 
   private checkScreenSize(): void {
-    this.isScreenSizeSmall = window.innerWidth < 769;
+    this.isScreenSizeSmall = window.innerWidth < 765;
   }
 
   // Password
@@ -63,5 +67,8 @@ export class LoginComponent {
     this.authService.loginUser(this.loginModel, true).subscribe((data: string) =>{
       console.log(data)
     })
+    
   }
+
+
 }
