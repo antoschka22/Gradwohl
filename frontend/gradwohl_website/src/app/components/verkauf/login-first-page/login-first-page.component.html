@@ -3,8 +3,8 @@
   <br /> <br /> <br />
   <section class="p-1 text-dark pt-5 mg-auto">
     <div class="container" style="padding-left: 40px; padding-right: 40px;">
-      <div class="row">
-        <div class="col-md mb-1">
+      <div class="row justify-content-center"> <!-- Hier hinzugefügt: justify-content-center -->
+        <div class="col-md mb-2">
           <div class="card boxOnTop">
             <div class="card-body d-flex align-items-center">
               <img src="assets/img/LandingPage/BrotVektor.png" class="img-fluid mr-4" style="margin-right: 10px;">
@@ -13,7 +13,7 @@
             </div>
           </div>
         </div>
-
+  
         <div class="col-md mb-1">
           <div class="card boxOnTop">
             <div class="card-body d-flex align-items-center">
@@ -27,10 +27,11 @@
         </div>
       </div>
     </div>
+  
 
 
     <div class="container" style="padding-left: 1px; padding-right: 1px;">
-      <div class="container">
+      <div class="container-fluid">
         <u><p style="margin-right: 20px;">Übersicht der Warenbestellungen, der Filiale - <span style="font-style: italic;">XY</span></p></u>
         <br />
         <div class="row d-flex flex-lg-row flex-column">
@@ -60,16 +61,44 @@
           </div>
           
 
-          <div class="col-lg-7 mb-lg-0 mb-3">
-            <div *ngFor="let warenbestellung of warenbestellungen">
-              {{warenbestellung.id.datum}}
+
+          <div class="col-lg-8 mb-lg-0">
+
+            <div class="container-fluid">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td class="tableUeberschrift">Datum</td>
+                    <td class="tableUeberschrift">Status</td>
+                    <td class="tableUeberschrift"></td>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let group of groupbyDateWarenbestellung | keyvalue">
+                    <td class="align-middle">
+                        {{ getFormattedDate(group.key) }}
+                      <!-- *ngFor="let warenbestellung of group.value" -->
+                      <!-- <p>Produkt: {{ warenbestellung.produkt.name }}</p> -->
+                      <!-- <p>Filiale: {{ warenbestellung.filiale.name }}</p> -->
+                    </td>
+                    <td class="align-middle">
+                      abgesendet
+                    </td>
+                    <td class="align-middle">
+                      <button type="submit" class="btn-style-middle">open</button>
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
           </div>
 
 
-          </div>
-
-          <div class="col-lg-2">
-            <div class="sidebar container naviOnRightSide">
+          <div class="col-lg-2 mb-lg-0 mb-3">
+            <div class="sidebar container-fluid naviOnRightSide">
               <h1 style="color:rgb(128,128,128);">Übersicht</h1>
               <ul class="menu">
                 <li (click)="toggleKundenbestellungDropdown()">
