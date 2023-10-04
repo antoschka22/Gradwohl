@@ -1,0 +1,54 @@
+<app-navbar-header></app-navbar-header>
+<body>
+  <br /> <br /> <br /><br /> <br />
+  <div class="custom-dropdown">
+    <div class="dropdown">
+        <button class="dropbtn" (click)="toggleDropdown()">{{ currentYear }}</button>
+        <div class="dropdown-content" *ngIf="isDropdownOpen">
+          <a *ngFor="let jahr of jahre" (click)="selectYear(jahr)" [ngClass]="{ 'selected': jahr === currentYear }">{{ jahr }}</a>
+        </div>
+      </div>
+    <div class="dropdown-arrow">
+      <i *ngIf="!isDropdownOpen" class="bi bi-chevron-compact-down"></i>
+      <i *ngIf="isDropdownOpen" class="bi bi-chevron-compact-up"></i>
+    </div>
+  </div>
+  <hr>
+
+  <div class="horizontal-monate">
+    <ng-container *ngFor="let monat of monate">
+      <div class="monat">{{ monat }}</div>
+    </ng-container>
+  </div>
+  
+  <div class="leerMonat" *ngIf="!monatIsSet" (click)="createDienstplan()">
+    <i class="bi bi-plus-circle"></i>
+  </div>
+  
+
+  <div class="dienstplan" *ngIf="monatIsSet">
+    <table class="custom-table">
+      <tr>
+        <td colspan="2"></td>
+        <td colspan="2">User</td>
+        <td colspan="2"><i class="bi bi-plus-circle"></i></td>
+      </tr>
+      <tr>
+        <td colspan="2"><p>Tag</p></td>
+        <td><p>von-bis</p></td>
+        <td><p>Stunden</p></td>
+        <td><p>von-bis</p></td>
+        <td><p>Stunden</p></td>
+      </tr><tr *ngFor="let tag of tagDesMonats()">
+        <td>{{ tag.tagNummer }}</td>
+        <td>{{ tag.wochentag }}</td>
+        <td *ngIf="tag.wochentag == 'So'">-</td>
+        <td *ngIf="tag.wochentag != 'So'"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    
+  </div>
+</body>

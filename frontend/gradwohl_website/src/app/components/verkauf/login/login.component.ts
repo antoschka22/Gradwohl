@@ -1,6 +1,7 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { catchError, throwError } from 'rxjs';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { authRequest } from 'src/model/auth/AuthRequest';
 
@@ -27,10 +28,7 @@ export class LoginComponent {
   passwordHidden: boolean = true;
   eyeOn: boolean= true;
 
-
   @ViewChild('f') form:any
-
-
 
   loginModel: loginModel = new loginModel("", "")
 
@@ -64,8 +62,24 @@ export class LoginComponent {
 
   //Anmelde Button
   onSubmit(){
-    this.authService.loginUser(this.loginModel, true).subscribe((data: string) =>{
-      console.log(data)
+    this.authService.loginUser(this.loginModel, true)
+    .pipe(
+      catchError((error) => {
+        if (error.status === 403) {
+          this.toastr.error('Zugriff verweigert. Username or password incorrect.', 'Login Error', {
+            timeOut: 3000,
+          });
+        }
+        return throwError(error);
+      })
+    ).subscribe((data: string) =>{
+      if(!data){
+        this.toastr.error("Username oder Passwort falsch", 'Login error', {
+          timeOut: 3000,
+        });
+      }
+
+      this.router.navigate(['/'])
     })
     
   }

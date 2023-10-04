@@ -265,7 +265,7 @@ public class initApplication {
                             .role(zentrale)
                             .name("Nicole")
                             .password(passwordEncoder.encode("admin"))
-                            .filiale(null)
+                            .filiale(weppersdorf)
                             .build();
             List<Mitarbeiter> mitarbeiter = Arrays.asList(
               barbara, szimone, nicole, christa
@@ -5835,21 +5835,21 @@ public class initApplication {
                             .mitarbeiter(szimone)
                             .filiale(hietzing)
                             .von(LocalTime.of(5, 30))
-                            .datum(LocalDate.of(2023, 9, 11))
+                            .datum(LocalDate.of(2023, 8, 1))
                             .build();
 
             Dienstplan dienstplan1 =
                     Dienstplan.builder()
                             .id(dienstplanId1)
-                            .bis(LocalTime.of(12,0))
+                            .bis(LocalTime.of(11,0))
                             .build();
 
             DienstplanId dienstplanId2 =
                     DienstplanId.builder()
                             .mitarbeiter(barbara)
                             .filiale(hietzing)
-                            .von(LocalTime.of(12, 0))
-                            .datum(LocalDate.of(2023, 9, 11))
+                            .von(LocalTime.of(11, 0))
+                            .datum(LocalDate.of(2023, 8, 1))
                             .build();
 
             Dienstplan dienstplan2 =
@@ -5863,17 +5863,158 @@ public class initApplication {
                             .mitarbeiter(szimone)
                             .filiale(hietzing)
                             .von(LocalTime.of(5, 30))
-                            .datum(LocalDate.of(2023, 10, 11))
+                            .datum(LocalDate.of(2023, 8, 2))
                             .build();
 
             Dienstplan dienstplan3 =
                     Dienstplan.builder()
                             .id(dienstplanId3)
+                            .bis(LocalTime.of(11,0))
+                            .build();
+
+            DienstplanId dienstplanId4 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(11, 0))
+                            .datum(LocalDate.of(2023, 8, 2))
+                            .build();
+
+            Dienstplan dienstplan4 =
+                    Dienstplan.builder()
+                            .id(dienstplanId4)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
+            DienstplanId dienstplanId5 =
+                    DienstplanId.builder()
+                            .mitarbeiter(szimone)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 8, 3))
+                            .build();
+
+            Dienstplan dienstplan5 =
+                    Dienstplan.builder()
+                            .id(dienstplanId5)
+                            .bis(LocalTime.of(11,0))
+                            .build();
+
+            DienstplanId dienstplanId6 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(11, 0))
+                            .datum(LocalDate.of(2023, 8, 3))
+                            .build();
+
+            Dienstplan dienstplan6 =
+                    Dienstplan.builder()
+                            .id(dienstplanId6)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
+            DienstplanId dienstplanId7 =
+                    DienstplanId.builder()
+                            .mitarbeiter(szimone)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 8, 4))
+                            .build();
+
+            Dienstplan dienstplan7 =
+                    Dienstplan.builder()
+                            .id(dienstplanId7)
+                            .bis(LocalTime.of(11,0))
+                            .build();
+
+            DienstplanId dienstplanId8 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(11, 0))
+                            .datum(LocalDate.of(2023, 8, 4))
+                            .build();
+
+            Dienstplan dienstplan8 =
+                    Dienstplan.builder()
+                            .id(dienstplanId8)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
+            DienstplanId dienstplanId9 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 8, 5))
+                            .build();
+
+            Dienstplan dienstplan9 =
+                    Dienstplan.builder()
+                            .id(dienstplanId9)
+                            .bis(LocalTime.of(13,0))
+                            .build();
+
+            DienstplanId dienstplanId10 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 8, 7))
+                            .build();
+
+            Dienstplan dienstplan10 =
+                    Dienstplan.builder()
+                            .id(dienstplanId10)
+                            .bis(LocalTime.of(13,0))
+                            .build();
+
+            DienstplanId dienstplanId11 =
+                    DienstplanId.builder()
+                            .mitarbeiter(szimone)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(13, 0))
+                            .datum(LocalDate.of(2023, 8, 7))
+                            .build();
+
+            Dienstplan dienstplan11 =
+                    Dienstplan.builder()
+                            .id(dienstplanId11)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
+            DienstplanId dienstplanId12 =
+                    DienstplanId.builder()
+                            .mitarbeiter(szimone)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2022, 12, 24))
+                            .build();
+
+            Dienstplan dienstplan12 =
+                    Dienstplan.builder()
+                            .id(dienstplanId12)
+                            .bis(LocalTime.of(13,0))
+                            .build();
+
+            DienstplanId dienstplanId13 =
+                    DienstplanId.builder()
+                            .mitarbeiter(szimone)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 10, 7))
+                            .build();
+
+            Dienstplan dienstplan13 =
+                    Dienstplan.builder()
+                            .id(dienstplanId13)
                             .bis(LocalTime.of(13,0))
                             .build();
 
             List<Dienstplan> dienstplans = Arrays.asList(
-                    dienstplan1, dienstplan2, dienstplan3
+                    dienstplan1, dienstplan2, dienstplan3, dienstplan4, dienstplan5, dienstplan6, dienstplan7,
+                    dienstplan8, dienstplan9, dienstplan10, dienstplan11, dienstplan12, dienstplan13
             );
 
             dienstplanRepo.saveAll(dienstplans);

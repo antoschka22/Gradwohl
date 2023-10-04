@@ -22,6 +22,10 @@ export class MitabeiterService {
     return this.http.get(this.baseUri + '/mitarbeiter/'+id)
   }
 
+  getMitarbeiterByName(name: String){
+    return this.http.get(this.baseUri + '/mitarbeiter/name/'+name)
+  }
+
   deleteMitarbeiterById(id: number){
     return this.http.delete(this.baseUri + '/mitarbeiter/'+id)
   }

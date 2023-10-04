@@ -42,6 +42,17 @@ public class MitarbeiterController {
         return new ResponseEntity<>(mitarbeiterService.getMitarbeiterById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Mitarbeiter> getMitarbeiterByName(
+            HttpServletRequest request,
+            @PathVariable("name") String name) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(mitarbeiterService.getMitarbeiterByName(name), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Mitarbeiter> addMitarbeiter(
             @RequestBody Mitarbeiter mitarbeiter,

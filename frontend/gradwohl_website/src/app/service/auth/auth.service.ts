@@ -52,10 +52,14 @@ export class AuthService {
     let token = this.getToken();
     if(token != null){
       const decoded: any = jwt_decode(token);
-      const authInfo: string[] = decoded.role;
-      // console.log(authInfo);
-      if(authInfo.includes('ADMIN')){
-        return 'ADMIN'
+      const authInfo: string[] = decoded.Role['role'];
+      //console.log(authInfo);
+      if(authInfo.includes('Zentrale')){
+        return 'Zentrale'
+      } else if(authInfo.includes('Verkauf')){
+        return 'Verkauf'
+      } else if(authInfo.includes('Leiter')){
+        return 'Leiter'
       }
     }
     return 'UNDEFINED'

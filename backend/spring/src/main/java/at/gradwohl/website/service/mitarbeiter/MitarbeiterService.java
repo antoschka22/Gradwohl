@@ -29,6 +29,14 @@ public class MitarbeiterService {
         return existingMitarbeiter.get();
     }
 
+    public Mitarbeiter getMitarbeiterByName(String name) {
+        Optional<Mitarbeiter> existingMitarbeiter = mitarbeiterRepository.findByName(name);
+        if(!existingMitarbeiter.isPresent())
+            throw new IllegalArgumentException("Mitarbeiter existiert nicht");
+
+        return existingMitarbeiter.get();
+    }
+
     public List<Mitarbeiter> getAllMitarbeiter(){
         return mitarbeiterRepository.findAll();
     }

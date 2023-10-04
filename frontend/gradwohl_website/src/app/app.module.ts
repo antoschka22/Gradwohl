@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './interceptor/auth.interceptor.service';
 import { LoginComponent } from './components/verkauf/login/login.component';
+import { DienstplanComponent } from './components/zentrale/dienstplan/dienstplan.component';
 
 
 const routes : Routes = [
@@ -36,6 +37,7 @@ const routes : Routes = [
     LoginFirstPageComponent,
     NavbarHeaderComponent,
     LoginComponent,
+    DienstplanComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
