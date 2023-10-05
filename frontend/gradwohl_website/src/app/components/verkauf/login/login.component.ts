@@ -80,6 +80,7 @@ export class LoginComponent {
       }
 
       this.router.navigate(['/'])
+      this.toastr.success('Willkommen, ' + this.authService.getUsernameFromToken() + "!");
     })
     
   }

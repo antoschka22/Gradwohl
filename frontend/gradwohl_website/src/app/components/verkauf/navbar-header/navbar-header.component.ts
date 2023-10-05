@@ -10,12 +10,12 @@ export class NavbarHeaderComponent {
   isMobile: boolean;
 
   constructor() {
-    this.isMobile = window.innerWidth <= 992; // Setze den Anfangswert basierend auf der Bildschirmbreite
+    this.isMobile = window.innerWidth <= 1199;
   }
 
-  // Listener für Änderungen der Bildschirmbreite
+  //Änderungen der Bildschirmbreite
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-    this.isMobile = window.innerWidth <= 992;
+    this.isMobile = window.innerWidth <= 1199;
   }
 }

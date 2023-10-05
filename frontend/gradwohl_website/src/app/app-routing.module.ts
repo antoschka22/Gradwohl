@@ -7,12 +7,15 @@ import { LoginComponent } from './components/verkauf/login/login.component';
 import { MasterGuardService } from './guards/master-guard.service';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { DienstplanComponent } from './components/zentrale/dienstplan/dienstplan.component';
+import { BestelluebersichtComponent } from './components/verkauf/bestelluebersicht/bestelluebersicht.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'login', component: LoginComponent },
   {path: 'dienstplan', component: DienstplanComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
+  {path: 'bestelluebersichtAbgeschickt/:date', component: BestelluebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
 ];
 

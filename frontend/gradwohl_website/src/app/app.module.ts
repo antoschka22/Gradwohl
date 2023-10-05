@@ -16,6 +16,7 @@ import {MatTableModule} from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
+import { MatSelectModule } from '@angular/material/select';
 
 
 import { LoginFirstPageComponent } from './components/verkauf/login-first-page/login-first-page.component';
@@ -26,6 +27,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './interceptor/auth.interceptor.service';
 import { LoginComponent } from './components/verkauf/login/login.component';
 import { DienstplanComponent } from './components/zentrale/dienstplan/dienstplan.component';
+import { BestelluebersichtComponent } from './components/verkauf/bestelluebersicht/bestelluebersicht.component';
 
 
 const routes : Routes = [
@@ -38,6 +40,7 @@ const routes : Routes = [
     NavbarHeaderComponent,
     LoginComponent,
     DienstplanComponent,
+    BestelluebersichtComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -52,13 +55,14 @@ const routes : Routes = [
     MatTableModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(), 
+    ToastrModule.forRoot(),
+    MatSelectModule, 
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
     multi: true,
   }],
-  bootstrap: [AppComponent,LoginFirstPageComponent,NavbarHeaderComponent]
+  bootstrap: [AppComponent,LoginFirstPageComponent,NavbarHeaderComponent, BestelluebersichtComponent]
 })
 export class AppModule {}

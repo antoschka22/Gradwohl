@@ -1,8 +1,9 @@
 <nav class="header navbar navbar-expand-lg navbar-light bg-light py-1 fixed-top">
   <div class="container">
     <!-- Logo -->
-    <input type="image" class="logo navbar-brand" [src]="gradwohlLogo">
-
+    <a href="/">
+      <input type="image" class="logo navbar-brand" [src]="gradwohlLogo">
+    </a>
     <!-- Mobile-Toggle-Button mit größerem Abstand zum rechten Rand -->
     <button class="navbar-toggler mr-4" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu"
       aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,21 +14,28 @@
     <!-- Handy-Ansicht: -->
     <div class="collapse navbar-collapse d-lg-none" id="navmenu">
         <ul class="navbar-nav ms-auto">
-          <!-- Hier Handy-Inhalte hinzufügen -->
           <li class="nav-item" *ngIf="isMobile">
-            <a href="#" class="nav-link">Antonio Molina Gradischnig</a>
+            <a href="#" class="nav-link">Kundenbestellungen</a>
+            <ul class="dropdown-menu">
+              <li class="nav-item">
+                <a href="#" class="nav-link">Gesamtübersicht</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">Neu Aufnehmen</a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item" *ngIf="isMobile">
             <a href="#" class="nav-link">Nachrichten</a>
           </li>
           <li class="nav-item" *ngIf="isMobile">
-            <a href="#" class="nav-link">Einstellungen</a>
+            <a href="#" class="nav-link">Dienstplan</a>
           </li>
           <li class="nav-item" *ngIf="isMobile">
             <a href="#" class="nav-link">Logout</a>
           </li>
         </ul>
-      </div>
+    </div>
 
     <!-- Webansicht: -->
     <div class="collapse navbar-collapse d-none d-lg-flex justify-content-end" id="navmenu">

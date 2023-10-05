@@ -18,9 +18,9 @@
 }
 
 /* Wenn der Bildschirm größer oder gleich 769px ist */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .text-inBox {
-    font-size: 25px;
+    font-size: 22px;
   }
 
   .img-fluid {
@@ -137,8 +137,32 @@
   width: 120px;
 }
 
+@media (max-width: 991px) {
+
+  .calendar {
+    width: 50%;
+    margin-left: 25%;
+  }
 
 
+  .FilialInfoAnmeldungText{
+    text-align: center;
+  }
 
+}
 
+@media (max-width: 535px) {
 
+  .calendar {
+    margin-left: 0%;
+    width: 100%;
+  }
+
+}
+@media (max-width: 1399px) {
+
+  .dropdownBestellung {
+    margin-left: -10px;
+  }
+
+}

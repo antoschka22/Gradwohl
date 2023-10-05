@@ -1,0 +1,34 @@
+<app-navbar-header></app-navbar-header>
+<body>
+    <br /> <br /> <br /><br />
+    <section class="p-1 text-dark pt-5 mg-auto">
+        <div class="container-fluid">
+            <u>Bestellung vom <span style="font-weight: bold;">{{ date }}</span></u>
+            <br /><br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td scope="col" style="background-color: rgb(172, 171, 171);">Kategorie:</td>
+                        <td style="background-color: rgb(172, 171, 171);"></td>
+                        <td style="background-color: rgb(172, 171, 171);"></td>
+                        <td style="background-color: rgb(172, 171, 171);"></td>
+                    </tr>
+                </thead>
+
+                <thead>
+                    <tr>
+                        <td scope="col" class="zwischenTableUeberschrift">Produkt</td>
+                        <td scope="col" class="zwischenTableUeberschrift">Frisch</td>
+                        <td scope="col" class="zwischenTableUeberschrift">Teigig</td>
+                        <td scope="col" class="zwischenTableUeberschrift">Gesamt</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let warenbestellung of warenbestellungen">
+                        <td>{{ warenbestellung.produkt.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>            
+    </section>
+</body>

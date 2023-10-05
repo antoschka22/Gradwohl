@@ -1,16 +1,15 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, HostListener} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
 
+import { Router, ActivatedRoute } from '@angular/router';
 
 // Tabellen:
 import { filiale } from 'src/model/filiale/filiale';
 import { produkt } from 'src/model/produkt/produkt';
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
 
-
-// Definieren Sie das warenbestellungID-Interface mit den erforderlichen Eigenschaften
 interface warenbestellungID {
   datum: Date;
   produkt: produkt;
@@ -49,6 +48,8 @@ function groupDates(warenbestellungen: warenbestellung[]): { [datum: string]: wa
 
 export class LoginFirstPageComponent implements OnInit {
 
+  isMobile: boolean;
+
   isKundenbestellungDropdown: boolean = false;
   dropdownUp: boolean = true;
 
@@ -61,16 +62,25 @@ export class LoginFirstPageComponent implements OnInit {
 
   groupbyDateWarenbestellung: { [datum: string]: warenbestellungID[] } = {};
 
-
   constructor(
     private warenbestellungService: WarenbestellungService,
     private authService: AuthService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private router: Router, private route: ActivatedRoute,
+   
+  ) { this.isMobile = window.innerWidth <= 1199}
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.isMobile = window.innerWidth <= 1199;
+  }
 
   ngOnInit(): void {
-    this.toastr.success('Willkommen, ' + this.authService.getUsernameFromToken() + "!");
+    
     this.getWarenbestellungen();
+    this.route.paramMap.subscribe(params => {
+      const date = params.get('date');
+    });
   }
 
   getFormattedDate(dateStr: string): string {
@@ -80,9 +90,6 @@ export class LoginFirstPageComponent implements OnInit {
     return date.toLocaleDateString('de-DE', options);
 
   }
-  
-  
-  
 
   getWarenbestellungen() {
     this.warenbestellungService.getWarenbestellungByFiliale(14).subscribe((data: any) => {
@@ -96,14 +103,13 @@ export class LoginFirstPageComponent implements OnInit {
   }
   
 
-  onDateSelect(date: Date | null): void {
-    if (date) {
-      this.selectedDate = date;
-    }
+  onDateSelect(event: Date) {
+    this.selectedDate = event;
   }
 
   toggleKundenbestellungDropdown() {
     this.isKundenbestellungDropdown = !this.isKundenbestellungDropdown;
     this.dropdownUp = !this.dropdownUp;
   }
+
 }
