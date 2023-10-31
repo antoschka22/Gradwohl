@@ -28,6 +28,8 @@ import { AuthInterceptorService } from './interceptor/auth.interceptor.service';
 import { LoginComponent } from './components/verkauf/login/login.component';
 import { DienstplanComponent } from './components/zentrale/dienstplan/dienstplan.component';
 import { BestelluebersichtComponent } from './components/verkauf/bestelluebersicht/bestelluebersicht.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { DienstplanModelsComponent } from './components/zentrale/dienstplan-models/dienstplan-models.component';
 
 
 const routes : Routes = [
@@ -41,6 +43,7 @@ const routes : Routes = [
     LoginComponent,
     DienstplanComponent,
     BestelluebersichtComponent,
+    DienstplanModelsComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -57,6 +60,7 @@ const routes : Routes = [
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MatSelectModule, 
+    MDBBootstrapModule.forRoot(),
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

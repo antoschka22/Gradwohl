@@ -1,6 +1,7 @@
 package at.gradwohl.website.service.mitarbeiter;
 
 import at.gradwohl.website.config.JwtService;
+import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
@@ -39,6 +40,12 @@ public class MitarbeiterService {
 
     public List<Mitarbeiter> getAllMitarbeiter(){
         return mitarbeiterRepository.findAll();
+    }
+
+    public List<Mitarbeiter> getAllMitarbeiterOfFilialeWithSpringer(Filiale filiale){
+        List<Mitarbeiter> mitarbeiters = mitarbeiterRepository.findByFiliale(filiale);
+        mitarbeiters.addAll(mitarbeiterRepository.findBySpringer(true));
+        return mitarbeiters;
     }
 
     public Mitarbeiter addMitarbeiter(Mitarbeiter mitarbeiter) {

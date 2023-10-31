@@ -35,6 +35,9 @@ public class Mitarbeiter implements UserDetails {
     @Column(name = "M_Passwort")
     private String password;
 
+    @Column(name= "M_Springer")
+    private boolean springer;
+
     @ManyToOne
     @JoinColumn(name = "M_Role", referencedColumnName = "MR_Role")
     private MitarbeiterRole role;

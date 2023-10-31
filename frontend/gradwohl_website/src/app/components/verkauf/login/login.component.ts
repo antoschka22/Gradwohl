@@ -65,7 +65,7 @@ export class LoginComponent {
     this.authService.loginUser(this.loginModel, true)
     .pipe(
       catchError((error) => {
-        if (error.status === 403) {
+        if (error.status === 403 || error.status == 401) {
           this.toastr.error('Zugriff verweigert. Username or password incorrect.', 'Login Error', {
             timeOut: 3000,
           });

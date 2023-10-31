@@ -8,12 +8,8 @@ import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
 import at.gradwohl.website.model.kundenbestellung.KundenbestellungId;
 import at.gradwohl.website.model.lieferbar.Lieferbar;
 import at.gradwohl.website.model.lieferbar.LieferbarId;
-import at.gradwohl.website.model.lieferbar.Wochentag;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
-import at.gradwohl.website.model.nachricht.Nachricht;
-import at.gradwohl.website.model.nachrichtSenden.NachrichtSenden;
-import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;
 import at.gradwohl.website.model.produkt.Mehl;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
@@ -40,7 +36,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @SpringBootTest
 class WebsiteApplicationTests {
@@ -323,8 +318,8 @@ class WebsiteApplicationTests {
 		Lieferbar lieferbar =
 				Lieferbar.builder()
 						.id(lieferbarId)
-						.von(Wochentag.Montag)
-						.bis(Wochentag.Dienstag)
+						.montag(true)
+						.dienstag(true)
 						.build();
 
 		lieferbarRepository.save(lieferbar);
