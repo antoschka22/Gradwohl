@@ -1,15 +1,15 @@
 package at.gradwohl.website.service;
 
-import at.gradwohl.website.config.JwtService;
 import at.gradwohl.website.model.dienstplan.Dienstplan;
 import at.gradwohl.website.model.dienstplan.DienstplanId;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
+import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaub;
+import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaubId;
 import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
 import at.gradwohl.website.model.kundenbestellung.KundenbestellungId;
 import at.gradwohl.website.model.lieferbar.Lieferbar;
 import at.gradwohl.website.model.lieferbar.LieferbarId;
-import at.gradwohl.website.model.lieferbar.Wochentag;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
 import at.gradwohl.website.model.nachricht.Nachricht;
@@ -18,6 +18,7 @@ import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;
 import at.gradwohl.website.model.produkt.Mehl;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
+import at.gradwohl.website.model.urlaubstage.Urlaubstage;
 import at.gradwohl.website.model.vorlage.Vorlage;
 import at.gradwohl.website.model.vorlage.VorlageId;
 import at.gradwohl.website.model.warenbestellung.Warenbestellung;
@@ -25,6 +26,7 @@ import at.gradwohl.website.model.warenbestellung.WarenbestellungId;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.firma.FirmaRepository;
+import at.gradwohl.website.repository.firmenUrlaub.FirmenUrlaubRepository;
 import at.gradwohl.website.repository.kundenbestellung.KundenbestellungRepository;
 import at.gradwohl.website.repository.lieferbar.LieferbarRepository;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
@@ -33,9 +35,9 @@ import at.gradwohl.website.repository.nachrichtsenden.NachrichtSendenRepository;
 import at.gradwohl.website.repository.produkt.ProduktRepository;
 import at.gradwohl.website.repository.produktgruppe.ProduktgruppeRepository;
 import at.gradwohl.website.repository.role.RoleRepository;
+import at.gradwohl.website.repository.urlaubstage.UrlaubgstageRepository;
 import at.gradwohl.website.repository.vorlage.VorlageRepository;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
-import at.gradwohl.website.service.filiale.FilialeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -67,7 +69,8 @@ public class initApplication {
                                         LieferbarRepository lieferbarRepository,
                                         NachrichtRepository nachrichtRepository,
                                         NachrichtSendenRepository nachrichtSendenRepository,
-                                        FilialeService filialeService) {
+                                        UrlaubgstageRepository urlaubgstageRepository,
+                                        FirmenUrlaubRepository firmenUrlaubRepository) {
         return args -> {
             Firma wien =
                     Firma.builder()
@@ -129,6 +132,7 @@ public class initApplication {
                     Filiale.builder()
                             .name("Hietzing")
                             .firma(wien)
+                            //.SOoffen(true)
                             .build();
 
             Filiale doebling =
@@ -170,18 +174,21 @@ public class initApplication {
             Filiale deutschkreutz =
                     Filiale.builder()
                             .name("Deutschkreutz")
+                            .SOoffen(true)
                             .firma(burgenland)
                             .build();
 
             Filiale weppersdorf =
                     Filiale.builder()
                             .name("Weppersdorf")
+                            .SOoffen(true)
                             .firma(burgenland)
                             .build();
 
             Filiale oberpullendorf =
                     Filiale.builder()
                             .name("Oberpullendorf")
+                            .SOoffen(true)
                             .firma(burgenland)
                             .build();
 
@@ -257,7 +264,24 @@ public class initApplication {
                     Mitarbeiter.builder()
                             .role(leiter)
                             .name("Christa")
+                            .password(passwordEncoder.encode("admin"))
                             .filiale(ziegler)
+                            .build();
+
+            Mitarbeiter andrea =
+                    Mitarbeiter.builder()
+                            .role(verkauf)
+                            .name("Andrea")
+                            .password(passwordEncoder.encode("admin"))
+                            .springer(true)
+                            .build();
+
+            Mitarbeiter maybrit =
+                    Mitarbeiter.builder()
+                            .role(verkauf)
+                            .name("Maybrit")
+                            .password(passwordEncoder.encode("admin"))
+                            .filiale(hietzing)
                             .build();
 
             Mitarbeiter nicole =
@@ -268,7 +292,7 @@ public class initApplication {
                             .filiale(weppersdorf)
                             .build();
             List<Mitarbeiter> mitarbeiter = Arrays.asList(
-              barbara, szimone, nicole, christa
+                    barbara, szimone, nicole, christa, andrea, maybrit
             );
 
             mitarbeiterRepository.saveAll(mitarbeiter);
@@ -1417,7 +1441,7 @@ public class initApplication {
             Produkt nusskipferl =
                     Produkt.builder()
                             .id(132)
-                            .name("Nusskipfer")
+                            .name("Nusskipferl")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -1428,7 +1452,7 @@ public class initApplication {
             Produkt nusskipferlHB =
                     Produkt.builder()
                             .id(2132)
-                            .name("Nusskipfer teigig")
+                            .name("Nusskipferl teigig")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -5806,8 +5830,13 @@ public class initApplication {
             Lieferbar lieferbar1 =
                     Lieferbar.builder()
                             .id(lieferbarId1)
-                            .von(Wochentag.Montag)
-                            .bis(Wochentag.Donnerstag)
+                            .montag(true)
+                            .dienstag(true)
+                            .mittwoch(true)
+                            .donnerstag(true)
+                            .freitag(true)
+                            .samstag(false)
+                            .sonntag(false)
                             .build();
 
             LieferbarId lieferbarId2 =
@@ -5820,8 +5849,13 @@ public class initApplication {
             Lieferbar lieferbar2 =
                     Lieferbar.builder()
                             .id(lieferbarId2)
-                            .von(Wochentag.Montag)
-                            .bis(Wochentag.Dienstag)
+                            .montag(true)
+                            .dienstag(true)
+                            .mittwoch(true)
+                            .donnerstag(true)
+                            .freitag(true)
+                            .samstag(false)
+                            .sonntag(false)
                             .build();
 
             LieferbarId lieferbarId3 =
@@ -5834,8 +5868,13 @@ public class initApplication {
             Lieferbar lieferbar3 =
                     Lieferbar.builder()
                             .id(lieferbarId3)
-                            .von(Wochentag.Montag)
-                            .bis(Wochentag.Freitag)
+                            .montag(true)
+                            .dienstag(true)
+                            .mittwoch(true)
+                            .donnerstag(true)
+                            .freitag(true)
+                            .samstag(false)
+                            .sonntag(false)
                             .build();
 
             List<Lieferbar> lieferbar = Arrays.asList(
@@ -5869,6 +5908,20 @@ public class initApplication {
             Dienstplan dienstplan2 =
                     Dienstplan.builder()
                             .id(dienstplanId2)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
+            DienstplanId dienstplanId15 =
+                    DienstplanId.builder()
+                            .mitarbeiter(maybrit)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(11, 0))
+                            .datum(LocalDate.of(2023, 8, 1))
+                            .build();
+
+            Dienstplan dienstplan15 =
+                    Dienstplan.builder()
+                            .id(dienstplanId15)
                             .bis(LocalTime.of(19,0))
                             .build();
 
@@ -6026,9 +6079,38 @@ public class initApplication {
                             .bis(LocalTime.of(13,0))
                             .build();
 
+            DienstplanId dienstplanId14 =
+                    DienstplanId.builder()
+                            .mitarbeiter(andrea)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(5, 30))
+                            .datum(LocalDate.of(2023, 10, 9))
+                            .build();
+
+            Dienstplan dienstplan14 =
+                    Dienstplan.builder()
+                            .id(dienstplanId14)
+                            .bis(LocalTime.of(13,0))
+                            .build();
+
+            DienstplanId dienstplanId16 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(13, 00))
+                            .datum(LocalDate.of(2023, 10, 10))
+                            .build();
+
+            Dienstplan dienstplan16 =
+                    Dienstplan.builder()
+                            .id(dienstplanId16)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
             List<Dienstplan> dienstplans = Arrays.asList(
                     dienstplan1, dienstplan2, dienstplan3, dienstplan4, dienstplan5, dienstplan6, dienstplan7,
-                    dienstplan8, dienstplan9, dienstplan10, dienstplan11, dienstplan12, dienstplan13
+                    dienstplan8, dienstplan9, dienstplan10, dienstplan11, dienstplan12, dienstplan13, dienstplan14,
+                    dienstplan15, dienstplan16
             );
 
             dienstplanRepo.saveAll(dienstplans);
@@ -6090,6 +6172,149 @@ public class initApplication {
 
             nachrichtSendenRepository.saveAll(nachrichtenSenden);
 
+
+            Urlaubstage urlaubstage1 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 1, 1))
+                    .name("Neujahr")
+                    .build();
+
+            Urlaubstage urlaubstage2 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 1, 6))
+                    .name("Heilige Drei Könige")
+                    .build();
+
+            Urlaubstage urlaubstage3 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 5, 1))
+                    .name("Tag der Arbeit")
+                    .build();
+
+            Urlaubstage urlaubstage4 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 8, 15))
+                    .name("Maria Himmelfahrt")
+                    .build();
+
+            Urlaubstage urlaubstage5 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 10, 26))
+                    .name("Nationalfeiertag")
+                    .build();
+
+            Urlaubstage urlaubstage6 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 11, 1))
+                    .name("Allerheiligen")
+                    .build();
+
+            Urlaubstage urlaubstage7 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 12, 8))
+                    .name("Mariä Empfängnis")
+                    .build();
+
+            Urlaubstage urlaubstage8 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 12, 25))
+                    .name("Weihnachten")
+                    .build();
+
+            Urlaubstage urlaubstage9 = Urlaubstage.builder()
+                    .datum(LocalDate.of(2023, 12, 26))
+                    .name("Stephanstag")
+                    .build();
+
+
+            List<Urlaubstage> urlaubstage = Arrays.asList(
+                    urlaubstage1, urlaubstage2, urlaubstage3, urlaubstage4,
+                    urlaubstage5, urlaubstage6, urlaubstage7, urlaubstage8, urlaubstage9
+            );
+
+            urlaubgstageRepository.saveAll(urlaubstage);
+
+
+            FirmenUrlaubId firmenUrlaubBurgenland1id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage1)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland1 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland1id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland2id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage2)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland2 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland2id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland3id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage3)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland3 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland3id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland4id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage4)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland4 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland4id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland5id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage5)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland5 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland5id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland6id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage6)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland6 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland6id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland7id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage7)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland7 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland7id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland8id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage8)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland8 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland8id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland9id = FirmenUrlaubId.builder()
+                    .firma(burgenland)
+                    .urlaubstage(urlaubstage9)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland9 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland9id)
+                    .build();
+
+            List<FirmenUrlaub> urlaubstageList = Arrays.asList(
+                    firmenUrlaubBurgenland1, firmenUrlaubBurgenland2, firmenUrlaubBurgenland3, firmenUrlaubBurgenland4,
+                    firmenUrlaubBurgenland5, firmenUrlaubBurgenland6, firmenUrlaubBurgenland7, firmenUrlaubBurgenland8,
+                    firmenUrlaubBurgenland9
+            );
+
+            firmenUrlaubRepository.saveAll(urlaubstageList);
         };
     }
 }

@@ -1,0 +1,40 @@
+<!-- Insert Modal -->
+<div class="modal fade" id="insertMitarbeiter" tabindex="-1" aria-labelledby="insertMitarbeiter" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="insertMitarbeiter">Hinzufügen</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div *ngFor="let mitarbeiter of allMitarbeiter">
+                <label *ngIf="!displayMitarbeiter.includes(mitarbeiter)">
+                  <input type="checkbox" [(ngModel)]="mitarbeiter.isChecked" (change)="toggleSelectedMitarbeiter(mitarbeiter)" />
+                    {{ mitarbeiter.name }}
+                </label>
+            </div>                                       
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="insertSelectedMitarbeiter()">Hinzufügen</button>
+          </div>          
+      </div>
+    </div>
+</div>
+  
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteMitarbeiter" tabindex="-1" aria-labelledby="deleteMitarbeiter" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title" id="deleteMitarbeiter">Löschen</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedMitarbeiterToDelete">
+                Sind Sie sich sicher, dass <b>{{ selectedMitarbeiterToDelete.name }}</b> gelöscht werden soll?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="loeschen(selectedMitarbeiterToDelete)">Löschen</button>
+        </div>
+    </div>
+    </div>
+</div>

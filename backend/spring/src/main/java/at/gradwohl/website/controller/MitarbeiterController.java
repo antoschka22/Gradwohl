@@ -1,7 +1,9 @@
 package at.gradwohl.website.controller;
 
 import at.gradwohl.website.config.JwtService;
+import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
+import at.gradwohl.website.service.filiale.FilialeService;
 import at.gradwohl.website.service.mitarbeiter.MitarbeiterService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import java.util.List;
 public class MitarbeiterController {
 
     private final MitarbeiterService mitarbeiterService;
+    private final FilialeService filialeService;
     private final JwtService jwtService;
 
     @GetMapping
@@ -40,6 +43,19 @@ public class MitarbeiterController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         return new ResponseEntity<>(mitarbeiterService.getMitarbeiterById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/filiale/{filialeId}")
+    public ResponseEntity<List<Mitarbeiter>> getMitarbeiterByFilialeIdWithSpringer(
+            HttpServletRequest request,
+            @PathVariable("filialeId") int id){
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        Filiale filiale = filialeService.getFilialeById(id);
+
+        return new ResponseEntity<>(mitarbeiterService.getAllMitarbeiterOfFilialeWithSpringer(filiale), HttpStatus.OK);
     }
 
     @GetMapping("/name/{name}")

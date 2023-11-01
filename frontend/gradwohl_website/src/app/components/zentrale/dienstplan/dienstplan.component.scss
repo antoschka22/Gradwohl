@@ -81,8 +81,12 @@
 }
   
 .monat:hover{
-    background-color: #dfdfdf;
+    background-color: #d2d2d2;
     cursor: pointer;
+}
+
+.currMonat {
+    background-color: #dddddd;
 }
 
 .leerMonat {
@@ -138,5 +142,32 @@
         background-color: #eee;
     }
 
+}
+/* Style the container div */
+.mitarbeiter {
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+  
+.mitarbeiter-text {
+    flex-grow: 1;
+}
+  
+.mitarbeiter i {
+    color: red;
+    font-size: 25px;
+    cursor: pointer;
+}
+  
+.icon{
+    cursor: pointer;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    color: green;
+    font-size: 25px;
 }
   

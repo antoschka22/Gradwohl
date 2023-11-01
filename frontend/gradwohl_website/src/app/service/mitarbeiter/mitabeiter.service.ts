@@ -26,6 +26,10 @@ export class MitabeiterService {
     return this.http.get(this.baseUri + '/mitarbeiter/name/'+name)
   }
 
+  getMitarbeiterByFilialeIdWithSpringer(fiialeId: number){
+    return this.http.get(this.baseUri + '/mitarbeiter/filiale/'+fiialeId)
+  }
+
   deleteMitarbeiterById(id: number){
     return this.http.delete(this.baseUri + '/mitarbeiter/'+id)
   }

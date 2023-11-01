@@ -40,8 +40,13 @@ public class LiefebarService {
             Lieferbar wareToUpdate =
                     Lieferbar.builder()
                             .id(updatedlieferbar.getId())
-                            .bis(updatedlieferbar.getBis())
-                            .von(updatedlieferbar.getVon())
+                            .montag(updatedlieferbar.isMontag())
+                            .dienstag(updatedlieferbar.isDienstag())
+                            .mittwoch(updatedlieferbar.isMittwoch())
+                            .donnerstag(updatedlieferbar.isDonnerstag())
+                            .freitag(updatedlieferbar.isFreitag())
+                            .samstag(updatedlieferbar.isSamstag())
+                            .sonntag(updatedlieferbar.isSonntag())
                             .build();
             lieferbarRepository.deleteById(id);
             return lieferbarRepository.save(wareToUpdate);

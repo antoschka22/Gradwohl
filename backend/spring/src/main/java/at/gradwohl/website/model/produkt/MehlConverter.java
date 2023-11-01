@@ -1,6 +1,5 @@
 package at.gradwohl.website.model.produkt;
 
-import at.gradwohl.website.model.lieferbar.Wochentag;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

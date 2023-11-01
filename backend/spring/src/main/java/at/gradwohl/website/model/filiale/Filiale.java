@@ -27,6 +27,9 @@ public class Filiale {
     @Column(name = "F_Name")
     private String name;
 
+    @Column(name = "SOoffen")
+    private boolean SOoffen;
+
     @ManyToOne
     @JoinColumn(name = "F_Filialleiter", referencedColumnName = "M_ID")
     private Mitarbeiter filialleiter;

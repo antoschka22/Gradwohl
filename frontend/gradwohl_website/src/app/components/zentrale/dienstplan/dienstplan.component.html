@@ -5,7 +5,10 @@
     <div class="dropdown">
         <button class="dropbtn" (click)="toggleDropdown()">{{ currentYear }}</button>
         <div class="dropdown-content" *ngIf="isDropdownOpen">
-          <a *ngFor="let jahr of jahre" (click)="selectYear(jahr)" [ngClass]="{ 'selected': jahr === currentYear }">{{ jahr }}</a>
+          <a *ngFor="let jahr of jahre" 
+          (click)="selectYear(jahr)" 
+          [ngClass]="{ 'selected': jahr === currentYear }"
+          (click)="changeDienstplanMonth(selectedMonth+1)">{{ jahr }}</a>
         </div>
       </div>
     <div class="dropdown-arrow">
@@ -16,39 +19,78 @@
   <hr>
 
   <div class="horizontal-monate">
-    <ng-container *ngFor="let monat of monate">
-      <div class="monat">{{ monat }}</div>
+    <ng-container *ngFor="let monat of monate; let i = index">
+      <div class="monat" [ngClass]="{'currMonat': selectedMonth == i}" (click)="changeDienstplanMonth(i+1)">{{ monat }}</div>
     </ng-container>
   </div>
-  
-  <div class="leerMonat" *ngIf="!monatIsSet" (click)="createDienstplan()">
-    <i class="bi bi-plus-circle"></i>
-  </div>
-  
 
-  <div class="dienstplan" *ngIf="monatIsSet">
-    <table class="custom-table">
-      <tr>
-        <td colspan="2"></td>
-        <td colspan="2">User</td>
-        <td colspan="2"><i class="bi bi-plus-circle"></i></td>
-      </tr>
-      <tr>
-        <td colspan="2"><p>Tag</p></td>
-        <td><p>von-bis</p></td>
-        <td><p>Stunden</p></td>
-        <td><p>von-bis</p></td>
-        <td><p>Stunden</p></td>
-      </tr><tr *ngFor="let tag of tagDesMonats()">
-        <td>{{ tag.tagNummer }}</td>
-        <td>{{ tag.wochentag }}</td>
-        <td *ngIf="tag.wochentag == 'So'">-</td>
-        <td *ngIf="tag.wochentag != 'So'"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-    
-  </div>
+  <div class="container">
+    <div class="dienstplan" *ngIf="monatIsSet">
+      <table class="custom-table">
+        <tr>
+          <td colspan="2"></td>
+          <td colspan="2" *ngFor="let mitarbeiter of displayMitarbeiter">
+            <div class="mitarbeiter">
+              <span class="mitarbeiter-text">{{ mitarbeiter.name }}</span>
+              <div class="div" data-bs-toggle="modal" data-bs-target="#deleteMitarbeiter" (click)="getNameToDelete(mitarbeiter)">
+                <i class="bi bi-trash"></i>
+              </div>
+            </div>
+          </td>
+          <td colspan="2" *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+            <div class="icon" data-bs-toggle="modal" data-bs-target="#insertMitarbeiter">
+              <i class="bi bi-plus-circle icon"></i>
+            </div>
+        </td>
+        </tr>
+        <tr>
+          <td colspan="2"><p>Tag</p></td>
+          <ng-container *ngFor="let mitarbeiter of displayMitarbeiter">
+            <td style="border-left: 2px solid black"><p>von-bis</p></td>
+            <td><p>Stunden</p></td>
+          </ng-container>
+          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+            <td style="border-left: 2px solid black"><p>von-bis</p></td>
+            <td><p>Stunden</p></td>
+          </ng-container>
+        </tr>
+        <tr *ngFor="let tag of resultTageDesMonats" [ngClass]="{'soBorder': tag.wochentag === 'So'}">
+          <td>{{ tag.tagNummer }}</td>
+          <td>{{ tag.wochentag }}</td>
+          <ng-container *ngFor="let mitarbeiter of displayMitarbeiter">
+
+            <td style="border-left: 2px solid black" *ngIf="tag.wochentag != 'So'">
+              <ng-container *ngIf="isVonBisEntryExists(tag, mitarbeiter.id)">
+                <p>{{ getVonBisForTag(tag, mitarbeiter.id) }}</p>
+              </ng-container>
+              <p *ngIf="!isVonBisEntryExists(tag, mitarbeiter.id)"></p>
+            </td>
+
+            <td style="border-left: 2px solid black" *ngIf="tag.wochentag == 'So' && !isFilialeSoOffen">-</td>
+            <td style="border-left: 2px solid black" *ngIf="tag.wochentag == 'So' && isFilialeSoOffen"></td>
+            <td *ngIf="tag.wochentag != 'So'">
+              <ng-container *ngIf="isVonBisEntryExists(tag, mitarbeiter.id)">
+                {{ getHoursSpentVonBis(tag, mitarbeiter.id) }}
+              </ng-container>
+            </td>
+            <td *ngIf="tag.wochentag == 'So' && !isFilialeSoOffen">-</td>
+            <td *ngIf="tag.wochentag == 'So' && isFilialeSoOffen">
+              <ng-container *ngIf="isVonBisEntryExists(tag, mitarbeiter.id)">
+                {{ getHoursSpentVonBis(tag, mitarbeiter.id) }}
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+            <td style="border-left: 2px solid black"></td>
+            <td></td>
+          </ng-container>
+        </tr>
+      </table>
+    </div>
+  </div>  
 </body>
+
+<app-dienstplan-models [allMitarbeiter]="allMitarbeiter" 
+                      [displayMitarbeiter]="displayMitarbeiter"
+                      [selectedMitarbeiterToDelete]="selectedMitarbeiterToDelete"></app-dienstplan-models>

@@ -19,6 +19,4 @@ public interface ProduktRepository extends JpaRepository<Produkt, Integer> {
     List<Produkt> findByHb(@Param("hb") boolean hb);
 
     Produkt findById(int id);
-
-    Optional<Produkt> findByName(String name);
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, Integer> {
@@ -24,4 +25,8 @@ public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, Intege
     void updateRoleToNull(MitarbeiterRole role);
 
     Optional<Mitarbeiter> findByName(String name);
+
+    List<Mitarbeiter> findByFiliale(Filiale filiale);
+
+    List<Mitarbeiter> findBySpringer(boolean b);
 }
