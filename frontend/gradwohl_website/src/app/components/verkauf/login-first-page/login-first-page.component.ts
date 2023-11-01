@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
@@ -9,6 +9,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { filiale } from 'src/model/filiale/filiale';
 import { produkt } from 'src/model/produkt/produkt';
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
+import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
+import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
+import { FilialeService } from 'src/app/service/filiale/filiale.service';
+
+// Popup / Generieren/ Händisch
+import { MatDialog } from '@angular/material/dialog';
+
+// Linke und Rechte Obere Box
+import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
+
 
 interface warenbestellungID {
   datum: Date;
@@ -39,7 +49,6 @@ function groupDates(warenbestellungen: warenbestellung[]): { [datum: string]: wa
   return groupedData;
 }
 
-
 @Component({
   selector: 'app-login-first-page',
   templateUrl: './login-first-page.component.html',
@@ -53,8 +62,10 @@ export class LoginFirstPageComponent implements OnInit {
   isKundenbestellungDropdown: boolean = false;
   dropdownUp: boolean = true;
 
+  //Kalender
   currentDate = new Date();
   selectedDate: Date | null = null;
+  selectedDateBestellung: Date | null = null;
 
   warenbestellungen: warenbestellung[] = [];
   filiale: filiale[] = [];
@@ -62,13 +73,20 @@ export class LoginFirstPageComponent implements OnInit {
 
   groupbyDateWarenbestellung: { [datum: string]: warenbestellungID[] } = {};
 
+
   constructor(
     private warenbestellungService: WarenbestellungService,
     private authService: AuthService,
     private toastr: ToastrService,
     private router: Router, private route: ActivatedRoute,
+    private dialogRef: MatDialog,
+    private kundenbestellungService: KundenbestellungService,
+    private mitarbeiterService: MitabeiterService,
+    private filialeService: FilialeService,
    
-  ) { this.isMobile = window.innerWidth <= 1199}
+  ) { this.isMobile = window.innerWidth <= 1199,
+    this.groupbyDateWarenbestellung = {};}
+
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -81,7 +99,68 @@ export class LoginFirstPageComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const date = params.get('date');
     });
+    //Boxen oben
+    this.countHeutigeKundenbestellungen();
+    this.updateHeutigeWarenbestellungStatus();
+
   }
+
+
+  // Kundenbestellungen zaehlen für die Linke und Rechte Box oben
+
+    // Linke Box-----------
+    heutigeKundenbestellungenCount: number = 0;
+    countHeutigeKundenbestellungen() {
+      const heute = new Date();
+      heute.setHours(0, 0, 0, 0);
+      this.kundenbestellungService.getKundenbestellungByDate(heute).subscribe((data: any) => {
+        this.heutigeKundenbestellungenCount = data.length;
+      });
+    }
+
+    // Rechte Box-----------
+    heutigerWarenbestellungsStatus: string = '';
+
+    updateHeutigeWarenbestellungStatus() {
+      const aktuelleUhrzeit = new Date();
+      const abgabeWarenbestellung = new Date();
+      abgabeWarenbestellung.setHours(18, 0, 0, 0);
+      
+      if (aktuelleUhrzeit >= abgabeWarenbestellung) {
+        this.heutigerWarenbestellungsStatus = 'abgeschickt';
+      } else {
+        this.heutigerWarenbestellungsStatus = 'offen';
+      }
+    }
+
+  //----------------------------------------------------------------
+
+  // Filiale Ausgeben: 
+  filialeData: filiale | undefined;;
+  eingeloggterBenutzer: string ='';
+  filialenName: string | undefined;
+
+  //KALENDER Warenbestellungen einsehen
+  isEmptyGroupbyDateWarenbestellung(selectedDate: Date | undefined): string {
+    if (!selectedDate) {
+      return 'Keine Warenbestellung gefunden';
+    }
+    const currentDate = new Date();
+    const selectedDateString = selectedDate.toDateString();
+    const dateExists = Object.keys(this.groupbyDateWarenbestellung).includes(selectedDateString);
+
+    if (dateExists) {
+      if (selectedDate.getDate() === currentDate.getDate() && currentDate.getHours() < 18) {
+        return '';
+      } else {
+        this.router.navigate(['/bestelluebersichtAbgeschickt', selectedDateString]);
+        return'';
+      }
+    } else {
+      return '! Anstehende Warenbestellung ! ';
+    }
+  }
+
 
   getFormattedDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -111,5 +190,11 @@ export class LoginFirstPageComponent implements OnInit {
     this.isKundenbestellungDropdown = !this.isKundenbestellungDropdown;
     this.dropdownUp = !this.dropdownUp;
   }
+
+  onDateSelectBestellung(event: Date) {
+    this.selectedDateBestellung = event;
+  }
+
+  
 
 }

@@ -28,7 +28,13 @@ import { AuthInterceptorService } from './interceptor/auth.interceptor.service';
 import { LoginComponent } from './components/verkauf/login/login.component';
 import { DienstplanComponent } from './components/zentrale/dienstplan/dienstplan.component';
 import { BestelluebersichtComponent } from './components/verkauf/bestelluebersicht/bestelluebersicht.component';
+import { NachrichtenUebersichtComponent } from './components/verkauf/nachrichten-uebersicht/nachrichten-uebersicht.component';
 
+
+// PopUp
+import { MatDialogModule } from '@angular/material/dialog';
+import { KundenbestellungsUebersichtComponent } from './components/verkauf/kundenbestellungs-uebersicht/kundenbestellungs-uebersicht.component';
+import { GesamtKundenbestellungsUebersichtComponent } from './components/verkauf/abgeschlossene-kundenbestellungs-uebersicht/gesamt-kundenbestellungs-uebersicht.component';
 
 const routes : Routes = [
   {path: '', component: LoginFirstPageComponent},
@@ -41,6 +47,9 @@ const routes : Routes = [
     LoginComponent,
     DienstplanComponent,
     BestelluebersichtComponent,
+    NachrichtenUebersichtComponent,
+    KundenbestellungsUebersichtComponent,
+    GesamtKundenbestellungsUebersichtComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -57,12 +66,13 @@ const routes : Routes = [
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MatSelectModule, 
+    MatDialogModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
     multi: true,
   }],
-  bootstrap: [AppComponent,LoginFirstPageComponent,NavbarHeaderComponent, BestelluebersichtComponent]
+  bootstrap: [AppComponent,LoginFirstPageComponent,NavbarHeaderComponent, BestelluebersichtComponent, KundenbestellungsUebersichtComponent, GesamtKundenbestellungsUebersichtComponent]
 })
 export class AppModule {}

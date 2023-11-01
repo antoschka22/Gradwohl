@@ -1,0 +1,22 @@
+//button styling
+
+.stylingButton{
+    background-color: #8C5263;
+    color:white; 
+    height: 50px;
+    width:200px;
+    display: flex;
+    justify-content: space-between;
+    
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+
+.detailButton{
+    background-color: #2680EB;
+    color:white; 
+    width: 150px;
+    padding: 3px;
+}

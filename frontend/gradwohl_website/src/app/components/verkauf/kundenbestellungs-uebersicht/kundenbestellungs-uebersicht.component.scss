@@ -1,0 +1,57 @@
+//button styling
+
+.stylingButton{
+    background-color: #8C5263;
+    color:white; 
+    height: 50px;
+    width:200px;
+    display: flex;
+    justify-content: space-between;
+    
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+
+.detailButton{
+    background-color: #2680EB;
+    color:white; 
+    width: 150px;
+    padding: 3px;
+}
+
+.deleteButton{
+    background-color: #B42F2F;
+    color:white; 
+    width: 150px;
+    padding: 3px;
+}
+
+// Hinzufügen Pop-up:
+
+.kategorieButtons{
+    background-color: #8C5263;
+    color:white; 
+    height: 50px;
+    width:200px;
+    display: flex;
+    justify-content: space-between;
+    
+    align-items: center;
+    margin-bottom: 10px;
+    margin-right: 10px; 
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+}
+  
+.button-wrapper {
+    flex: 0 0 calc(33.33% - 10px);
+    margin-right: 10px;
+    margin-bottom: 5px; 
+}
+

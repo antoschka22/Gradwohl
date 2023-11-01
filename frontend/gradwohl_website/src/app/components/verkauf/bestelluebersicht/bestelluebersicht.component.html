@@ -3,32 +3,48 @@
     <br /> <br /> <br /><br />
     <section class="p-1 text-dark pt-5 mg-auto">
         <div class="container-fluid">
-            <u>Bestellung vom <span style="font-weight: bold;">{{ date }}</span></u>
+            <u>Bestellung vom <span style="font-weight: bold;">{{ getFormattedDate(date) }}</span></u>
             <br /><br />
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <td scope="col" style="background-color: rgb(172, 171, 171);">Kategorie:</td>
-                        <td style="background-color: rgb(172, 171, 171);"></td>
-                        <td style="background-color: rgb(172, 171, 171);"></td>
-                        <td style="background-color: rgb(172, 171, 171);"></td>
-                    </tr>
-                </thead>
+            <div class="table-container">
+                <table class="table table-striped">
+                    <tbody>
+                      <ng-container *ngFor="let warenbestellung of warenbestellungen">
+                        <!-- Überprüft ob er eine Überschrift für die Kategorie machen muss -->
+                        <ng-container *ngIf="!currentCategory || currentCategory !== warenbestellung.produktgruppe.name">
+                          <tr>
+                            <th colspan="4" style="background-color: rgb(172, 171, 171);">Kategorie: {{  warenbestellung.produkt.produktgruppe.name }}</th>
+                          </tr>
 
-                <thead>
-                    <tr>
-                        <td scope="col" class="zwischenTableUeberschrift">Produkt</td>
-                        <td scope="col" class="zwischenTableUeberschrift">Frisch</td>
-                        <td scope="col" class="zwischenTableUeberschrift">Teigig</td>
-                        <td scope="col" class="zwischenTableUeberschrift">Gesamt</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let warenbestellung of warenbestellungen">
-                        <td>{{ warenbestellung.produkt.name }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>            
+                          <tr>
+                              <th scope="col" class="zwischenTableUeberschrift">Produkt</th>
+                              <!-- hb = false -->
+                              <th scope="col" class="zwischenTableUeberschrift">Frisch</th>
+                              <!-- hb = true -->
+                              <th scope="col" class="zwischenTableUeberschrift">Teigig</th>
+                              <th scope="col" class="zwischenTableUeberschrift">Gesamt</th>
+                          </tr>
+                        </ng-container>
+                              <!-- Inhalt: -->
+                              <tr>
+                                  <td>{{ warenbestellung.produkt.name }}</td>
+                                  <td>
+                                      <input type="text" [ngModel]="warenbestellung.hb ? '0' : warenbestellung.menge" disabled>
+                                  </td>
+                                  <td><input type="text" [ngModel]="warenbestellung.hb ? warenbestellung.menge : '0'" disabled></td>
+                                  <td>
+                                      <input type="text" [value]="warenbestellung.menge" disabled>
+                                  </td>
+                                </tr>
+                        <!-- Abstand der unterschiedlichen Kategorien -->
+                        <ng-container *ngIf="warenbestellung.produktgruppe.name">
+                          <ng-container *ngIf="!currentCategory || currentCategory !== warenbestellung.produktgruppe.name">
+                            <br />
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    </tbody>
+                  </table>
+            </div>  
+      </div>          
     </section>
 </body>

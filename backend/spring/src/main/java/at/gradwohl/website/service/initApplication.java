@@ -5717,6 +5717,20 @@ public class initApplication {
                             .id(kundenbestellungId1)
                             .build();
 
+            KundenbestellungId kundenbestellungId1HB =
+                    KundenbestellungId.builder()
+                            .datum(LocalDate.of(2023,9,1))
+                            .filiale(hietzing)
+                            .produkt(nusskipferlHB)
+                            .kunde("Daniel")
+                            .build();
+
+            Kundenbestellung kundenbestellung1HB =
+                    Kundenbestellung.builder()
+                            .menge(1)
+                            .id(kundenbestellungId1HB)
+                            .build();
+
             KundenbestellungId kundenbestellungId2 =
                     KundenbestellungId.builder()
                             .datum(LocalDate.of(2023, 9,2))
@@ -5732,7 +5746,7 @@ public class initApplication {
                             .build();
 
             List<Kundenbestellung> kundenbestellungen = Arrays.asList(
-              kundenbestellung1, kundenbestellung2
+              kundenbestellung1, kundenbestellung2, kundenbestellung1HB
             );
 
             kundenbestellungRepository.saveAll(kundenbestellungen);

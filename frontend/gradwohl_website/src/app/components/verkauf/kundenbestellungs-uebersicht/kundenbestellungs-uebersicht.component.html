@@ -1,0 +1,171 @@
+<app-navbar-header></app-navbar-header>
+<body>
+    <br /> <br /> <br /><br />
+    <section class="text-dark pt-5 mg-auto">
+        <button type="button" class="btn stylingButton" data-bs-toggle="modal" data-bs-target="#hinzufuegenPopup">+ Hinzufügen</button>
+                <!-- Popup-Hinzufügen-Anfang -->
+
+                    <div class="modal fade" id="hinzufuegenPopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="hinzufuegenPopupLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div>
+                                <div class="modal-body">
+                                    <div>
+                                        <!-- INHALT -->
+                                        <div class="container-fluid">
+                                            <h2 style="text-align: center;">
+                                                <u>Bitte wählen Sie hier die bestellten Produkte</u>
+                                            </h2>
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="floatingPassword" placeholder="Auftragsname">
+                                                    <label for="floatingPassword">Auftragsname</label>
+                                                </div>
+                                                <br />
+                                                Datum <input type="date" placeholder="Nach Produktnamen suchen..">
+                                                <br /><br />
+                                                <input class="form-control" id="myInput" type="text" placeholder="Nach Produktnamen suchen..">
+                                                <br />
+                                                <div class="button-container container">
+                                                    <button *ngFor="let produktgruppe of produktgruppen" class="btn kategorieButtons" (click)="waehlenKategorie(produktgruppe.name)">
+                                                        {{ produktgruppe.name }}
+                                                    </button>
+                                                </div>
+                                                
+                                                <!-- Hier werden die Produkte der ausgewählten Produktgruppe angezeigt -->
+                                                <div *ngIf="ausgewaehlteKategorie">
+                                                    <h2>Produkte der ausgewählten Kategorie ({{ ausgewaehlteKategorie }})</h2>
+                                                    <ul>
+                                                        <li *ngFor="let produkt of ausgewaehlteKategorieProdukt">
+                                                            {{ produkt.name }}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn" style="background-color: #8C5263;color:white;" data-bs-dismiss="modal">Ok</button>
+                                        <br />
+                                    </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                <!-- Popup-Hinzufügen-Ende -->
+        <div class="container-fluid card pt-3">
+            <h1>Kundenbestellungen für</h1>
+        </div>
+        <br />
+        <div class="container-fluid">
+            <div class="row">
+                <h2>Heute Anstehend</h2>
+                <div *ngFor="let group of groupedKundenbestellungen" class="col-lg-6 col-md-12 pb-3">
+                    <div class="card pt-3 container">
+                        <u>Datum: {{ group.datum }}</u>
+                        <table class="table table-striped">
+                            <tr>
+                                <th scope="col">Auftragsname</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            <tr *ngFor="let kunde of group.kunden">
+                                <td scope="row">{{ kunde }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-style detailButton" data-toggle="modal" [attr.data-target]="'#detailKundenname-' + kunde">Details</button>
+                                  </td>
+                                  
+                                   <!-- Popup-Details-ANFANG -->
+                                        <ng-container *ngFor="let Kundenbestellung of kundenbestellung;">
+                                        <div class="modal fade bd-example-modal-lg" [attr.id]="'detailKundenname-' + kunde" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <h1 class="modal-title">Kundenbestellung am {{group.datum}}</h1>
+                                                <hr>
+                                                <!-- Inhalt -->
+                                                <div>
+                                                        <p style="color:rgb(128,128,128);">
+                                                            Auftragsname:
+                                                                <span class="card p-1">{{kunde}}</span>
+                                                            <br />
+                                                            Datum: 
+                                                                <span class="card p-1">{{group.datum}}</span> <br />
+                                                            Bestellung:
+                                                        </p>
+                                                </div>                                        
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                            <ng-container *ngIf="!currentCategory || currentCategory !== Kundenbestellung.id.produkt.produktgruppe.name">
+                                                                <tr>
+                                                                <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{  Kundenbestellung.id.produkt.produktgruppe.name }}</th>
+                                                                </tr>
+                                                            </ng-container>
+                                                            <tr>
+                                                                <th>Produkt</th>
+                                                                <th>Frisch</th>
+                                                                <th>Teigig</th>
+                                                            </tr>
+                                                            <tr *ngFor="let kunde of group.data; let j = index">
+                                                                <td>{{kunde.id.produkt.name}}</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" [ngModel]="kunde.id.produkt.hb ? '0' : kunde.menge" disabled>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control"[ngModel]="kunde.id.produkt.hb ? kunde.menge : '0'" disabled>
+                                                                </td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary active" style="background-color: #8C5263" data-dismiss="modal">Zurück</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </ng-container>
+                                  <!-- Popup-Details-ENDE -->
+                            
+                                  
+                                <td> 
+                                    <button type="submit" class="btn btn-style deleteButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Löschen</button> 
+                                </td>
+                            </tr>
+                            <!-- Popup-Löschen-Anfang -->
+
+                              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-body">
+                                        Möchten Sie diese Kundenbestellung wirklich löschen?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-style" style="background-color: #B42F2F;color:white;">
+                                            Ja (NICHT rückgängig)</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Nein</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <!-- Popup-Löschen-Ende -->
+                        </table>
+                    </div>
+                </div>
+                <hr class="pb-2">
+                <h2>Später Anstehend</h2>
+  
+            </div>
+        </div>
+        
+    </section>
+</body>
