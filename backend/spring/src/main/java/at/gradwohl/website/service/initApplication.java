@@ -250,6 +250,7 @@ public class initApplication {
                             .name("Barbara")
                             .password(passwordEncoder.encode("admin"))
                             .filiale(hietzing)
+                            .wochenstunden(36)
                             .build();
 
             Mitarbeiter szimone =
@@ -258,6 +259,7 @@ public class initApplication {
                             .name("Szimone")
                             .password(passwordEncoder.encode("admin"))
                             .filiale(hietzing)
+                            .wochenstunden(30)
                             .build();
 
             Mitarbeiter christa =
@@ -266,6 +268,7 @@ public class initApplication {
                             .name("Christa")
                             .password(passwordEncoder.encode("admin"))
                             .filiale(ziegler)
+                            .wochenstunden(40)
                             .build();
 
             Mitarbeiter andrea =
@@ -274,6 +277,7 @@ public class initApplication {
                             .name("Andrea")
                             .password(passwordEncoder.encode("admin"))
                             .springer(true)
+                            .wochenstunden(40)
                             .build();
 
             Mitarbeiter maybrit =
@@ -282,6 +286,7 @@ public class initApplication {
                             .name("Maybrit")
                             .password(passwordEncoder.encode("admin"))
                             .filiale(hietzing)
+                            .wochenstunden(20)
                             .build();
 
             Mitarbeiter nicole =
@@ -290,7 +295,9 @@ public class initApplication {
                             .name("Nicole")
                             .password(passwordEncoder.encode("admin"))
                             .filiale(weppersdorf)
+                            .wochenstunden(40)
                             .build();
+
             List<Mitarbeiter> mitarbeiter = Arrays.asList(
                     barbara, szimone, nicole, christa, andrea, maybrit
             );
@@ -4167,12 +4174,12 @@ public class initApplication {
 
             Produkt mistschaufelUndBsesen  =
                     Produkt.builder()
-                            .id(1970)
-                            .name("Mistschaufel und Besen")
-                            .bio(false)
-                            .mehl(null)
-                            .mehlMischung(null)
-                            .hb(false)
+                                .id(1970)
+                                .name("Mistschaufel und Besen")
+                                .bio(false)
+                                .mehl(null)
+                                .mehlMischung(null)
+                                .hb(false)
                     .produktgruppe(organisatorisch)
                     .build();
 
@@ -6308,10 +6315,176 @@ public class initApplication {
                     .id(firmenUrlaubBurgenland9id)
                     .build();
 
+            FirmenUrlaubId firmenUrlaubBurgenland10id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage1)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland10 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland10id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland11id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage2)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland11 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland11id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland12id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage3)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland12 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland12id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland13id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage4)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland13 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland13id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland14id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage5)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland14 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland14id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland15id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage6)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland15 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland15id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland16id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage7)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland16 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland16id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland17id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage8)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland17 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland17id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland18id = FirmenUrlaubId.builder()
+                    .firma(wien)
+                    .urlaubstage(urlaubstage9)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland18 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland18id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland19id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage1)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland19 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland19id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland20id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage2)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland20 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland20id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland21id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage3)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland21 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland21id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland22id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage4)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland22 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland22id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland23id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage5)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland23 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland23id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland24id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage6)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland24 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland24id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland25id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage7)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland25 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland25id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland26id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage8)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland26 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland26id)
+                    .build();
+
+            FirmenUrlaubId firmenUrlaubBurgenland27id = FirmenUrlaubId.builder()
+                    .firma(teigwerkstatt)
+                    .urlaubstage(urlaubstage9)
+                    .build();
+
+            FirmenUrlaub firmenUrlaubBurgenland27 = FirmenUrlaub.builder()
+                    .id(firmenUrlaubBurgenland27id)
+                    .build();
+
             List<FirmenUrlaub> urlaubstageList = Arrays.asList(
                     firmenUrlaubBurgenland1, firmenUrlaubBurgenland2, firmenUrlaubBurgenland3, firmenUrlaubBurgenland4,
                     firmenUrlaubBurgenland5, firmenUrlaubBurgenland6, firmenUrlaubBurgenland7, firmenUrlaubBurgenland8,
-                    firmenUrlaubBurgenland9
+                    firmenUrlaubBurgenland9, firmenUrlaubBurgenland10, firmenUrlaubBurgenland11, firmenUrlaubBurgenland12,
+                    firmenUrlaubBurgenland13, firmenUrlaubBurgenland14, firmenUrlaubBurgenland15, firmenUrlaubBurgenland16,
+                    firmenUrlaubBurgenland17, firmenUrlaubBurgenland18, firmenUrlaubBurgenland19, firmenUrlaubBurgenland20,
+                    firmenUrlaubBurgenland21, firmenUrlaubBurgenland22, firmenUrlaubBurgenland23, firmenUrlaubBurgenland24,
+                    firmenUrlaubBurgenland25, firmenUrlaubBurgenland26, firmenUrlaubBurgenland27
             );
 
             firmenUrlaubRepository.saveAll(urlaubstageList);

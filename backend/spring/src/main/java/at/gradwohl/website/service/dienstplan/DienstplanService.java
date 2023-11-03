@@ -27,14 +27,12 @@ public class DienstplanService {
         return dienstplanRepository.findByIdFiliale(filiale);
     }
 
-    public List<Dienstplan> saveDienstplan(List<Dienstplan> dienstplane) {
-        List<Dienstplan> dienstplansVorhanden = dienstplanRepository.findAll();
-        for(Dienstplan d: dienstplane){
-            if(dienstplansVorhanden.contains(d))
-                throw new IllegalArgumentException("Already exists");
+    public Dienstplan saveDienstplan(Dienstplan dienstplane) {
+        Optional<Dienstplan> dienstplansVorhanden = dienstplanRepository.findById(dienstplane.getId());
+        if(dienstplansVorhanden.isPresent())
+            throw new IllegalArgumentException("Already exists");
 
-        }
-        return dienstplanRepository.saveAll(dienstplane);
+        return dienstplanRepository.save(dienstplane);
     }
 
     @Transactional
@@ -44,7 +42,7 @@ public class DienstplanService {
             Dienstplan wareToUpdate =
                     Dienstplan.builder()
                             .bis(updatedDienstplan.getBis())
-                            .anfrage(updatedDienstplan.isAnfrage())
+                            .urlaub(updatedDienstplan.isUrlaub())
                             .id(updatedDienstplan.getId())
                             .build();
             dienstplanRepository.deleteById(id);

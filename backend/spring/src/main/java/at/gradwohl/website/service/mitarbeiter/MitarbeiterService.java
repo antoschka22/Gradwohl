@@ -1,6 +1,5 @@
 package at.gradwohl.website.service.mitarbeiter;
 
-import at.gradwohl.website.config.JwtService;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;

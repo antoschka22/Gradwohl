@@ -2,7 +2,6 @@ package at.gradwohl.website.model.mitarbeiter;
 
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -37,6 +36,9 @@ public class Mitarbeiter implements UserDetails {
 
     @Column(name= "M_Springer")
     private boolean springer;
+
+    @Column(name= "M_Wochenstunden")
+    private float wochenstunden;
 
     @ManyToOne
     @JoinColumn(name = "M_Role", referencedColumnName = "MR_Role")

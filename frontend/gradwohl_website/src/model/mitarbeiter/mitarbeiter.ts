@@ -7,5 +7,6 @@ export interface mitabeiter{
     password: string,
     role: role,
     filiale: filiale,
-    springer: boolean
+    springer: boolean,
+    wochenstunden: number
 }

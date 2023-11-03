@@ -1,14 +1,11 @@
 package at.gradwohl.website.controller;
 
 import at.gradwohl.website.config.JwtService;
-import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
-import at.gradwohl.website.service.produkt.ProduktService;
 import at.gradwohl.website.service.produktgruppe.ProduktgruppeService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

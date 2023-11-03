@@ -1,6 +1,5 @@
 package at.gradwohl.website.service.produkt;
 
-import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.produktgruppe.Produktgruppe;
 import at.gradwohl.website.repository.kundenbestellung.KundenbestellungRepository;
@@ -8,13 +7,10 @@ import at.gradwohl.website.repository.lieferbar.LieferbarRepository;
 import at.gradwohl.website.repository.produkt.ProduktRepository;
 import at.gradwohl.website.repository.produktgruppe.ProduktgruppeRepository;
 import at.gradwohl.website.repository.vorlage.VorlageRepository;
-import at.gradwohl.website.service.produktgruppe.ProduktgruppeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

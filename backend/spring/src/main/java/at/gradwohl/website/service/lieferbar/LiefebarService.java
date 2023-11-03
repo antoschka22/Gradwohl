@@ -6,7 +6,6 @@ import at.gradwohl.website.model.lieferbar.LieferbarId;
 import at.gradwohl.website.repository.lieferbar.LieferbarRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

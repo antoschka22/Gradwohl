@@ -1,7 +1,6 @@
 package at.gradwohl.website.repository.vorlage;
 
 import at.gradwohl.website.model.filiale.Filiale;
-import at.gradwohl.website.model.kundenbestellung.Kundenbestellung;
 import at.gradwohl.website.model.produkt.Produkt;
 import at.gradwohl.website.model.vorlage.Vorlage;
 import at.gradwohl.website.model.vorlage.VorlageId;

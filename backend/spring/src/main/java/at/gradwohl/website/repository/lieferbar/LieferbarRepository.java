@@ -1,6 +1,5 @@
 package at.gradwohl.website.repository.lieferbar;
 
-import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.model.lieferbar.Lieferbar;
 import at.gradwohl.website.model.lieferbar.LieferbarId;

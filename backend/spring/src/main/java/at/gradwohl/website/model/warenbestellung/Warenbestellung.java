@@ -1,6 +1,5 @@
 package at.gradwohl.website.model.warenbestellung;
 
-import at.gradwohl.website.model.filiale.Filiale;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;

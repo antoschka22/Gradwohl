@@ -7,7 +7,6 @@ import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.model.mitarbeiterrole.MitarbeiterRole;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

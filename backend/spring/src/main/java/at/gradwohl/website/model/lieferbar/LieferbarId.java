@@ -1,9 +1,7 @@
 package at.gradwohl.website.model.lieferbar;
 
-import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.model.produkt.Produkt;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 import lombok.*;
 

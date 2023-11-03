@@ -6,7 +6,6 @@ import at.gradwohl.website.model.warenbestellung.WarenbestellungId;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

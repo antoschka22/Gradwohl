@@ -22,11 +22,11 @@ export class DienstplanService {
     return this.http.post(this.baseUri+'/dienstplan', dienstplanToInsert)
   }
 
-  updateDienstplan(datum: Date, filialeId: number, von: Date, mitarbeiterId: number, dienstplanToInsert: dienstplan){
+  updateDienstplan(datum: string, filialeId: number, von: string, mitarbeiterId: number, dienstplanToInsert: dienstplan){
     return this.http.put(this.baseUri+'/dienstplan/'+datum+'/'+filialeId+'/'+von+'/'+mitarbeiterId, dienstplanToInsert)
   }
 
-  deleteDienstplan(datum: Date, filialeId: number, von: Date, mitarbeiterId: number){
+  deleteDienstplan(datum: string, filialeId: number, von: string, mitarbeiterId: number){
     return this.http.delete(this.baseUri+'/dienstplan/'+datum+'/'+filialeId+'/'+von+'/'+mitarbeiterId)
   }
 }

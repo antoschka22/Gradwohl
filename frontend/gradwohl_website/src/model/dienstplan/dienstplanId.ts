@@ -1,10 +1,9 @@
-import { Timestamp } from "rxjs";
 import { filiale } from "../filiale/filiale";
 import { mitabeiter } from "../mitarbeiter/mitarbeiter";
 
 export interface dienstplanId{
-    datum: Date,
+    datum: string,
     filiale: filiale,
-    von: Date,
+    von: string,
     mitarbeiter: mitabeiter
 }

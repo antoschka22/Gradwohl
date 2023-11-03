@@ -1,11 +1,7 @@
 package at.gradwohl.website.controller;
 
 import at.gradwohl.website.config.JwtService;
-import at.gradwohl.website.model.firma.Firma;
-import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaub;
-import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaubId;
 import at.gradwohl.website.model.urlaubstage.Urlaubstage;
-import at.gradwohl.website.service.firma.FirmaService;
 import at.gradwohl.website.service.urlaubstage.UrlaubstageService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor

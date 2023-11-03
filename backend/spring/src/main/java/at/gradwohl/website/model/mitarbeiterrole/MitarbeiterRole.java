@@ -1,6 +1,5 @@
 package at.gradwohl.website.model.mitarbeiterrole;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

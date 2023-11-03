@@ -35,6 +35,9 @@ import { NachrichtenUebersichtComponent } from './components/verkauf/nachrichten
 import { MatDialogModule } from '@angular/material/dialog';
 import { KundenbestellungsUebersichtComponent } from './components/verkauf/kundenbestellungs-uebersicht/kundenbestellungs-uebersicht.component';
 import { GesamtKundenbestellungsUebersichtComponent } from './components/verkauf/abgeschlossene-kundenbestellungs-uebersicht/gesamt-kundenbestellungs-uebersicht.component';
+import { EditableDirective } from './editable.directive';
+import { CommonModule } from '@angular/common';
+import { DienstplanModelsComponent } from './components/zentrale/dienstplan-models/dienstplan-models.component';
 
 const routes : Routes = [
   {path: '', component: LoginFirstPageComponent},
@@ -50,6 +53,8 @@ const routes : Routes = [
     NachrichtenUebersichtComponent,
     KundenbestellungsUebersichtComponent,
     GesamtKundenbestellungsUebersichtComponent,
+    DienstplanModelsComponent,
+    EditableDirective
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -67,6 +72,7 @@ const routes : Routes = [
     ToastrModule.forRoot(),
     MatSelectModule, 
     MatDialogModule,
+    CommonModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -44,8 +44,8 @@ public class DienstplanController {
     }
 
     @PostMapping
-    public ResponseEntity<List<Dienstplan>> addDienstplan(
-            @RequestBody List<Dienstplan> dienstplan,
+    public ResponseEntity<Dienstplan> addDienstplan(
+            @RequestBody Dienstplan dienstplan,
             HttpServletRequest request) {
         String myHeader = request.getHeader("Authorization").substring(7);
         if(!jwtService.getRoleIsVerkauf(myHeader))
