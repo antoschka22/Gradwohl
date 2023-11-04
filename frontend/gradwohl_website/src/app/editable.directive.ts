@@ -15,24 +15,51 @@ export class EditableDirective {
       divElement.dataset.initialText = divElement.textContent;
 
       //Format ändern wenn der String leer ist
-      if (divElement.textContent.trim() === '') {
+      if (divElement.textContent.trim() === '' || divElement.textContent.trim() === 'URLAUB') {
         divElement.textContent = '00:00 - 00:00';
       }
     });
 
-    divElement.addEventListener('blur', () => {
-      const initialText = divElement.dataset.initialText;
-      const updatedText = divElement.textContent;
-      let testTextForDeletion: boolean = false;
 
+
+
+
+    divElement.addEventListener('blur', () => {
+      let initialText = divElement.dataset.initialText;
+      const updatedText = this.formatTimeRange(divElement.textContent);
+      let testTextForDeletion: boolean = false;
+      let urlaub: boolean = false
+
+
+      if(divElement.textContent.trim() === 'u' 
+      || divElement.textContent.trim() === 'urlaub'
+      || divElement.textContent.trim() === 'URLAUB'){
+        divElement.textContent = "URLAUB"
+        initialText = "URLAUB"
+        urlaub = true;
+        const event = new CustomEvent('edit-done', {
+          detail: {
+            textContent: initialText,
+            neu: false,
+            delete: false,
+            initialText: initialText,
+            urlaub: true
+          }
+        });
+        divElement.dispatchEvent(event);
+      }
+
+      console.log(initialText, updatedText, divElement.textContent.trim())
       // delete
-      if(this.isValidTimeFormat(initialText) && updatedText.trim() == ''){
+      if((this.isValidTimeFormat(initialText.trim()) || (initialText.trim() === 'URLAUB')) && updatedText.trim() == '' && !urlaub){
+        console.log("editable delete", initialText.trim(), updatedText)
         const event = new CustomEvent('edit-done', {
           detail: {
             textContent: initialText,
             neu: false,
             delete: true,
-            initialText: initialText
+            initialText: initialText,
+            urlaubt: false
           }
         });
         divElement.dispatchEvent(event);
@@ -40,9 +67,9 @@ export class EditableDirective {
         testTextForDeletion = true;
       }
 
-      if (initialText !== updatedText && !testTextForDeletion) {
+      if (initialText !== updatedText && !testTextForDeletion && !urlaub) {
         // Format validieren
-        if (this.isValidTimeFormat(updatedText)) {
+        if (this.isValidTimeFormat(updatedText.trim())) {
           divElement.textContent = updatedText;
 
           //insert
@@ -52,7 +79,8 @@ export class EditableDirective {
                 textContent: divElement.textContent,
                 neu: true,
                 delete: false,
-                initialText: initialText
+                initialText: initialText,
+                urlaubt: false
               }
             });
             divElement.dispatchEvent(event);
@@ -63,7 +91,8 @@ export class EditableDirective {
                 textContent: divElement.textContent,
                 neu: false,
                 delete: false,
-                initialText: initialText
+                initialText: initialText,
+                urlaubt: false
               }
             });
             divElement.dispatchEvent(event);
@@ -110,6 +139,30 @@ export class EditableDirective {
     // Check if the start time is before the end time
     return startDateTime < endDateTime;
   }
+
+  formatTimeRange(timeRange: string): string {
+    if(timeRange.trim() === "" || timeRange.trim() === "URLAUB" || timeRange.trim() === 'u' || timeRange.trim() === 'urlaub'){
+      return timeRange
+    }
+    const [start, end] = timeRange.split(' - ');
   
+    const formatTimePart = (timePart: string): string => {
+      if(timePart != null){
+        const [hours, minutes] = timePart.split(':').map(Number);
+  
+        const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    
+        return `${formattedHours}:${formattedMinutes}`;
+      }else{
+        return ""
+      }
+    };
+  
+    const formattedStart = formatTimePart(start);
+    const formattedEnd = formatTimePart(end);
+  
+    return `${formattedStart} - ${formattedEnd}`;
+  }
   
 }

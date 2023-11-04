@@ -132,7 +132,7 @@ public class initApplication {
                     Filiale.builder()
                             .name("Hietzing")
                             .firma(wien)
-                            //.SOoffen(true)
+                            .SOoffen(true)
                             .build();
 
             Filiale doebling =
@@ -6105,7 +6105,7 @@ public class initApplication {
                             .mitarbeiter(barbara)
                             .filiale(hietzing)
                             .von(LocalTime.of(13, 00))
-                            .datum(LocalDate.of(2023, 10, 10))
+                            .datum(LocalDate.of(2023, 11, 02))
                             .build();
 
             Dienstplan dienstplan16 =
@@ -6114,10 +6114,25 @@ public class initApplication {
                             .bis(LocalTime.of(19,0))
                             .build();
 
+            DienstplanId dienstplanId17 =
+                    DienstplanId.builder()
+                            .mitarbeiter(barbara)
+                            .filiale(hietzing)
+                            .von(LocalTime.of(12, 00))
+                            .datum(LocalDate.of(2023, 11, 02))
+                            .build();
+
+            Dienstplan dienstplan17 =
+                    Dienstplan.builder()
+                            .id(dienstplanId17)
+                            .urlaub(true)
+                            .bis(LocalTime.of(19,0))
+                            .build();
+
             List<Dienstplan> dienstplans = Arrays.asList(
                     dienstplan1, dienstplan2, dienstplan3, dienstplan4, dienstplan5, dienstplan6, dienstplan7,
                     dienstplan8, dienstplan9, dienstplan10, dienstplan11, dienstplan12, dienstplan13, dienstplan14,
-                    dienstplan15, dienstplan16
+                    dienstplan15, dienstplan16, dienstplan17
             );
 
             dienstplanRepo.saveAll(dienstplans);
