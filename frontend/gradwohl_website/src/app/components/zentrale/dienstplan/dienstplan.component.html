@@ -69,46 +69,72 @@
           <ng-container *ngFor="let mitarbeiter of displayMitarbeiter">
 
             <td style="border-left: 2px solid black" *ngIf="tag.wochentag != 'So'">
-              <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) && !isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)">
+              <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')">
                 <p appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">{{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}</p>
-              </ng-container>              
-              <p *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) && isFeiertag(tag.tagNummer, selectedMonth.toString())">
+              </ng-container>  
+              <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && loginMitarbeiter.role.role == 'Verkauf'">
+                {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
+              </p>            
+              <p *ngIf="isFeiertag(tag.tagNummer, selectedMonth.toString())">
                 FEIERTAG
               </p>
-              <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)"
+              <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')"
               appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                URLAUB
+              </p>
+              <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+              && isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && loginMitarbeiter.role.role == 'Verkauf'">
                 URLAUB
               </p>
               <p appEditable 
                 (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)"
                 *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
                 && !isFeiertag(tag.tagNummer, selectedMonth.toString())
-                && loginMitarbeiter.role.role == 'Leiter'">
+                && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </p>
               <p 
                 *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
                 && !isFeiertag(tag.tagNummer, selectedMonth.toString())
-                && loginMitarbeiter.role.role != 'Leiter'">
+                && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')">
+              </p>
+            </td>
+
+            <td style="border-left: 2px solid black" *ngIf="tag.wochentag == 'So' && isFeiertag(tag.tagNummer, selectedMonth.toString()) && isFilialeSoOffen">
+              <p>
+                FEIERTAG
               </p>
             </td>
 
             <td style="border-left: 2px solid black" *ngIf="tag.wochentag == 'So' && !isFilialeSoOffen">-</td>
-            <td *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) && isFeiertag(tag.tagNummer, selectedMonth.toString())">
+            <td *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+            && isFeiertag(tag.tagNummer, selectedMonth.toString())
+            && isFilialeSoOffen">
+              {{ getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) }}
+            </td>
+            <td *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+            && isFeiertag(tag.tagNummer, selectedMonth.toString())
+            && (!isFilialeSoOffen && tag.wochentag != 'So')">
               {{ getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) }}
             </td>
             <td style="border-left: 2px solid black"
               *ngIf="tag.wochentag == 'So' 
               && isFilialeSoOffen
-              && loginMitarbeiter.role.role == 'Leiter'
+              && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')
               && !isFeiertag(tag.tagNummer, selectedMonth.toString())">
              <p *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)"
              appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </p>
 
-              <ng-container
-              *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
+              <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
                 <p *ngIf="!isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)"
                 appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
                   {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
@@ -124,8 +150,34 @@
                 && isFilialeSoOffen
                 && !isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
                 && !isFeiertag(tag.tagNummer, selectedMonth.toString())
-                && loginMitarbeiter.role.role != 'Leiter'">
+                && loginMitarbeiter.role.role == 'Verkauf'">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </p>
+            </td>
+            <td style="border-left: 2px solid black"
+              *ngIf="tag.wochentag == 'So' 
+              && isFilialeSoOffen
+              && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+              && loginMitarbeiter.role.role == 'Verkauf'">
+             <p *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
+              </p>
+
+              <ng-container
+                *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) && loginMitarbeiter.role.role == 'Verkauf'">
+                <p *ngIf="!isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && loginMitarbeiter.role.role == 'Verkauf'">
+                  {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
+                </p>
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && loginMitarbeiter.role.role == 'Verkauf'">
+                  URLAUB
+                </p>
+              </ng-container>
+
+              <p 
+                *ngIf="tag.wochentag == 'So' 
+                && isFilialeSoOffen
+                && !isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+                && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+                && loginMitarbeiter.role.role == 'Verkauf'">
               </p>
             </td>
             <td *ngIf="tag.wochentag != 'So' && !isFeiertag(tag.tagNummer, selectedMonth.toString())">
@@ -134,7 +186,7 @@
               </ng-container>
             </td>
             <td *ngIf="tag.wochentag == 'So' && !isFilialeSoOffen">-</td>
-            <td *ngIf="tag.wochentag == 'So' && isFilialeSoOffen">
+            <td *ngIf="tag.wochentag == 'So' && isFilialeSoOffen && !isFeiertag(tag.tagNummer, selectedMonth.toString())">
               <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
                 {{ getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) }}
               </ng-container>

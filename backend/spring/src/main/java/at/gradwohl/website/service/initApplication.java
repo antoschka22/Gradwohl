@@ -132,7 +132,7 @@ public class initApplication {
                     Filiale.builder()
                             .name("Hietzing")
                             .firma(wien)
-                            .SOoffen(true)
+                            //.SOoffen(true)
                             .build();
 
             Filiale doebling =
@@ -5745,6 +5745,7 @@ public class initApplication {
             Kundenbestellung kundenbestellung1 =
                     Kundenbestellung.builder()
                             .menge(1)
+                            .telefonnummer("234908235")
                             .id(kundenbestellungId1)
                             .build();
 
@@ -5759,6 +5760,7 @@ public class initApplication {
             Kundenbestellung kundenbestellung1HB =
                     Kundenbestellung.builder()
                             .menge(1)
+                            .telefonnummer("234908235")
                             .id(kundenbestellungId1HB)
                             .build();
 
@@ -5773,6 +5775,7 @@ public class initApplication {
             Kundenbestellung kundenbestellung2 =
                     Kundenbestellung.builder()
                             .menge(2)
+                            .telefonnummer("104393042")
                             .id(kundenbestellungId2)
                             .build();
 
@@ -5784,7 +5787,7 @@ public class initApplication {
 
             VorlageId vorlageId1 =
                     VorlageId.builder()
-                            .id(1)
+                            .name("Erste Vorlage")
                             .filiale(hietzing)
                             .produkt(bauernbrot)
                             .build();
@@ -5797,7 +5800,7 @@ public class initApplication {
 
             VorlageId vorlageId2 =
                     VorlageId.builder()
-                            .id(1)
+                            .name("Erste Vorlage")
                             .filiale(hietzing)
                             .produkt(roggenbrot)
                             .build();
@@ -5810,7 +5813,7 @@ public class initApplication {
 
             VorlageId vorlageId3 =
                     VorlageId.builder()
-                            .id(2)
+                            .name("Zweite Vorlage")
                             .filiale(mariahilfer)
                             .produkt(bauernbrotStange)
                             .build();
@@ -6119,7 +6122,7 @@ public class initApplication {
                             .mitarbeiter(barbara)
                             .filiale(hietzing)
                             .von(LocalTime.of(12, 00))
-                            .datum(LocalDate.of(2023, 11, 02))
+                            .datum(LocalDate.of(2023, 11, 03))
                             .build();
 
             Dienstplan dienstplan17 =
@@ -6141,12 +6144,14 @@ public class initApplication {
                     Nachricht.builder()
                             .nachricht("Das ist eine Testnachricht")
                             .datum(LocalDate.of(2023, 9, 24))
+                            .betreff("1 Betreff")
                             .build();
 
             Nachricht nachricht2 =
                     Nachricht.builder()
                             .nachricht("Andere Nachrich \n Test")
                             .datum(LocalDate.of(2023, 9, 25))
+                            .betreff("2 Betreff")
                             .build();
 
             List<Nachricht> nachrichten = Arrays.asList(

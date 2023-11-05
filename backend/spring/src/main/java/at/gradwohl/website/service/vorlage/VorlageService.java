@@ -51,11 +51,11 @@ public class VorlageService {
         return vorlageRepository.findAllById_Filiale(filiale);
     }
 
-    public List<Vorlage> getVorlageById(int id){
-        List<Vorlage> optionalVorlage = vorlageRepository.findAllById_Id(id);
+    public List<Vorlage> getVorlageById(String name){
+        List<Vorlage> optionalVorlage = vorlageRepository.findAllById_Name(name);
 
         if(optionalVorlage.size() > 0)
-            return vorlageRepository.findAllById_Id(id);
+            return vorlageRepository.findAllById_Name(name);
         else
             throw new IllegalArgumentException("Vorlage doesnt exist");
     }

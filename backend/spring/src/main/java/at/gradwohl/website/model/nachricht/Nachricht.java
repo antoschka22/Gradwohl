@@ -23,4 +23,7 @@ public class Nachricht {
 
     @Column(name = "N_Datum")
     private LocalDate datum;
+
+    @Column(name = "N_Betreff")
+    private String betreff;
 }

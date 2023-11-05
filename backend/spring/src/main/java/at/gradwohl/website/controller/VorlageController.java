@@ -51,15 +51,15 @@ public class VorlageController {
         return new ResponseEntity<>(vorlagen, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{name}")
     public ResponseEntity<List<Vorlage>> getVorlageById(
-            @PathVariable("id") int id,
+            @PathVariable("name") String name,
             HttpServletRequest request){
         String myHeader = request.getHeader("Authorization").substring(7);
         if(!jwtService.getRoleIsVerkauf(myHeader))
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-        List<Vorlage> vorlagen = vorlageService.getVorlageById(id);
+        List<Vorlage> vorlagen = vorlageService.getVorlageById(name);
         return new ResponseEntity<>(vorlagen, HttpStatus.OK);
     }
 
@@ -74,9 +74,9 @@ public class VorlageController {
         return new ResponseEntity<>(vorlageService.addVorlage(vorlagen), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/{produktId}/{filialeId}")
+    @PutMapping("/{name}/{produktId}/{filialeId}")
     public ResponseEntity<Vorlage> updateVorlage(
-            @PathVariable("id") int id,
+            @PathVariable("name") String name,
             @PathVariable("produktId") int produktId,
             @PathVariable("filialeId") int filialeId,
             @RequestBody Vorlage updatedVorlage,
@@ -88,7 +88,7 @@ public class VorlageController {
         Produkt produkt = produktService.getProduktById(produktId);
         Filiale filiale = filialeService.getFilialeById(filialeId);
 
-        VorlageId vorlageId = new VorlageId(id, produkt, filiale);
+        VorlageId vorlageId = new VorlageId(name, produkt, filiale);
 
         Vorlage result = vorlageService.updateVorlage(vorlageId, updatedVorlage);
         if (result != null) {
@@ -98,9 +98,9 @@ public class VorlageController {
         }
     }
 
-    @DeleteMapping("/{id}/{produktId}/{filialeId}")
+    @DeleteMapping("/{name}/{produktId}/{filialeId}")
     public ResponseEntity<Void> deleteVorlage(
-            @PathVariable("id") int id,
+            @PathVariable("name") String name,
             @PathVariable("produktId") int produktId,
             @PathVariable("filialeId") int filialeId,
             HttpServletRequest request) {
@@ -111,7 +111,7 @@ public class VorlageController {
         Produkt produkt = produktService.getProduktById(produktId);
         Filiale filiale = filialeService.getFilialeById(filialeId);
 
-        VorlageId vorlageId = new VorlageId(id, produkt, filiale);
+        VorlageId vorlageId = new VorlageId(name, produkt, filiale);
 
         vorlageService.deleteVorlage(vorlageId);
         return ResponseEntity.noContent().build();

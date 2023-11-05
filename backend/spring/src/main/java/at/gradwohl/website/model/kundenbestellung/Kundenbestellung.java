@@ -23,4 +23,7 @@ public class Kundenbestellung {
 
     @Column(name = "KB_Menge")
     private double menge;
+
+    @Column(name = "KB_Telefonnummer")
+    private String telefonnummer;
 }

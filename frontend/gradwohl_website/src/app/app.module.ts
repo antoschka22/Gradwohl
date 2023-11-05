@@ -38,6 +38,7 @@ import { GesamtKundenbestellungsUebersichtComponent } from './components/verkauf
 import { EditableDirective } from './editable.directive';
 import { CommonModule } from '@angular/common';
 import { DienstplanModelsComponent } from './components/zentrale/dienstplan-models/dienstplan-models.component';
+import { LandingPageComponent } from './components/zentrale/landing-page/landing-page.component';
 
 const routes : Routes = [
   {path: '', component: LoginFirstPageComponent},
@@ -54,7 +55,8 @@ const routes : Routes = [
     KundenbestellungsUebersichtComponent,
     GesamtKundenbestellungsUebersichtComponent,
     DienstplanModelsComponent,
-    EditableDirective
+    EditableDirective,
+    LandingPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

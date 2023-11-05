@@ -10,6 +10,7 @@ import { BestelluebersichtComponent } from './components/verkauf/bestelluebersic
 import { NachrichtenUebersichtComponent } from './components/verkauf/nachrichten-uebersicht/nachrichten-uebersicht.component';
 import { KundenbestellungsUebersichtComponent } from './components/verkauf/kundenbestellungs-uebersicht/kundenbestellungs-uebersicht.component';
 import { GesamtKundenbestellungsUebersichtComponent } from './components/verkauf/abgeschlossene-kundenbestellungs-uebersicht/gesamt-kundenbestellungs-uebersicht.component';
+import { LandingPageComponent } from './components/zentrale/landing-page/landing-page.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
@@ -25,6 +26,8 @@ const routes: Routes = [
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'abgeschlosseneUebersicht', component: GesamtKundenbestellungsUebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
+  {path: 'zentrale', component: LandingPageComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
 ];
 
 @NgModule({

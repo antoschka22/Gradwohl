@@ -17,7 +17,7 @@ public interface VorlageRepository extends JpaRepository<Vorlage, VorlageId> {
     List<Vorlage> findAllById_Filiale(Filiale filiale);
     void deleteById(WarenbestellungId id);
 
-    List<Vorlage> findAllById_Id(int id);
+    List<Vorlage> findAllById_Name(String name);
 
     @Transactional
     @Modifying

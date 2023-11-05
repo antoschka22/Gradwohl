@@ -27,6 +27,11 @@ class dienstplanModell implements dienstplan {
  * Wenn man es noch sehen will kann man ihn von der Filiale rauswerfen
  */
 
+
+/**
+ * von URLAUB zu  12:00 - 11:00 geht nicht 
+ */
+
 @Component({
   selector: 'app-dienstplan',
   templateUrl: './dienstplan.component.html',
@@ -81,6 +86,7 @@ export class DienstplanComponent implements AfterViewInit{
     this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
       this.dienstplanService.getDienstplanByFiliale(mitarbeiter.filiale.id).subscribe((dienstplan: any) => {
         this.loginMitarbeiter = mitarbeiter;
+        this.isFilialeSoOffen = mitarbeiter.filiale.sooffen
         //Get the unique Jahre
         const uniqueYears = new Set<string>();
 
@@ -101,9 +107,6 @@ export class DienstplanComponent implements AfterViewInit{
         //Store Dienstplan
         this.dienstplan = dienstplan;
         console.log(dienstplan)
-        if(this.dienstplan.length > 0){
-          this.isFilialeSoOffen = dienstplan[0].id.filiale.sooffen;
-        }
         //Test if the current month of this year has a Stundenplan
         this.isCurrentMonth(this.currentMonat, new Date().getFullYear())
         //Store all Mitarbeiters of that filiale + springer
@@ -251,7 +254,7 @@ export class DienstplanComponent implements AfterViewInit{
     if (vonBisEntry && !urlaub) {
       const hoursSpent = this.calculateHoursSpent(vonBisEntry.von, vonBisEntry.bis);
       return hoursSpent;
-    } else {
+    } else{
       return (mitarbeiter.wochenstunden / 6).toFixed(2);
     }
   }
@@ -389,10 +392,11 @@ export class DienstplanComponent implements AfterViewInit{
             year: data.id.datum.split('-')[0], 
             day: data.id.datum.split('-')[2], 
             mitarbeiter: data.id.mitarbeiter})
-            console.log(this.isVonBisEntryExists(day, mitabeiter.id))
         });
       }
-    }else{
+    }
+    
+    if(this.alreadyUpdated){
       //delete
       if(loeschen && !this.alreadyDeleted){
         console.log("delete")
@@ -426,14 +430,8 @@ export class DienstplanComponent implements AfterViewInit{
         // URLAUB
         this.alreadyUrlaub = true
         const currentVonBis: any = this.getVonBisForTag(tag, mitabeiter.id).split("-")
+        let itemUrlaub: boolean = false
         const indexToRemove = this.resultVonBisTageDesMonats.findIndex((item: { urlaub: boolean, von: string; bis: string; month: string; year: number; day: string; mitarbeiter: mitabeiter; }) => {
-          console.log(item.urlaub === !urlaub,
-            item.von === currentVonBis[0].trim() + ":00",
-            item.bis === currentVonBis[1].trim() + ":00",
-            item.month === month,
-            item.year == year,
-            item.day === day,
-            item.mitarbeiter.id === mitabeiter.id)
           return (
             item.urlaub === !urlaub &&
             item.von === currentVonBis[0].trim() + ":00" &&
@@ -444,7 +442,6 @@ export class DienstplanComponent implements AfterViewInit{
             item.mitarbeiter.id === mitabeiter.id
           );
         });
-        
         
         if (indexToRemove != -1) {
           //UPDATE URLAUB
@@ -554,12 +551,26 @@ export class DienstplanComponent implements AfterViewInit{
     
 
     for(const item of this.firmenUrlaube){
-      const split = item.id.urlaubstage.datum.split('-')
-      if(split[1] == this.selectedMonth.toString()){
-        totalHoursSpent+= parseFloat((mitarbeiter.wochenstunden / 6).toFixed(2));
+      const date = new Date(item.id.urlaubstage.datum);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const newDate = new Date(parseInt(this.currentYear), month - 1, day);
+      if(newDate.getDay() === 0 && !this.loginMitarbeiter.filiale.sooffen){
+        continue;
+      }else{
+        const split = item.id.urlaubstage.datum.split('-')
+        let month: string = "";
+        if(this.selectedMonth+1 < 10){
+          month = '0'+(this.selectedMonth+1).toString()
+        }else{
+          month = (this.selectedMonth+1).toString()
+        }
+        if(split[1] == month){
+          totalHoursSpent+= parseFloat((mitarbeiter.wochenstunden / 6).toFixed(2));
+        }
       }
     }
-    return totalHoursSpent;
+    return totalHoursSpent.toFixed(2);
   }
 
   // Get die stunden die jeder mitarbeiter machen sollte

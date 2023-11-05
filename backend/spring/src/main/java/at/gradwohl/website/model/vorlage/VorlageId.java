@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class VorlageId implements Serializable {
-    @Column(name = "V_ID")
-    private int id;
+    @Column(name = "V_Name")
+    private String name;
 
     @MapsId("produkt")
     @ManyToOne

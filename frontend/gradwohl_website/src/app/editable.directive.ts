@@ -20,20 +20,15 @@ export class EditableDirective {
       }
     });
 
-
-
-
-
     divElement.addEventListener('blur', () => {
       let initialText = divElement.dataset.initialText;
       const updatedText = this.formatTimeRange(divElement.textContent);
       let testTextForDeletion: boolean = false;
       let urlaub: boolean = false
 
-
       if(divElement.textContent.trim() === 'u' 
       || divElement.textContent.trim() === 'urlaub'
-      || divElement.textContent.trim() === 'URLAUB'){
+      || divElement.textContent.trim() === 'URLAUB '){
         divElement.textContent = "URLAUB"
         initialText = "URLAUB"
         urlaub = true;
@@ -49,10 +44,8 @@ export class EditableDirective {
         divElement.dispatchEvent(event);
       }
 
-      console.log(initialText, updatedText, divElement.textContent.trim())
       // delete
       if((this.isValidTimeFormat(initialText.trim()) || (initialText.trim() === 'URLAUB')) && updatedText.trim() == '' && !urlaub){
-        console.log("editable delete", initialText.trim(), updatedText)
         const event = new CustomEvent('edit-done', {
           detail: {
             textContent: initialText,
