@@ -1,7 +1,7 @@
 import { firma } from "../firma/firma"
 
 export interface filiale{
-    int: number,
+    id: number,
     name: string,
     firma: firma,
     soOffen: boolean

@@ -39,10 +39,10 @@ import { EditableDirective } from './editable.directive';
 import { CommonModule } from '@angular/common';
 import { DienstplanModelsComponent } from './components/zentrale/dienstplan-models/dienstplan-models.component';
 import { LandingPageComponent } from './components/zentrale/landing-page/landing-page.component';
+import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-verwaltung/dienstplan-verwaltung.component';
+import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
+import { ZentraleNavbarComponent } from './components/zentrale/zentrale-navbar/zentrale-navbar.component';
 
-const routes : Routes = [
-  {path: '', component: LoginFirstPageComponent},
-];
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,10 +56,12 @@ const routes : Routes = [
     GesamtKundenbestellungsUebersichtComponent,
     DienstplanModelsComponent,
     EditableDirective,
-    LandingPageComponent
+    LandingPageComponent,
+    DienstplanVerwaltungComponent,
+    DienstplanViewComponent,
+    ZentraleNavbarComponent,
   ],
   imports: [
-    RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

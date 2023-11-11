@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class LandingPageComponent {
 
+  gradwohlLogo: string = "assets/img/GradwohlLogo.png";
+
 }

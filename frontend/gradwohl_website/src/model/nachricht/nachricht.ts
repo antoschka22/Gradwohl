@@ -1,5 +1,6 @@
 export interface nachricht{
     id: number,
     nachricht: string,
-    datum: Date
+    datum: string,
+    betreff: string
 }

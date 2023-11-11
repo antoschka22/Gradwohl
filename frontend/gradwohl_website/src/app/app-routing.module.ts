@@ -11,6 +11,8 @@ import { NachrichtenUebersichtComponent } from './components/verkauf/nachrichten
 import { KundenbestellungsUebersichtComponent } from './components/verkauf/kundenbestellungs-uebersicht/kundenbestellungs-uebersicht.component';
 import { GesamtKundenbestellungsUebersichtComponent } from './components/verkauf/abgeschlossene-kundenbestellungs-uebersicht/gesamt-kundenbestellungs-uebersicht.component';
 import { LandingPageComponent } from './components/zentrale/landing-page/landing-page.component';
+import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-verwaltung/dienstplan-verwaltung.component';
+import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
@@ -27,6 +29,10 @@ const routes: Routes = [
   {path: 'abgeschlosseneUebersicht', component: GesamtKundenbestellungsUebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'zentrale', component: LandingPageComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+  {path: 'dienstplan/verwalten', component: DienstplanVerwaltungComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+  {path: 'dienstplan/view/:filialeId', component: DienstplanViewComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
 ];
 

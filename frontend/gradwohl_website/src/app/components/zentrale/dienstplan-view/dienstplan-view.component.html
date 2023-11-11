@@ -1,0 +1,214 @@
+<body #tableToSave>
+    <br>
+  <!-- JAHR AUSWAHL -->
+  <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/dienstplan/verwalten']"><i class="bi bi-arrow-left"></i>Zurück</button>
+  <div class="custom-dropdown">
+    <div class="dropdown">
+        <button class="dropbtn" (click)="toggleDropdown()">{{ currentYear }}</button>
+        <div class="dropdown-content" *ngIf="isDropdownOpen">
+          <a *ngFor="let jahr of jahre" 
+          (click)="selectYear(jahr)" 
+          [ngClass]="{ 'selected': jahr === currentYear }"
+          (click)="changeDienstplanMonth(selectedMonth+1)">{{ jahr }}</a>
+        </div>
+      </div>
+    <div class="dropdown-arrow">
+      <i *ngIf="!isDropdownOpen" class="bi bi-chevron-compact-down"></i>
+      <i *ngIf="isDropdownOpen" class="bi bi-chevron-compact-up"></i>
+    </div>
+  </div>
+  <button style="margin-left: 20px;" class="btn btn-outline-success" (click)="saveToPDF()">Als PDF speichern</button>
+  <hr>
+
+  <div class="horizontal-monate">
+    <ng-container *ngFor="let monat of monate; let i = index">
+      <div class="monat" [ngClass]="{'currMonat': selectedMonth == i}" (click)="changeDienstplanMonth(i+1)">{{ monat }}</div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="loginFiliale">
+    <h1 style="text-align: center; margin-top: 10px; ">{{loginFiliale.name}}</h1>
+    <hr>
+  </div>
+
+  <div class="container dienstplan-container">
+    <div class="dienstplan">
+      <table class="custom-table">
+        <tr class="header-row">
+          <td colspan="2"></td>
+          <td colspan="2" *ngFor="let mitarbeiter of displayMitarbeiter">
+            <!-- MITARBEITER NAMEN AUSGABE-->
+            <div class="mitarbeiter">
+              <span class="mitarbeiter-text">{{ mitarbeiter.name }}</span>
+              <div class="div" data-bs-toggle="modal" data-bs-target="#deleteMitarbeiter" (click)="getNameToDelete(mitarbeiter)">
+                <i class="bi bi-trash"></i>
+              </div>
+            </div>
+          </td>
+          <!-- INSERT MITARBEITER-->
+          <td colspan="2" *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+            <div class="icon" data-bs-toggle="modal" data-bs-target="#insertMitarbeiter">
+              <i class="bi bi-plus-circle icon"></i>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><p>Tag</p></td>
+          <ng-container *ngFor="let mitarbeiter of displayMitarbeiter">
+            <td style="border-left: 2px solid black"><p>von-bis</p></td>
+            <td><p>Stunden</p></td>
+          </ng-container>
+          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+            <td style="border-left: 2px solid black"><p>von-bis</p></td>
+            <td><p>Stunden</p></td>
+          </ng-container>
+        </tr>
+        <tr *ngFor="let tag of resultTageDesMonats" [ngClass]="{'soBorder': tag.wochentag === 'So'}">
+          <td>{{ tag.tagNummer }}</td>
+          <td>{{ tag.wochentag }}</td>
+          <ng-container *ngFor="let mitarbeiter of displayMitarbeiter">
+
+            <td style="border-left: 2px solid black" *ngIf="tag.wochentag != 'So'">
+              <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && (userRole == 'Leiter' || userRole == 'Zentrale')">
+                <p appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">{{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}</p>
+              </ng-container>  
+              <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && userRole == 'Verkauf'">
+                {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
+              </p>            
+              <p *ngIf="isFeiertag(tag.tagNummer, selectedMonth.toString())">
+                FEIERTAG
+              </p>
+              <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && (userRole == 'Leiter' || userRole == 'Zentrale')"
+              appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                URLAUB
+              </p>
+              <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+              && isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && userRole == 'Verkauf'">
+                URLAUB
+              </p>
+              <p appEditable 
+                (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)"
+                *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+                && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+                && (userRole == 'Leiter' || userRole == 'Zentrale')">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </p>
+              <p 
+                *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+                && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+                && (userRole == 'Leiter' || userRole == 'Zentrale')">
+              </p>
+            </td>
+
+            <td style="border-left: 2px solid black" *ngIf="tag.wochentag == 'So' && isFeiertag(tag.tagNummer, selectedMonth.toString()) && isFilialeSoOffen">
+              <p>
+                FEIERTAG
+              </p>
+            </td>
+
+            <td style="border-left: 2px solid black" *ngIf="tag.wochentag == 'So' && !isFilialeSoOffen">-</td>
+            <td *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+            && isFeiertag(tag.tagNummer, selectedMonth.toString())
+            && isFilialeSoOffen">
+              {{ getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) }}
+            </td>
+            <td *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+            && isFeiertag(tag.tagNummer, selectedMonth.toString())
+            && (!isFilialeSoOffen && tag.wochentag != 'So')">
+              {{ getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) }}
+            </td>
+            <td style="border-left: 2px solid black"
+              *ngIf="tag.wochentag == 'So' 
+              && isFilialeSoOffen
+              && (userRole == 'Leiter' || userRole == 'Zentrale')
+              && !isFeiertag(tag.tagNummer, selectedMonth.toString())">
+             <p *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)"
+             appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </p>
+
+              <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
+                <p *ngIf="!isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)"
+                appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                  {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
+                </p>
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)"
+                appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                  URLAUB
+                </p>
+              </ng-container>
+
+              <p 
+                *ngIf="tag.wochentag == 'So' 
+                && isFilialeSoOffen
+                && !isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+                && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+                && userRole == 'Verkauf'">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </p>
+            </td>
+            <td style="border-left: 2px solid black"
+              *ngIf="tag.wochentag == 'So' 
+              && isFilialeSoOffen
+              && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+              && userRole == 'Verkauf'">
+             <p *ngIf="!isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
+              </p>
+
+              <ng-container
+                *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) && userRole == 'Verkauf'">
+                <p *ngIf="!isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && userRole == 'Verkauf'">
+                  {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
+                </p>
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && userRole == 'Verkauf'">
+                  URLAUB
+                </p>
+              </ng-container>
+
+              <p 
+                *ngIf="tag.wochentag == 'So' 
+                && isFilialeSoOffen
+                && !isVonBisEntryExists(tag.tagNummer, mitarbeiter.id) 
+                && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+                && userRole == 'Verkauf'">
+              </p>
+            </td>
+            <td *ngIf="tag.wochentag != 'So' && !isFeiertag(tag.tagNummer, selectedMonth.toString())">
+              <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
+                {{ getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) }}
+              </ng-container>
+            </td>
+            <td *ngIf="tag.wochentag == 'So' && !isFilialeSoOffen">-</td>
+            <td *ngIf="tag.wochentag == 'So' && isFilialeSoOffen && !isFeiertag(tag.tagNummer, selectedMonth.toString())">
+              <ng-container *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)">
+                {{ getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) }}
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+            <td style="border-left: 2px solid black"></td>
+            <td></td>
+          </ng-container>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+          <td colspan="2" *ngFor="let mitarbeiter of displayMitarbeiter">
+            {{mitarbeiter.name}} ({{getRequiredWorkingHours(mitarbeiter)}}): {{getTotalHours(mitarbeiter)}} Stunden
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>  
+</body>
+
+<app-dienstplan-models [allMitarbeiter]="allMitarbeiter" 
+                      [displayMitarbeiter]="displayMitarbeiter"
+                      [selectedMitarbeiterToDelete]="selectedMitarbeiterToDelete"></app-dienstplan-models>
