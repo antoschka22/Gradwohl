@@ -1,7 +1,7 @@
 <nav class="header navbar navbar-expand-lg navbar-light bg-light py-1 fixed-top">
   <div class="container">
     <!-- Logo -->
-    <a href="/">
+    <a [routerLink]="'/'">
       <input type="image" class="logo navbar-brand" [src]="gradwohlLogo">
     </a>
     <!-- Mobile-Toggle-Button mit größerem Abstand zum rechten Rand -->
@@ -23,7 +23,7 @@
             <!-- Dropdown-Elemente -->
             <ul class="dropdown-menu">
               <li class="nav-item">
-                <a href="kundenbestellungsUebersicht" class="dropdown-item"><i class="bi bi-chevron-compact-right"></i>Laufende Aufträge</a>
+                <a [routerLink]="'kundenbestellungsUebersicht'" class="dropdown-item"><i class="bi bi-chevron-compact-right"></i>Laufende Aufträge</a>
               </li>
               <li class="nav-item">
                 <a href="#" class="dropdown-item"><i class="bi bi-chevron-compact-right"></i>Abgeschlossene Aufträge</a>
@@ -85,7 +85,11 @@
     <h2>Nachrichten Ansicht</h2>
     <div class="card p-2">
       <h2>Überschrift</h2>
-      <p>Test hehe....</p>
+      <p>Test....</p>
     </div>
+    <hr>
+      <div style="text-align: center;" class="card p-2">
+        <a style="color: rgb(101, 96, 96);"[routerLink]="'/nachrichten-uebersicht'">Alle Anzeigen</a>
+      </div>
   </div>
 </div>

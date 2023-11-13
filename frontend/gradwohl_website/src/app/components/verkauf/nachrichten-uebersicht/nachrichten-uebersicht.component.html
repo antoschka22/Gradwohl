@@ -13,14 +13,25 @@
               <ul id="ueberschriftenListe">
                 <!-- Linke Spalte: Betreff + Datum -->
                   <li><h1><a class="ueberschrift-link" data-content="Inhalt 1">Betreff 1</a></h1></li>
+                  <hr style="width: 360px; margin-left: -40px;">
                   <li><h1><a class="ueberschrift-link" data-content="Inhalt 2">Betreff 2</a></h1></li>
               </ul>
           </div>
           <!-- Rechte Spalte: -->
           <div class="col-md-9 card">
-              <!--Betreff 1 schreiben (rechte Ecke Datum ausgeben) + Nachricht ausgeben-->
-                
-              
+            <div class="container p-3">
+              <p style="text-align: right;"><u>2023-01-01</u></p>
+              <h2>Betreff 1</h2>
+              <hr >
+              <div class="Nachrichten inhalt">
+                Das hier ist die erste Nachricht.
+                  <!--Betreff 1 schreiben (rechte Ecke Datum ausgeben) + Nachricht ausgeben-->
+                  <li *ngFor="let nachricht of nachrichten">
+                    <h1><a class="ueberschrift-link" data-content="Inhalt 1">{{ nachricht.nachricht }}</a></h1>
+                    <p>Datum: {{ nachricht.datum }}</p>
+                  </li>
+              </div>
+            </div>
           </div>
       </div>
 

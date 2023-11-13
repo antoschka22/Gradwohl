@@ -1,0 +1,129 @@
+<app-navbar-header></app-navbar-header>
+<body>
+  <br /> <br /><br /><br />
+  <section class="text-dark pt-5 mg-auto">
+    <div class="container-fluid pl-2">
+      <u><h2>Bestellung für den </h2></u>
+      <div class="row">
+        <div class="col-sm-8">
+          <form class="form-row align-items-center">
+            <div class="form-group">
+              <div class="input-group">
+                <input id="produktSuche" type="text" placeholder="Nach Produktnamen suchen..." class="form-control"  (input)="searchProduct($event)">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-dark" type="button" id="searchButton" disabled>
+                    <i class="bi bi-search" style="font-size: 20px;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-4">
+          <button class="btn btn-primary mb-2 btn-block" style="padding: 12px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Bestellvorlagen-Archiv</button>
+        </div>
+      </div>
+      <!-- Pop-up-ANFANG -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="container-fluid">
+                <br />
+                <h2>Bestellvorlage wählen...</h2>
+
+                <div *ngFor="let group of groupedVorlagen">
+                  <div class="accordion">
+                    <div class="accordion-header" (click)="toggleAccordion(group)" [class.selected-accordion]="isAccordionOpen(group.vorlage.id.id)" class="card p-2">
+                      {{ group.vorlage.id.id }}
+                    </div>
+                    <div class="accordion-content" [hidden]="!isAccordionOpen(group.vorlage.id.id)">
+                        <div *ngFor="let produkt of group.products">
+                          <table class="table table-striped">
+                            <tbody>
+                                    <tr>
+                                      <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{produkt.produktgruppe.name}}</th>
+                                    </tr>
+
+                                <tr>
+                                    <th>Produkt</th>
+                                    <th>Frisch</th>
+                                    <th>Teigig</th>
+                                </tr>
+                                <tr>
+                                    <td>{{produkt.name}}</td>
+                                    <td>
+                                      <input type="text" class="form-control" [ngModel]="(produkt.hb ? '0' : (vorlage && vorlage.length > 0) ? vorlage[0].menge : '')" disabled>
+                                    </td>
+                                    <td>
+                                      <input type="text" class="form-control" [ngModel]="(produkt.hb ? vorlage[0].menge : '0')" disabled>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                      <!-- Weitere Informationen anzeigen, wenn erforderlich -->
+                    </div>
+                  </div>
+                </div>
+                
+                
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [routerLink]="'warenbestellungEingabe'">Auswählen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-- Pop-up-ENDE -->
+      <hr>
+      <div class="row">
+        <!-- Produkte zeigen-->
+        <div class="col-sm-8">
+          <div class="table-container">
+            <div class="scrollable-table">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
+                    <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
+                    <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let produkte of angezeigteProdukte">
+                    <td class="card" style="background-color: whitesmoke">{{ produkte.name }}</td>
+                    <td><input type="number" required min="0" ondrop="return false;" onpaste="return false;"
+                        onkeypress="return event.charCode>=48 && event.charCode<=57" required/></td>
+                    <td><input type="number" required min="0" ondrop="return false;" onpaste="return false;"
+                        onkeypress="return event.charCode>=48 && event.charCode<=57" required/></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Kategorien abbilden-->
+        <div class="col-sm-4 p-3 d-flex justify-content-center align-items-center">
+            <div class="row">
+                <button class="btn stylingButton" *ngFor="let produktgruppe of produktgruppen" 
+                                [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
+                                (click)="onProduktgruppeClicked(produktgruppe)">
+                    
+                    {{ produktgruppe.name }}
+                </button>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+            <button type="submit" class="btn" style="float: right; background-color: #8C5263;color:white;margin-left: 5px;">
+                Weiter</button>
+            <button type="submit" class="btn btn-outline-dark" style="float: right;">
+                Abbrechen</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>

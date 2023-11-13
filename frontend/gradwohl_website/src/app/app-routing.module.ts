@@ -13,6 +13,8 @@ import { GesamtKundenbestellungsUebersichtComponent } from './components/verkauf
 import { LandingPageComponent } from './components/zentrale/landing-page/landing-page.component';
 import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-verwaltung/dienstplan-verwaltung.component';
 import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
+import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
+import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
@@ -27,6 +29,10 @@ const routes: Routes = [
   {path: 'kundenbestellungsUebersicht', component: KundenbestellungsUebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'abgeschlosseneUebersicht', component: GesamtKundenbestellungsUebersichtComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
+  {path: 'warenbestellungEingabe', component: WarenbestellungEingabeComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
+  {path: 'kundenbestellung', component: KundenbestellungSpeichernComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'zentrale', component: LandingPageComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},

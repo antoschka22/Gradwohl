@@ -73,6 +73,9 @@ export class LoginFirstPageComponent implements OnInit {
 
   groupbyDateWarenbestellung: { [datum: string]: warenbestellungID[] } = {};
 
+  loggedInUserFilialeName: string = '';
+
+
 
   constructor(
     private warenbestellungService: WarenbestellungService,
@@ -135,10 +138,6 @@ export class LoginFirstPageComponent implements OnInit {
 
   //----------------------------------------------------------------
 
-  // Filiale Ausgeben: 
-  filialeData: filiale | undefined;;
-  eingeloggterBenutzer: string ='';
-  filialenName: string | undefined;
 
   //KALENDER Warenbestellungen einsehen
   isEmptyGroupbyDateWarenbestellung(selectedDate: Date | undefined): string {
@@ -170,17 +169,33 @@ export class LoginFirstPageComponent implements OnInit {
 
   }
 
+  // Und geht filialen namen
   getWarenbestellungen() {
-    this.warenbestellungService.getWarenbestellungByFiliale(14).subscribe((data: any) => {
-      data.forEach((warenbestellung: warenbestellung) => {
-        warenbestellung.id.datum = new Date(warenbestellung.id.datum);
-      });
-  
-      this.warenbestellungen = data;
-      this.groupbyDateWarenbestellung = groupDates(this.warenbestellungen);
+      var username: String = this.authService.getUsernameFromToken();
+      this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
+        this.warenbestellungService.getWarenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
+          data.forEach((warenbestellung: warenbestellung) => {
+            warenbestellung.id.datum = new Date(warenbestellung.id.datum);
+          });
+      
+          this.warenbestellungen = data;
+          this.groupbyDateWarenbestellung = groupDates(this.warenbestellungen);
+
+        });
+        if (mitarbeiter && mitarbeiter.filiale) {
+          const filialeId: number = mitarbeiter.filiale.id;
+          this.getFilialeNameById(filialeId);
+        }
+      })
+  }
+
+  private getFilialeNameById(filialeId: number): void {
+    this.filialeService.getFilialeById(filialeId).subscribe((filiale: any) => {
+      if (filiale) {
+        this.loggedInUserFilialeName = filiale.name;
+      }
     });
   }
-  
 
   onDateSelect(event: Date) {
     this.selectedDate = event;

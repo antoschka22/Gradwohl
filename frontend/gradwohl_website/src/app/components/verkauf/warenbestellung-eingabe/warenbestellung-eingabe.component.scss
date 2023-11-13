@@ -1,0 +1,42 @@
+.scrollable-table {
+    max-height: 460px;
+    overflow-y: auto;
+}
+
+.scrollable-table table {
+    width: 100%;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.stylingButton{
+    background-color: #8C5263;
+    color:white; 
+    display: flex;
+    width: 200px;
+    justify-content: space-between;
+    
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 2px;
+    margin-left: auto;
+}
+
+.selected {
+    background-color: #B17889;
+    color: white; 
+ }
+
+ .selected-accordion {
+    border: 1px solid #2680EB;
+    background-color: whitesmoke;
+  }
+  
+
+  
+  

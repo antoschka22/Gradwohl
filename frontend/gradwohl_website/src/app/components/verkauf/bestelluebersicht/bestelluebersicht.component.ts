@@ -11,6 +11,9 @@ import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
 
 import { warenbestellungID } from 'src/model/warenbestellung/warenbestellungID'; 
 
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
+
 
 interface WarenbestellungID {
   datum: Date;
@@ -40,7 +43,8 @@ export class BestelluebersichtComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     private warenbestellungService: WarenbestellungService,
-    
+    private authService: AuthService,
+    private mitarbeiterService: MitabeiterService,
   ) {this.date = this.route.snapshot.params['date'] || '';}
 
   ngOnInit(): void {
@@ -58,7 +62,11 @@ export class BestelluebersichtComponent implements OnInit {
   }
 
   public loadWarenbestellungenForDate(date: string): void {
-    this.warenbestellungService.getWarenbestellungByFiliale(14).subscribe((data: any) => {
+
+    var username: String = this.authService.getUsernameFromToken();
+
+    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
+    this.warenbestellungService.getWarenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
       data.forEach((warenbestellung: warenbestellung) => {
         warenbestellung.id.datum = new Date(warenbestellung.id.datum);
       });
@@ -67,13 +75,13 @@ export class BestelluebersichtComponent implements OnInit {
       this.warenbestellungen = this.mapToWarenbestellungID(data);
 
     });
+  })
   }
 
 
   public mapToWarenbestellungID(warenbestellungenFromService: warenbestellung[]): WarenbestellungID[] {
     const categories: Set<string> = new Set<string>(); // Kategorien speichern
 
-    
     return warenbestellungenFromService.map((warenbestellung: warenbestellung) => {
       const produktgruppeName = warenbestellung.id.produkt.produktgruppe.name;
       const menge = warenbestellung.menge;

@@ -1,14 +1,20 @@
-import { ProduktService } from './../../../service/produkt/produkt.service';
-import { ProduktgruppeService } from './../../../service/produktgruppe/produktgruppe.service';
+import { filiale } from 'src/model/filiale/filiale';
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { kundenbestellung } from 'src/model/kundenbestellung/kundenbestellung';
-import { kundenbestellungId } from './../../../../model/kundenbestellung/kundenbestellungId';
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
 
 // Hinzufügen
 import { produkt } from './../../../../model/produkt/produkt';
 import { produktgruppe } from 'src/model/produktgruppe/produktgruppe';
+import { ProduktgruppeService } from './../../../service/produktgruppe/produktgruppe.service';
+import { ProduktService } from 'src/app/service/produkt/produkt.service';
+
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
+
+
 
 interface KundenbestellungId {
   menge: number;
@@ -17,12 +23,27 @@ interface KundenbestellungId {
   produkt: produkt;
 
 }
+
+export interface Kundenbestellung {
+  id: KundenbestellungId;
+  menge: number;
+}
+
+export interface Produkt {
+  id: number;
+  name: string,
+  produktgruppe: produktgruppe;
+  hb: boolean;
+}
+
+
 @Component({
   selector: 'app-kundenbestellungs-uebersicht',
   templateUrl: './kundenbestellungs-uebersicht.component.html',
   styleUrls: ['./kundenbestellungs-uebersicht.component.scss']
 })
 export class KundenbestellungsUebersichtComponent implements OnInit {
+
   kundenbestellung: kundenbestellung[] = [];
 
   gleichDatum: Date[] = [];
@@ -32,50 +53,90 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
 
   // Kundenbestellungsprodukte ausgeben mit Kategorie
   currentCategory: string | undefined;
-  
   produktgruppen: produktgruppe[] = [];
 
+  //Hinzufügen
+  produkte: produkt[] = [];
+  ausgewaehlteProduktgruppe: produktgruppe | null = null;
+  angezeigteProdukte: produkt[] = [];
 
 
   constructor(private kundenbestellungService: KundenbestellungService,
-    private produktService: ProduktgruppeService) {}
+    private produktService: ProduktService,
+    private authService: AuthService,
+    private mitarbeiterService: MitabeiterService,
+    private produktgruppeService: ProduktgruppeService,
+    private router: Router,
+    ) {}
 
   ngOnInit() {
-    this.kundenbestellungService.getAllKundenbestellungen()
-      .subscribe((data: Object) => {
-        this.kundenbestellung = this.mapToKundenbestellungen(data);
-        this.findGleichDatum();
-      });
-
-      this.produktService.getProduktgruppen()
-      .subscribe((data: any) => {
-        this.produktgruppen = data;
-      
-      });
+    //Hinzufügen
+    this.loadAllProduktgruppen();
+    this.loadKundenbestellprodukte();
+    //Kundenbestellungen abfragen
+    this.getKundenbestellungByFiliale();
 
   }
-
-  //---------Hinzufügen-POPUP:
-
-  alleProdukte: produkt[] = [];
-  ausgewaehlteKategorie: string | null = null;
-  ausgewaehlteKategorieProdukt: produkt[] = [];
-
-  waehlenKategorie(categoryName: string): void {
-    this.ausgewaehlteKategorie = categoryName;
-    console.log('Filter-Kategorie:', categoryName);
-    this.ausgewaehlteKategorieProdukt = this.alleProdukte.filter(produkt => {
-        const produktgruppe = produkt.produktgruppe;
-        if (produktgruppe && produktgruppe.name === categoryName) {
-            return true;
-        }
-        return false;
-    });
-    console.log('Ausgewählte Produkte:', this.ausgewaehlteKategorieProdukt);
-}
   
+//---------Hinzufügen-POPUP:
 
-  //---------ENDE-Hinzufügen-POPUP------
+          public loadKundenbestellprodukte(): void {
+            var username: String = this.authService.getUsernameFromToken();
+
+              this.produktService.getAllProdukts().subscribe((data: any) => {
+                this.produkte = data;
+            });
+
+          }
+
+            public loadAllProduktgruppen(): void {
+              this.produktgruppeService.getProduktgruppen().subscribe((data: any) => {
+                this.produktgruppen = data;
+              });
+            }
+
+            onProduktgruppeClicked(produktgruppe: produktgruppe) {
+              this.ausgewaehlteProduktgruppe = produktgruppe;
+              this.angezeigteProdukte = this.produkte.filter((produkt) => produkt.produktgruppe && produkt.produktgruppe.name === produktgruppe.name);
+            }
+
+            //Search-button-Hinzu
+            searchProduct(event: Event): void {
+              const query = (event.target as HTMLInputElement).value;
+              if (query) {
+                this.angezeigteProdukte = this.produkte.filter((produkt) =>
+                  produkt.name.toLowerCase().includes(query.toLowerCase())
+                );
+              } else {
+                // zeige alle Produkte an (wenn leer)
+                this.angezeigteProdukte = this.produkte;
+              }
+            }
+
+
+            resetForm() {
+              this.angezeigteProdukte = []; 
+
+              (document.getElementById('auftragnameKundenbestellung') as HTMLInputElement).value = '';
+              (document.getElementById('datumInput') as HTMLInputElement).value = '';
+
+              this.ausgewaehlteProduktgruppe = null;
+            }
+            
+            onWeiterClicked(): void {
+
+              const auftragsname = (document.getElementById('auftragnameKundenbestellung') as HTMLInputElement).value
+              const datum = (document.getElementById('datumInput') as HTMLInputElement).value;
+
+              this.router.navigate(['/kundenbestellung'], {
+                state: {
+                  auftragsname,
+                  datum,
+                },
+              });
+            }
+
+//---------ENDE-Hinzufügen-POPUP------
 
   displayProduktgruppenNames() {
     this.produktgruppen.forEach((produktgruppe: produktgruppe) => {
@@ -88,38 +149,55 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
     return data as kundenbestellung[];
   }  
 
-  public loadKundenbestellungForDate(date: string): void {
-    this.kundenbestellungService.getKundenbestellungByFiliale(14).subscribe((data: any) => {
-      data.forEach((kundenbestellung: kundenbestellung) => {
-        kundenbestellung.id.datum = new Date(kundenbestellung.id.datum);
-      });
-      
-      this.kundenbestellung = data;
-      this.kundenbestellung = this.mapToKundenbestellungen(data);
+  filialenName: string = '';
+  getKundenbestellungByFiliale() {
 
+    var username: string = this.authService.getUsernameFromToken();
+    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
+      this.filialenName = mitarbeiter.filiale.name;
+      this.kundenbestellungService.getKundenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
+        data.forEach((kundenbestellung: kundenbestellung) => {
+          kundenbestellung.id.datum = new Date(kundenbestellung.id.datum);
+        });
+
+        this.kundenbestellung = data;
+        this.groupKundenbestellungen();
+      });
     });
   }
 
-  findGleichDatum() {
-    this.gleichDatum = Array.from(new Set(this.kundenbestellung.map(entry => entry.id.datum)));
+  groupKundenbestellungen() {
     this.groupedKundenbestellungen = [];
-  
-    this.gleichDatum.forEach(date => {
-      const kundenbestellungenForDate = this.kundenbestellung.filter(entry => entry.id.datum === date);
-  
-      // verhindert doppelte einträge
-      const uniqueKunden = new Set<string>();
-      kundenbestellungenForDate.forEach(entry => {
-        uniqueKunden.add(entry.id.kunde);
+
+    this.kundenbestellung.forEach((kundenbestellung: kundenbestellung) => {
+      const datum = kundenbestellung.id.datum;
+      const kunde = kundenbestellung.id.kunde;
+      const group = this.groupedKundenbestellungen.find((item) => {
+        return (
+          item.datum.getTime() === datum.getTime() &&
+          item.kunden.includes(kunde)
+        );
       });
-  
-      this.groupedKundenbestellungen.push({
-        datum: date,
-        kunden: Array.from(uniqueKunden),
-        data: kundenbestellungenForDate
-      });
+
+      if (group) {
+        group.data.push(kundenbestellung);
+      } else {
+        this.groupedKundenbestellungen.push({
+          datum: datum,
+          kunden: [kunde],
+          data: [kundenbestellung],
+        });
+      }
     });
-  } 
+  }
+
+  formattedDate(group: { datum: Date; kunden: string[]; data: kundenbestellung[] }): string {
+    const abgeschicktAm = group.datum;
+    const year = abgeschicktAm.getFullYear();
+    const month = (abgeschicktAm.getMonth() + 1).toString().padStart(2, '0');
+    const day = abgeschicktAm.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
   
 }
 

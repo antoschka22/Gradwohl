@@ -1,4 +1,5 @@
 <app-navbar-header></app-navbar-header>
+
 <body>
     <br /> <br /> <br /><br />
     <section class="text-dark pt-5 mg-auto">
@@ -9,7 +10,7 @@
                         <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
                             </div>
                             <div>
                                 <div class="modal-body">
@@ -20,35 +21,58 @@
                                                 <u>Bitte wählen Sie hier die bestellten Produkte</u>
                                             </h2>
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floatingPassword" placeholder="Auftragsname">
-                                                    <label for="floatingPassword">Auftragsname</label>
+                                                    <input type="text" class="form-control" id="auftragnameKundenbestellung" placeholder="Auftragsname">
+                                                    <label for="auftragnameKundenbestellung" id="auftragnameKundenbestellung">Auftragsname</label>
                                                 </div>
                                                 <br />
-                                                Datum <input type="date" placeholder="Nach Produktnamen suchen..">
+                                                Datum <input type="date" id="datumInput">
                                                 <br /><br />
-                                                <input class="form-control" id="myInput" type="text" placeholder="Nach Produktnamen suchen..">
+                                                <div class="input-group">
+                                                    <input id="produktSuche" type="text" placeholder="Nach Produktnamen suchen..." class="form-control"  (input)="searchProduct($event)">
+                                                    <div class="input-group-append">
+                                                      <button class="btn btn-outline-dark" type="button" id="searchButton" disabled>
+                                                        <i class="bi bi-search" style="font-size: 20px;"></i>
+                                                      </button>
+                                                    </div>
+                                                </div>
                                                 <br />
                                                 <div class="button-container container">
-                                                    <button *ngFor="let produktgruppe of produktgruppen" class="btn kategorieButtons" (click)="waehlenKategorie(produktgruppe.name)">
+                                                    <button *ngFor="let produktgruppe of produktgruppen" class="btn kategorieButtons"
+                                                            [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
+                                                            (click)="onProduktgruppeClicked(produktgruppe)">
                                                         {{ produktgruppe.name }}
                                                     </button>
+                                                    
                                                 </div>
-                                                
-                                                <!-- Hier werden die Produkte der ausgewählten Produktgruppe angezeigt -->
-                                                <div *ngIf="ausgewaehlteKategorie">
-                                                    <h2>Produkte der ausgewählten Kategorie ({{ ausgewaehlteKategorie }})</h2>
-                                                    <ul>
-                                                        <li *ngFor="let produkt of ausgewaehlteKategorieProdukt">
-                                                            {{ produkt.name }}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                
+                                                <hr>
+                                                    <div class="table-container">
+                                                        <div class="scrollable-table">
+                                                            <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
+                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
+                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let produkt of angezeigteProdukte">
+                                                                    <td class="card" style="background-color: whitesmoke">{{ produkt.name }}</td>
+                                                                    <td><input type="number" min="0"step="0.5" ondrop="return false;" onpaste="return false;"
+                                                                        onkeypress="return event.charCode>=48 && event.charCode<=57" required [(ngModel)]="produkt.hb"/></td>
+                                                                    <td><input type="number"  min="0"step="0.5" ondrop="return false;" onpaste="return false;"
+                                                                        onkeypress="return event.charCode>=48 && event.charCode<=57" required [(ngModel)]="produkt.hb"/></td>
+                                                                </tr>
+                                                            </tbody>
+                                                            </table>
+                                                        </div>
+                                                        </div>
+                                 
                                         </div>
                                     </div>
                                 </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn" style="background-color: #8C5263;color:white;" data-bs-dismiss="modal">Ok</button>
+                                        <button type="button" class="btn" style="background-color: #8C5263;color:white;width: 200px;" data-bs-dismiss="modal" (click)="onWeiterClicked()">Weiter</button>
                                         <br />
                                     </div>
                             </div>
@@ -56,6 +80,7 @@
                         </div>
                     </div>
                 <!-- Popup-Hinzufügen-Ende -->
+                
         <div class="container-fluid card pt-3">
             <h1>Kundenbestellungen für</h1>
         </div>
@@ -65,7 +90,7 @@
                 <h2>Heute Anstehend</h2>
                 <div *ngFor="let group of groupedKundenbestellungen" class="col-lg-6 col-md-12 pb-3">
                     <div class="card pt-3 container">
-                        <u>Datum: {{ group.datum }}</u>
+                        <u>Datum: {{ formattedDate(group) }}</u>
                         <table class="table table-striped">
                             <tr>
                                 <th scope="col">Auftragsname</th>
@@ -87,7 +112,7 @@
                                                     <button type="button" class="btn-close" data-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                <h1 class="modal-title">Kundenbestellung am {{group.datum}}</h1>
+                                                <h1 class="modal-title">Kundenbestellung ({{ filialenName }})</h1>
                                                 <hr>
                                                 <!-- Inhalt -->
                                                 <div>
@@ -96,7 +121,7 @@
                                                                 <span class="card p-1">{{kunde}}</span>
                                                             <br />
                                                             Datum: 
-                                                                <span class="card p-1">{{group.datum}}</span> <br />
+                                                                <span class="card p-1">{{ formattedDate(group) }}</span> <br />
                                                             Bestellung:
                                                         </p>
                                                 </div>                                        

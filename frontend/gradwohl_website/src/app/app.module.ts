@@ -42,6 +42,8 @@ import { LandingPageComponent } from './components/zentrale/landing-page/landing
 import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-verwaltung/dienstplan-verwaltung.component';
 import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
 import { ZentraleNavbarComponent } from './components/zentrale/zentrale-navbar/zentrale-navbar.component';
+import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
+import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,9 @@ import { ZentraleNavbarComponent } from './components/zentrale/zentrale-navbar/z
     DienstplanVerwaltungComponent,
     DienstplanViewComponent,
     ZentraleNavbarComponent,
+    DienstplanModelsComponent,
+    WarenbestellungEingabeComponent,
+    KundenbestellungSpeichernComponent
   ],
   imports: [
     BrowserModule,

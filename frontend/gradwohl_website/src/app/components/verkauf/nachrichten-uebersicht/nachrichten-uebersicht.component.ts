@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { nachricht } from 'src/model/nachricht/nachricht';
 
+import { NachrichtService } from 'src/app/service/nachricht/nachricht.service';
+
 interface NachrichtenID {
   nachricht: nachricht;
 }
@@ -14,13 +16,27 @@ export class NachrichtenUebersichtComponent {
 
   nachrichten: nachricht[] = [];
 
-  public mapToNachrichten(nachrichtenservice: nachricht[]): NachrichtenID[] {
-    
-    return nachrichtenservice.map((nachricht: nachricht) => {
+  constructor(
+    private nachrichtenService: NachrichtService,
+   
+  ) {}
 
-      return {
-        nachricht: nachricht,
-      };
-    });
+  ngOnInit(): void {
+    
+    this.getNachricht();
+
   }
+
+  getNachricht() {
+    
+      this.nachrichtenService.getAllNachrichten().subscribe((data: any) => {
+        data.forEach((nachricht: nachricht) => {
+          nachricht.datum = nachricht.datum;
+        });
+    
+        this.nachrichten = data;
+
+      });
+  }
+
 }
