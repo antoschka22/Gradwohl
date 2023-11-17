@@ -39,7 +39,6 @@ public class AuthenticationService {
         var user = mitarbeiterRepository.findByName(request.getName())
                 .orElseThrow();
         if(passwordEncoder.matches(request.getPassword(), user.getPassword())){
-
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
                     .token(jwtToken)

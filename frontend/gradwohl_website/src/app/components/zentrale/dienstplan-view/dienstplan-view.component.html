@@ -83,15 +83,29 @@
                 FEIERTAG
               </p>
               <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
-              && (userRole == 'Leiter' || userRole == 'Zentrale')"
+              && (userRole == 'Leiter' || userRole == 'Zentrale')
+              && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) != '0'"
               appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
                 URLAUB
+              </p>
+              <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && (userRole == 'Leiter' || userRole == 'Zentrale')
+              && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'"
+              appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                ZA
               </p>
               <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
               && !isFeiertag(tag.tagNummer, selectedMonth.toString())
               && isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
               && userRole == 'Verkauf'">
                 URLAUB
+              </p>
+              <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+              && isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && userRole == 'Verkauf'
+              && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'">
+                ZA
               </p>
               <p appEditable 
                 (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)"
@@ -139,9 +153,15 @@
                 appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
                   {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
                 </p>
-                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)"
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+                && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) != '0'"
                 appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
                   URLAUB
+                </p>
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+                        && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'"
+                appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                  ZA
                 </p>
               </ng-container>
 
@@ -167,8 +187,13 @@
                 <p *ngIf="!isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && userRole == 'Verkauf'">
                   {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
                 </p>
-                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && userRole == 'Verkauf'">
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && userRole == 'Verkauf'
+                && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) != '0'">
                   URLAUB
+                </p>
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && userRole == 'Verkauf'
+                && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'">
+                  ZA
                 </p>
               </ng-container>
 

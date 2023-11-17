@@ -86,8 +86,13 @@ public class initApplication {
                             .name("Olivers Teigwerkstätte")
                             .build();
 
+            Firma niederoesterreich =
+                    Firma.builder()
+                            .name("Niederösterreich")
+                            .build();
+
             List<Firma> firmen = Arrays.asList(
-                wien, burgenland, teigwerkstatt
+                wien, burgenland, teigwerkstatt, niederoesterreich
             );
 
             firmaRepository.saveAll(firmen);
@@ -144,25 +149,25 @@ public class initApplication {
             Filiale schwechat =
                     Filiale.builder()
                             .name("Schwechat")
-                            .firma(wien)
+                            .firma(niederoesterreich)
                             .build();
 
             Filiale moedling =
                     Filiale.builder()
                             .name("Mödling")
-                            .firma(wien)
+                            .firma(niederoesterreich)
                             .build();
 
             Filiale baden =
                     Filiale.builder()
                             .name("Baden")
-                            .firma(wien)
+                            .firma(niederoesterreich)
                             .build();
 
             Filiale neustadt =
                     Filiale.builder()
                             .name("Wiener Neustadt")
-                            .firma(wien)
+                            .firma(niederoesterreich)
                             .build();
 
             Filiale eisenstadt =

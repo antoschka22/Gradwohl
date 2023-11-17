@@ -1,5 +1,3 @@
-/* vertical-navbar.component.css */
-
 .vertical-navbar {
     position: fixed;
     top: 0;
@@ -12,6 +10,7 @@
     align-items: center;
     justify-content: center;
     padding-top: 20px;
+    border-left: solid 0.5px #898787;
   }
   
   .nav-item {
@@ -25,7 +24,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    box-sizing: border-box;
   }
   
   .nav-item:hover {

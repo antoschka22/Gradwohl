@@ -44,6 +44,8 @@ import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/d
 import { ZentraleNavbarComponent } from './components/zentrale/zentrale-navbar/zentrale-navbar.component';
 import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
 import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
+import { MitarbeiterComponent } from './components/zentrale/mitarbeiter/mitarbeiter.component';
+import { MitarbeiterModelsComponent } from './components/zentrale/mitarbeiter-models/mitarbeiter-models.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenb
     ZentraleNavbarComponent,
     DienstplanModelsComponent,
     WarenbestellungEingabeComponent,
-    KundenbestellungSpeichernComponent
+    KundenbestellungSpeichernComponent,
+    MitarbeiterComponent,
+    MitarbeiterModelsComponent
   ],
   imports: [
     BrowserModule,

@@ -252,6 +252,8 @@ export class DienstplanViewComponent {
     if (vonBisEntry && !urlaub) {
       const hoursSpent = this.calculateHoursSpent(vonBisEntry.von, vonBisEntry.bis);
       return hoursSpent;
+    } else if(vonBisEntry && vonBisEntry.von == vonBisEntry.bis){
+      return "0"
     } else{
       return (mitarbeiter.wochenstunden / 6).toFixed(2);
     }
@@ -386,12 +388,14 @@ export class DienstplanViewComponent {
     let loeschen: boolean = false;
     let initialText: string = "";
     let urlaub: boolean = false;
+    let za: boolean = false;
     if(event instanceof CustomEvent){
       vonBis = event.detail.textContent.split('-')
       neu = event.detail.neu
       loeschen = event.detail.delete
       initialText = event.detail.initialText.split('-')
       urlaub = event.detail.urlaub
+      za = event.detail.za
     }
 
     delete mitabeiter.enabled;
@@ -462,10 +466,9 @@ export class DienstplanViewComponent {
         // URLAUB
         this.alreadyUrlaub = true
         const currentVonBis: any = this.getVonBisForTag(tag, mitabeiter.id).split("-")
-        let itemUrlaub: boolean = false
         const indexToRemove = this.resultVonBisTageDesMonats.findIndex((item: { urlaub: boolean, von: string; bis: string; month: string; year: number; day: string; mitarbeiter: mitabeiter; }) => {
           return (
-            item.urlaub === !urlaub &&
+            ((item.urlaub === !urlaub) || (item.urlaub === za) || (item.urlaub === urlaub))&& 
             item.von === currentVonBis[0].trim() + ":00" &&
             item.bis === currentVonBis[1].trim() + ":00" &&
             item.month === month &&
@@ -478,8 +481,14 @@ export class DienstplanViewComponent {
         if (indexToRemove != -1) {
           //UPDATE URLAUB
           this.resultVonBisTageDesMonats.splice(indexToRemove, 1);
-          const updateDienstplanId: dienstplanId = { datum: formattedDate, filiale: this.loginFiliale, von: currentVonBis[0].trim()+":00", mitarbeiter: mitabeiter}
-          let dienstplanUpdate: dienstplanModell = new dienstplanModell(updateDienstplanId, currentVonBis[1].trim()+":00", urlaub)  
+          let dienstplanUpdate: dienstplanModell;
+          if(!za){
+            const updateDienstplanId: dienstplanId = { datum: formattedDate, filiale: this.loginFiliale, von: "05:30:00", mitarbeiter: mitabeiter}
+            dienstplanUpdate = new dienstplanModell(updateDienstplanId, "12:00:00", urlaub)   
+          } else{
+            const updateDienstplanId: dienstplanId = { datum: formattedDate, filiale: this.loginFiliale, von: "05:00:00", mitarbeiter: mitabeiter}
+            dienstplanUpdate = new dienstplanModell(updateDienstplanId, "05:00:00", urlaub)  
+          }
           this.dienstplanService.updateDienstplan(formattedDate, 
                                                 this.filialeId, 
                                                 currentVonBis[0].trim()+":00", 
@@ -498,19 +507,37 @@ export class DienstplanViewComponent {
           });
         }else{
           //INSERT URLAUB
-          const updateDienstplanId: dienstplanId = { datum: formattedDate, filiale: this.loginFiliale, von: "05:30:00", mitarbeiter: mitabeiter}
-          let dienstplanUpdate: dienstplanModell = new dienstplanModell(updateDienstplanId, "12:00:00", urlaub)  
+          let dienstplanUpdate: dienstplanModell;
+          if(!za){
+            const updateDienstplanId: dienstplanId = { datum: formattedDate, filiale: this.loginFiliale, von: "05:30:00", mitarbeiter: mitabeiter}
+            dienstplanUpdate = new dienstplanModell(updateDienstplanId, "12:00:00", urlaub)  
+          } else{
+            const updateDienstplanId: dienstplanId = { datum: formattedDate, filiale: this.loginFiliale, von: "05:00:00", mitarbeiter: mitabeiter}
+            dienstplanUpdate = new dienstplanModell(updateDienstplanId, "05:00:00", urlaub)  
+          }
           this.dienstplanService.insertDienstplan(dienstplanUpdate).subscribe((data: any) => {
             this.alreadyUrlaub = false;
-            this.resultVonBisTageDesMonats.push({ 
-              urlaub: data.urlaub,
-              von: "05:30:00", 
-              bis: "12:00:00", 
-              month: data.id.datum.split('-')[1], 
-              year: data.id.datum.split('-')[0], 
-              day: data.id.datum.split('-')[2], 
-              mitarbeiter: data.id.mitarbeiter})
+            if(!za){
+              this.resultVonBisTageDesMonats.push({ 
+                urlaub: data.urlaub,
+                von: "05:30:00", 
+                bis: "12:00:00", 
+                month: data.id.datum.split('-')[1], 
+                year: data.id.datum.split('-')[0], 
+                day: data.id.datum.split('-')[2], 
+                mitarbeiter: data.id.mitarbeiter})
+            }else{
+              this.resultVonBisTageDesMonats.push({ 
+                urlaub: data.urlaub,
+                von: "05:00:00", 
+                bis: "05:00:00", 
+                month: data.id.datum.split('-')[1], 
+                year: data.id.datum.split('-')[0], 
+                day: data.id.datum.split('-')[2], 
+                mitarbeiter: data.id.mitarbeiter})
+            }
           });
+          console.log("NEU")
         }
         this.alreadyUpdated = false;
         this.alreadyDeleted = false;

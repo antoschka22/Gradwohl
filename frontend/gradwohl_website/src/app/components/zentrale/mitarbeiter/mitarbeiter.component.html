@@ -1,0 +1,49 @@
+<!-- HEADER-->
+<app-zentrale-navbar></app-zentrale-navbar>
+<div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
+    <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/zentrale']">
+      <i class="bi bi-arrow-left"></i>Zurück
+    </button>
+    <h1 style="margin: 0 auto; font-size: 35px; margin-left: 480px;">Mitarbeiter</h1>
+</div>
+
+
+<div class="container">
+    <input style="margin: 20px 0px;" type="text" [(ngModel)]="searchTerm" placeholder="Suche nach..." />
+    <button style="border-radius: 10px;" type="button" class="btn btn-primary"
+    data-bs-toggle="modal" data-bs-target="#insert">Hinzufügen</button>
+    <br>
+    <div style="margin-right: 100px;">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Filiale</th>
+                <th scope="col">Firma</th>
+                <th scope="col">Rolle</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mit of filteredMitarbeiter">
+                <td scope="row">{{ mit.name }}</td>
+                <td *ngIf="mit.filiale">{{ mit.filiale.name }}</td>
+                <td *ngIf="mit.filiale">{{ mit.filiale.firma.name }}</td>
+                <td *ngIf="!mit.filiale"></td>
+                <td *ngIf="!mit.filiale"></td>
+                <td>{{ mit.role.role }}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" 
+                    data-bs-toggle="modal" data-bs-target="#update">ändern</button>
+
+                    <button type="button" class="btn btn-outline-danger" 
+                    data-bs-toggle="modal" data-bs-target="#delete" (click)="loeschen(mit)">löschen</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-mitarbeiter-models [mitarbeiter]="mitarbeiter"
+    [changeMitarbeiter]="changeMitarbeiter"></app-mitarbeiter-models>
