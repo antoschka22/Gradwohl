@@ -24,7 +24,7 @@ const routes: Routes = [
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'bestelluebersichtAbgeschickt/:date', component: BestelluebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
-  {path: 'nachrichten-uebersicht', component: NachrichtenUebersichtComponent,
+  {path: 'nachricht', component: NachrichtenUebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'kundenbestellungsUebersicht', component: KundenbestellungsUebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},

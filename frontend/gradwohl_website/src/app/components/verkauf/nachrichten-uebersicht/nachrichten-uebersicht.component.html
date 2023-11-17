@@ -6,7 +6,11 @@
   <section class="text-dark pt-5 mg-auto card">
     <div class="container-fluid card pt-3">
         <h1 style="color:rgb(128,128,128);">Nachrichten</h1>
-        {{nachrichten}}
+       
+    </div>
+
+    <div *ngFor="let nachricht of nachrichten">
+      {{nachricht.nachricht.datum}}
     </div>
       <div class="row">
           <div class="col-md-3 pt-4 card">
@@ -28,7 +32,7 @@
                   <!--Betreff 1 schreiben (rechte Ecke Datum ausgeben) + Nachricht ausgeben-->
                   <li *ngFor="let nachricht of nachrichten">
                     <h1><a class="ueberschrift-link" data-content="Inhalt 1">{{ nachricht.nachricht }}</a></h1>
-                    <p>Datum: {{ nachricht.datum }}</p>
+                    <p>Datum:</p>
                   </li>
               </div>
             </div>

@@ -14,11 +14,10 @@ interface NachrichtenID {
 })
 export class NachrichtenUebersichtComponent {
 
-  nachrichten: nachricht[] = [];
+  nachrichten: NachrichtenID[] = [];
 
   constructor(
     private nachrichtenService: NachrichtService,
-   
   ) {}
 
   ngOnInit(): void {
@@ -30,11 +29,8 @@ export class NachrichtenUebersichtComponent {
   getNachricht() {
     
       this.nachrichtenService.getAllNachrichten().subscribe((data: any) => {
-        data.forEach((nachricht: nachricht) => {
-          nachricht.datum = nachricht.datum;
-        });
-    
         this.nachrichten = data;
+        console.log(this.nachrichten);
 
       });
   }

@@ -24,19 +24,6 @@ interface KundenbestellungId {
 
 }
 
-export interface Kundenbestellung {
-  id: KundenbestellungId;
-  menge: number;
-}
-
-export interface Produkt {
-  id: number;
-  name: string,
-  produktgruppe: produktgruppe;
-  hb: boolean;
-}
-
-
 @Component({
   selector: 'app-kundenbestellungs-uebersicht',
   templateUrl: './kundenbestellungs-uebersicht.component.html',
