@@ -21,6 +21,7 @@
                 <th scope="col">Filiale</th>
                 <th scope="col">Firma</th>
                 <th scope="col">Rolle</th>
+                <th scope="col">Wochenstunden</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -34,7 +35,7 @@
                 <td>{{ mit.role.role }}</td>
                 <td>
                     <button type="button" class="btn btn-outline-primary" 
-                    data-bs-toggle="modal" data-bs-target="#update">ändern</button>
+                    data-bs-toggle="modal" data-bs-target="#update" (click)="update(mit)">ändern</button>
 
                     <button type="button" class="btn btn-outline-danger" 
                     data-bs-toggle="modal" data-bs-target="#delete" (click)="loeschen(mit)">löschen</button>
@@ -46,4 +47,7 @@
 </div>
 
 <app-mitarbeiter-models [mitarbeiter]="mitarbeiter"
-    [changeMitarbeiter]="changeMitarbeiter"></app-mitarbeiter-models>
+    [changeMitarbeiter]="changeMitarbeiter"
+    [filialen]="filialen"
+    [rolen]="rolen"
+    [mitarbeiterName]="changeMitarbeiter?.name"></app-mitarbeiter-models>

@@ -6,8 +6,8 @@
     <div class="dropdown">
         <button class="dropbtn" (click)="toggleDropdown()">{{ currentYear }}</button>
         <div class="dropdown-content" *ngIf="isDropdownOpen">
-          <a *ngFor="let jahr of jahre" 
-          (click)="selectYear(jahr)" 
+          <a *ngFor="let jahr of jahre"
+          (click)="selectYear(jahr)"
           [ngClass]="{ 'selected': jahr === currentYear }"
           (click)="changeDienstplanMonth(selectedMonth+1)">{{ jahr }}</a>
         </div>

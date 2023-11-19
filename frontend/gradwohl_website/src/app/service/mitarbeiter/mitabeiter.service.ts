@@ -39,7 +39,7 @@ export class MitabeiterService {
   }
 
   insertMitarbeiter(mitabeiterToInsert: mitabeiter){
-    return this.http.post(this.baseUri + '/mitarbeiter/', mitabeiterToInsert)
+    return this.http.post(this.baseUri + '/mitarbeiter', mitabeiterToInsert)
   }
 
 }

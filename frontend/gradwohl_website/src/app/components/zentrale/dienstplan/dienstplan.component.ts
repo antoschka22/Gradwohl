@@ -567,7 +567,7 @@ export class DienstplanComponent implements AfterViewInit{
         const timeDifference = Math.abs(time1.getTime() - time2.getTime());
     
         totalHoursSpent += timeDifference / 3600000;
-      }else if(item.urlaub && mitarbeiter.id === item.mitarbeiter.id){
+      }else if(item.urlaub && mitarbeiter.id === item.mitarbeiter.id && item.von != item.bis){
         totalHoursSpent+= parseFloat((mitarbeiter.wochenstunden / 6).toFixed(2));
       }
     }

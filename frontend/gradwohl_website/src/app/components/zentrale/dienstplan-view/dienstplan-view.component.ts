@@ -337,7 +337,7 @@ export class DienstplanViewComponent {
     return false;
   }
 
-  // Get gesamten stunden pro mitarbeiter
+  // Get gesamte stunden pro mitarbeiter
   getTotalHours(mitarbeiter: mitabeiter){
     let totalHoursSpent:number = 0;
 
@@ -349,7 +349,7 @@ export class DienstplanViewComponent {
         const timeDifference = Math.abs(time1.getTime() - time2.getTime());
     
         totalHoursSpent += timeDifference / 3600000;
-      }else if(item.urlaub && mitarbeiter.id === item.mitarbeiter.id){
+      }else if(item.urlaub && mitarbeiter.id === item.mitarbeiter.id && item.von != item.bis){
         totalHoursSpent+= parseFloat((mitarbeiter.wochenstunden / 6).toFixed(2));
       }
     }

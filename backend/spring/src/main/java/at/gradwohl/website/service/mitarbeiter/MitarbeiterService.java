@@ -58,6 +58,7 @@ public class MitarbeiterService {
                 .password(passwordEncoder.encode(mitarbeiter.getPassword()))
                 .role(mitarbeiter.getRole())
                 .filiale(mitarbeiter.getFiliale())
+                .wochenstunden(mitarbeiter.getWochenstunden())
                 .build();
 
         return mitarbeiterRepository.save(mitarbeiterHash);
