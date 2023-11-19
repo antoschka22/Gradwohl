@@ -6,8 +6,8 @@
     <div class="dropdown">
         <button class="dropbtn" (click)="toggleDropdown()">{{ currentYear }}</button>
         <div class="dropdown-content" *ngIf="isDropdownOpen">
-          <a *ngFor="let jahr of jahre" 
-          (click)="selectYear(jahr)" 
+          <a *ngFor="let jahr of jahre"
+          (click)="selectYear(jahr)"
           [ngClass]="{ 'selected': jahr === currentYear }"
           (click)="changeDienstplanMonth(selectedMonth+1)">{{ jahr }}</a>
         </div>
@@ -31,7 +31,7 @@
     <hr>
   </div>
 
-  <div class="container dienstplan-container">
+  <div class="container dienstplan-container" *ngIf="loginMitarbeiter">
     <div class="dienstplan">
       <table class="custom-table">
         <tr class="header-row">
@@ -40,13 +40,13 @@
             <!-- MITARBEITER NAMEN AUSGABE-->
             <div class="mitarbeiter">
               <span class="mitarbeiter-text">{{ mitarbeiter.name }}</span>
-              <div class="div" data-bs-toggle="modal" data-bs-target="#deleteMitarbeiter" (click)="getNameToDelete(mitarbeiter)">
+              <div *ngIf="loginMitarbeiter.role.role != 'Verkauf'" class="div" data-bs-toggle="modal" data-bs-target="#deleteMitarbeiter" (click)="getNameToDelete(mitarbeiter)">
                 <i class="bi bi-trash"></i>
               </div>
             </div>
           </td>
           <!-- INSERT MITARBEITER-->
-          <td colspan="2" *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+          <td colspan="2" *ngIf="!areAllMitarbeiterInDisplayMitarbeiter() && loginMitarbeiter.role.role != 'Verkauf'">
             <div class="icon" data-bs-toggle="modal" data-bs-target="#insertMitarbeiter">
               <i class="bi bi-plus-circle icon"></i>
             </div>
@@ -58,7 +58,7 @@
             <td style="border-left: 2px solid black"><p>von-bis</p></td>
             <td><p>Stunden</p></td>
           </ng-container>
-          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter() && loginMitarbeiter.role.role != 'Verkauf'">
             <td style="border-left: 2px solid black"><p>von-bis</p></td>
             <td><p>Stunden</p></td>
           </ng-container>
@@ -83,15 +83,30 @@
                 FEIERTAG
               </p>
               <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
-              && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')"
+              && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')
+              && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) != '0'"
               appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                URLAUB
+              </p>
+              <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && (loginMitarbeiter.role.role == 'Leiter' || loginMitarbeiter.role.role == 'Zentrale')
+              && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'"
+              appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                ZA
+              </p>
+              <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
+              && !isFeiertag(tag.tagNummer, selectedMonth.toString())
+              && isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+              && loginMitarbeiter.role.role == 'Verkauf'
+              && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) != '0'">
                 URLAUB
               </p>
               <p *ngIf="isVonBisEntryExists(tag.tagNummer, mitarbeiter.id)
               && !isFeiertag(tag.tagNummer, selectedMonth.toString())
               && isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
-              && loginMitarbeiter.role.role == 'Verkauf'">
-                URLAUB
+              && loginMitarbeiter.role.role == 'Verkauf'
+              && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'">
+                ZA
               </p>
               <p appEditable 
                 (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)"
@@ -139,9 +154,15 @@
                 appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
                   {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
                 </p>
-                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)"
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+                      && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) != '0'"
                 appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
                   URLAUB
+                </p>
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)
+                        && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'"
+                appEditable (edit-done)="editDienstplan($event, mitarbeiter, tag.tagNummer)">
+                  ZA
                 </p>
               </ng-container>
 
@@ -167,8 +188,13 @@
                 <p *ngIf="!isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && loginMitarbeiter.role.role == 'Verkauf'">
                   {{ getVonBisForTag(tag.tagNummer, mitarbeiter.id) }}
                 </p>
-                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && loginMitarbeiter.role.role == 'Verkauf'">
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && loginMitarbeiter.role.role == 'Verkauf'
+                && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) != '0'">
                   URLAUB
+                </p>
+                <p *ngIf="isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id) && loginMitarbeiter.role.role == 'Verkauf'
+                && getHoursSpentVonBis(tag.tagNummer, mitarbeiter, isVonBisEntryUrlaub(tag.tagNummer, mitarbeiter.id)) == '0'">
+                  ZA
                 </p>
               </ng-container>
 
@@ -193,7 +219,7 @@
             </td>
           </ng-container>
 
-          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter()">
+          <ng-container *ngIf="!areAllMitarbeiterInDisplayMitarbeiter() && loginMitarbeiter.role.role != 'Verkauf'">
             <td style="border-left: 2px solid black"></td>
             <td></td>
           </ng-container>

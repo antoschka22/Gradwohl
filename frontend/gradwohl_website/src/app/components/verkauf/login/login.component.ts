@@ -79,7 +79,11 @@ export class LoginComponent {
         });
       }
 
-      this.router.navigate(['/'])
+      if(this.authService.getUserRole() === 'Zentrale'){
+        this.router.navigate(['/zentrale'])
+      }else{
+        this.router.navigate(['/'])
+      }
       this.toastr.success('Willkommen, ' + this.authService.getUsernameFromToken() + "!");
     })
     

@@ -15,7 +15,9 @@ export class EditableDirective {
       divElement.dataset.initialText = divElement.textContent;
 
       //Format ändern wenn der String leer ist
-      if (divElement.textContent.trim() === '' || divElement.textContent.trim() === 'URLAUB') {
+      if (divElement.textContent.trim() === '' 
+      || divElement.textContent.trim() === 'URLAUB'
+      || divElement.textContent.trim() === 'ZA') {
         divElement.textContent = '00:00 - 00:00';
       }
     });
@@ -38,21 +40,45 @@ export class EditableDirective {
             neu: false,
             delete: false,
             initialText: initialText,
-            urlaub: true
+            urlaub: true,
+            za: false
+          }
+        });
+        divElement.dispatchEvent(event);
+      }
+
+      // Zeitausgleich
+      if(divElement.textContent.trim() === 'ZA'
+      || divElement.textContent.trim() === 'za'
+      || divElement.textContent.trim() === 'Za'
+      || divElement.textContent.trim() === 'zA'){
+        initialText = "ZA"
+        urlaub = true
+        const event = new CustomEvent('edit-done', {
+          detail: {
+            textContent: initialText,
+            neu: false,
+            delete: false,
+            initialText: initialText,
+            urlaub: true,
+            za: true
           }
         });
         divElement.dispatchEvent(event);
       }
 
       // delete
-      if((this.isValidTimeFormat(initialText.trim()) || (initialText.trim() === 'URLAUB')) && updatedText.trim() == '' && !urlaub){
+      if((this.isValidTimeFormat(initialText.trim()) 
+        || (initialText.trim() === 'URLAUB' || initialText.trim() === 'ZA')) 
+    && updatedText.trim() == '' && !urlaub){
         const event = new CustomEvent('edit-done', {
           detail: {
             textContent: initialText,
             neu: false,
             delete: true,
             initialText: initialText,
-            urlaubt: false
+            urlaub: false,
+            za: false
           }
         });
         divElement.dispatchEvent(event);
@@ -73,7 +99,8 @@ export class EditableDirective {
                 neu: true,
                 delete: false,
                 initialText: initialText,
-                urlaubt: false
+                urlaub: false,
+                za: false
               }
             });
             divElement.dispatchEvent(event);
@@ -85,7 +112,9 @@ export class EditableDirective {
                 neu: false,
                 delete: false,
                 initialText: initialText,
-                urlaubt: false
+                urlaub: false,
+                za: false
+
               }
             });
             divElement.dispatchEvent(event);
@@ -134,7 +163,10 @@ export class EditableDirective {
   }
 
   formatTimeRange(timeRange: string): string {
-    if(timeRange.trim() === "" || timeRange.trim() === "URLAUB" || timeRange.trim() === 'u' || timeRange.trim() === 'urlaub'){
+    if(timeRange.trim() === "" 
+        || timeRange.trim() === "URLAUB" 
+        || timeRange.trim() === 'u' 
+        || timeRange.trim() === 'urlaub'){
       return timeRange
     }
     const [start, end] = timeRange.split(' - ');

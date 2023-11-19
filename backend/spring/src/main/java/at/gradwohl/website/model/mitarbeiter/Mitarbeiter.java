@@ -38,7 +38,7 @@ public class Mitarbeiter implements UserDetails {
     private boolean springer;
 
     @Column(name= "M_Wochenstunden")
-    private float wochenstunden;
+    private int wochenstunden;
 
     @ManyToOne
     @JoinColumn(name = "M_Role", referencedColumnName = "MR_Role")

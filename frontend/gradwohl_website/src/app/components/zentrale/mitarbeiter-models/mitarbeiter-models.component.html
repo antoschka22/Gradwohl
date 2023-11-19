@@ -1,0 +1,272 @@
+<!-- INSERT -->
+<div class="modal fade" id="insert" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Mitarbeiter hinzufügen</h2>
+          <button #schliessenInsert type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="input-group">
+              <label for="name">Username</label>
+              <input #usernameInput type="text" id="name" name="name" placeholder="username" class="rounded-input">
+            </div>
+
+            <div class="input-group">
+              <label for="password">Passwort</label>
+              <input #passwordInput type="text" id="password" name="password" placeholder="Passwort" class="rounded-input">
+            </div>
+
+            <div class="custom-dropdown">
+              <b>Filiale</b>
+              <div class="dropdown" *ngIf="filialen">
+                  <button class="dropbtn" (click)="toggleDropdownFiliale()"><p *ngIf="selectedFiliale">{{ selectedFiliale.name }}</p></button>
+                  <div class="dropdown-content" *ngIf="isDropdownOpenFiliale">
+                    <a (click)="selectFiliale(null)">
+                      -------
+                    </a>
+                    <a *ngFor="let filiale of filialen"
+                    (click)="selectFiliale(filiale)">{{filiale.name}}</a>
+                  </div>
+              </div>
+              <div class="dropdown-arrow">
+                <i *ngIf="!isDropdownOpenFiliale" class="bi bi-chevron-compact-down"></i>
+                <i *ngIf="isDropdownOpenFiliale" class="bi bi-chevron-compact-up"></i>
+              </div>
+            </div>
+<br><br>
+            <div class="custom-dropdown">
+              <b>Wochenstunden</b>
+              <div class="dropdown">
+                  <button class="dropbtn" (click)="toggleDropdownWochenstunden()"><p *ngIf="selectedWochenstunden != 0">{{ selectedWochenstunden }}</p></button>
+                  <div class="dropdown-content" *ngIf="isDropdownOpenWochenstunden">
+                    <a (click)="selectWochenstunde(7)">
+                      7
+                    </a>
+                    <a (click)="selectWochenstunde(10)">
+                      10
+                    </a>
+                    <a (click)="selectWochenstunde(12)">
+                      12
+                    </a>
+                    <a (click)="selectWochenstunde(15)">
+                      15
+                    </a>
+                    <a (click)="selectWochenstunde(20)">
+                      20
+                    </a>
+                    <a (click)="selectWochenstunde(25)">
+                      25
+                    </a>
+                    <a (click)="selectWochenstunde(30)">
+                      30
+                    </a>
+                    <a (click)="selectWochenstunde(32)">
+                      32
+                    </a>
+                    <a (click)="selectWochenstunde(35)">
+                      35
+                    </a>
+                    <a (click)="selectWochenstunde(36)">
+                      36
+                    </a>
+                    <a (click)="selectWochenstunde(38)">
+                      38
+                    </a>
+                    <a (click)="selectWochenstunde(40)">
+                      40
+                    </a>
+                  </div>
+                </div>
+              <div class="dropdown-arrow">
+                <i *ngIf="!isDropdownOpenWochenstunden && !isDropdownOpenFiliale" class="bi bi-chevron-compact-down"></i>
+                <i *ngIf="isDropdownOpenWochenstunden" class="bi bi-chevron-compact-up"></i>
+              </div>
+            </div>
+<br><br>
+            <div class="custom-dropdown">
+              <b>Rolle</b>
+              <div class="dropdown">
+                  <button class="dropbtn" (click)="toggleDropdownRolle()"><p *ngIf="selectedRole">{{ selectedRole.role }}</p></button>
+                  <div class="dropdown-content" *ngIf="isDropdownOpenRolle">
+                    <a *ngFor="let role of rolen"
+                    (click)="selectRole(role)">
+                      {{ role.role }}
+                    </a>
+                  </div>
+                </div>
+              <div class="dropdown-arrow">
+                <i *ngIf="!isDropdownOpenRolle && !isDropdownOpenFiliale && !isDropdownOpenWochenstunden" class="bi bi-chevron-compact-down"></i>
+                <i *ngIf="isDropdownOpenRolle" class="bi bi-chevron-compact-up"></i>
+              </div>
+            </div>
+<br><br>
+            <div class="input-group">
+              <label for="myCheckbox"><b>Springer</b></label>
+              <input [(ngModel)]="isCheckedSpringer" type="checkbox" id="myCheckbox" name="myCheckbox" value="isChecked">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="insertMitarbeiter()">Speichern</button>
+        </div>
+      </div>
+    </div>
+</div>
+</div> 
+
+<!-- UPDATE-->
+<div div class="modal fade" id="update" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel" *ngIf="changeMitarbeiter" >Ändern</h2>
+        <button #schliessenUpdate (click)="close()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body" *ngIf="changeMitarbeiter">
+          <div class="container">
+            <div class="input-group">
+              <label for="name">Username</label>
+              <input [(ngModel)]="mitarbeiterName" type="text" id="name" name="name" placeholder="username" class="rounded-input">
+            </div>
+
+            <div class="input-group">
+              <label for="password">Passwort</label>
+              <input #passwordInputUpdate type="text" id="password" name="password" placeholder="Passwort" class="rounded-input">
+            </div>
+
+            <div class="custom-dropdown">
+              <b>Filiale</b>
+              <div class="dropdown" *ngIf="filialen">
+                  <button class="dropbtn" (click)="toggleDropdownFiliale()">
+                    <p *ngIf="selectedFiliale">{{ selectedFiliale.name }}</p>
+                    <p *ngIf="!selectedFiliale && changeMitarbeiter.filiale">{{ changeMitarbeiter.filiale.name }}</p>
+                    <p *ngIf="!selectedFiliale && !changeMitarbeiter.filiale"></p>
+                  </button>
+                  <div class="dropdown-content" *ngIf="isDropdownOpenFiliale">
+                    <a (click)="selectFiliale(null)">
+                      -------
+                    </a>
+                    <a *ngFor="let filiale of filialen"
+                    (click)="selectFiliale(filiale)">{{filiale.name}}</a>
+                  </div>
+              </div>
+              <div class="dropdown-arrow">
+                <i *ngIf="!isDropdownOpenFiliale" class="bi bi-chevron-compact-down"></i>
+                <i *ngIf="isDropdownOpenFiliale" class="bi bi-chevron-compact-up"></i>
+              </div>
+            </div>
+<br><br>
+            <div class="custom-dropdown">
+              <b>Wochenstunden</b>
+              <div class="dropdown">
+                  <button class="dropbtn" (click)="toggleDropdownWochenstunden()">
+                    <p *ngIf="selectedWochenstunden != 0">{{ selectedWochenstunden }}</p>
+                    <p *ngIf="selectedWochenstunden == 0 && changeMitarbeiter.wochenstunden">{{ changeMitarbeiter.wochenstunden }}</p></button>
+                  <div class="dropdown-content" *ngIf="isDropdownOpenWochenstunden">
+                    <a (click)="selectWochenstunde(7)">
+                      7
+                    </a>
+                    <a (click)="selectWochenstunde(10)">
+                      10
+                    </a>
+                    <a (click)="selectWochenstunde(12)">
+                      12
+                    </a>
+                    <a (click)="selectWochenstunde(15)">
+                      15
+                    </a>
+                    <a (click)="selectWochenstunde(20)">
+                      20
+                    </a>
+                    <a (click)="selectWochenstunde(25)">
+                      25
+                    </a>
+                    <a (click)="selectWochenstunde(30)">
+                      30
+                    </a>
+                    <a (click)="selectWochenstunde(32)">
+                      32
+                    </a>
+                    <a (click)="selectWochenstunde(35)">
+                      35
+                    </a>
+                    <a (click)="selectWochenstunde(36)">
+                      36
+                    </a>
+                    <a (click)="selectWochenstunde(38)">
+                      38
+                    </a>
+                    <a (click)="selectWochenstunde(40)">
+                      40
+                    </a>
+                  </div>
+                </div>
+              <div class="dropdown-arrow">
+                <i *ngIf="!isDropdownOpenWochenstunden && !isDropdownOpenFiliale" class="bi bi-chevron-compact-down"></i>
+                <i *ngIf="isDropdownOpenWochenstunden" class="bi bi-chevron-compact-up"></i>
+              </div>
+            </div>
+<br><br>
+            <div class="custom-dropdown">
+              <b>Rolle</b>
+              <div class="dropdown">
+                  <button class="dropbtn" (click)="toggleDropdownRolle()">
+                    <p *ngIf="selectedRole">{{ selectedRole.role }}</p>
+                    <p *ngIf="!selectedRole && changeMitarbeiter.role">{{ changeMitarbeiter.role.role }}</p>
+                  </button>
+                  <div class="dropdown-content" *ngIf="isDropdownOpenRolle">
+                    <a *ngFor="let role of rolen"
+                    (click)="selectRole(role)">
+                      {{ role.role }}
+                    </a>
+                  </div>
+                </div>
+              <div class="dropdown-arrow">
+                <i *ngIf="!isDropdownOpenRolle && !isDropdownOpenFiliale && !isDropdownOpenWochenstunden" class="bi bi-chevron-compact-down"></i>
+                <i *ngIf="isDropdownOpenRolle" class="bi bi-chevron-compact-up"></i>
+              </div>
+            </div>
+<br><br>
+            <div class="input-group">
+              <label for="myCheckbox"><b>Springer</b></label>
+              <input [(ngModel)]="changeMitarbeiter.springer" type="checkbox" id="myCheckbox" name="myCheckbox" value="isChecked">
+            </div>
+        </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" #schliessenUpdate class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Schließen</button>
+        <button type="button" class="btn btn-primary" (click)="update()">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE -->
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Löschen</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="changeMitarbeiter" style="font-size: 16px;">
+            <div *ngIf="changeMitarbeiter.filiale">
+              Sind Sie sich sicher, dass <b>{{ changeMitarbeiter.name }}</b> aus der Filiale <b>{{ changeMitarbeiter.filiale.name }}</b>
+            und Firma <b>{{ changeMitarbeiter.filiale.firma.name }}</b> gelöscht werden soll.<br><br>
+            Bedenken Sie, dass das nicht widerruflich ist und dass alle Daten über diese Person gelöscht werden.
+            </div>
+            <div *ngIf="!changeMitarbeiter.filiale">
+              Sind Sie sich sicher, dass <b>{{ changeMitarbeiter.name }}</b> gelöscht werden soll.<br><br>
+            Bedenken Sie, dass das nicht widerruflich ist und dass alle Daten über diese Person gelöscht werden.
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #schliessenDelete class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-danger" (click)="delete()">Entfernen</button>
+        </div>
+      </div>
+    </div>
+</div>

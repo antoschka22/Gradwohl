@@ -15,7 +15,6 @@ import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-
 import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
 import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
 import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
-import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlagen-view.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
@@ -45,6 +44,9 @@ const routes: Routes = [
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
   {path: 'dienstplan/view/:filialeId', component: DienstplanViewComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+  {path: 'mitarbeiter/verwalten', component: MitarbeiterComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+
 ];
 
 @NgModule({
