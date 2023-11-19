@@ -46,25 +46,10 @@ export class VorlagenViewComponent {
         this.vorlageService.getVorlageByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
           this.vorlage = data;
           //Bestellvorlage: 
-          this.groupVorlagen();
         });
       });
     }
 
-    groupVorlagen(): void {
-      const groupedVorlagenMap = new Map<number, VorlageWithProducts>();
-  
-      for (const vorlageItem of this.vorlage) {
-        const id = vorlageItem.id.id;
-        if (groupedVorlagenMap.has(id)) {
-          groupedVorlagenMap.get(id)?.products.push(vorlageItem.id.produkt);
-        } else {
-          groupedVorlagenMap.set(id, { vorlage: vorlageItem, products: [vorlageItem.id.produkt] });
-        }
-      }
-  
-      this.groupedVorlagen = Array.from(groupedVorlagenMap.values());
-    }
   
     toggleAccordion(group: any) {
       this.accordionStates[group.vorlage.id.id] = !this.accordionStates[group.vorlage.id.id];

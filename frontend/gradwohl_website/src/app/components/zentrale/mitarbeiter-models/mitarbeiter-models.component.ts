@@ -9,8 +9,7 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 import { Router } from '@angular/router';
 
 /**
- * 
- * SELBER USER KANN DAS PASSWORT NICHT VERÄNDERN (NICOLE KANN NICHT DAS PASSWORT VON NICOLE ÄNDERN)
+ * SELBE USER KANN DAS PASSWORT NICHT VERÄNDERN (NICOLE KANN NICHT DAS PASSWORT VON NICOLE ÄNDERN)
  */
 
 class MitarbeiterModell implements mitabeiter {

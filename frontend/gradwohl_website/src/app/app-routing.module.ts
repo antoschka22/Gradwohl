@@ -15,6 +15,8 @@ import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-
 import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
 import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
 import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
+import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlagen-view.component';
+import { MitarbeiterComponent } from './components/zentrale/mitarbeiter/mitarbeiter.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
