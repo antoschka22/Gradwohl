@@ -85,13 +85,16 @@
                                         (selectedChange)="onDateSelectBestellung($event)"
                                         class="custom-calendar"
                                       ></mat-calendar>
+                              
+                                      <p class="selected-date" *ngIf="selectedDateBestellung">Ausgewähltes Datum: <br />{{ selectedDateBestellung | date }}</p>
+                                      <br />
                                     </div>
                                 </div>
                                 
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [routerLink]="['/warenbestellungEingabe']">Weiter</button>
+                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [routerLink]="['/warenbestellungEingabe', selectedDateBestellung]">Weiter</button>
                             </div>
                           </div>
                         </div>
@@ -150,6 +153,21 @@
                   <ul *ngIf="isKundenbestellungDropdown" class="home-dropdown-menu">
                     <li><a [routerLink]="'kundenbestellungsUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Laufende Aufträge</u></a></li>
                     <li><a [routerLink]="'abgeschlosseneUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Abgeschlossen</u></a></li>
+                  </ul>
+                </li>
+
+                
+                <li (click)="toggleVorlagenDropdown()" *ngIf="isLeiter">
+                  <p style="color:rgb(128,128,128);">
+                    <i *ngIf="dropdownUpVorlage" class="bi bi-chevron-down"></i>
+          
+                    <i *ngIf="!dropdownUpVorlage"class="bi bi-chevron-right"></i>
+
+                    Vorlagen
+                  </p>
+                  <ul *ngIf="isVorlageDropdown" class="home-dropdown-menu">
+                    <li><a [routerLink]="'vorlagenView'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Übersicht</u></a></li>
+                    <li><a [routerLink]="'abgeschlosseneUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Neu Erstellen</u></a></li>
                   </ul>
                 </li>
               </ul>

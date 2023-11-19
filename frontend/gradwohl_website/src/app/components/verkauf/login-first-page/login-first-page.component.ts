@@ -18,6 +18,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 // Linke und Rechte Obere Box
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
+import { RoleService } from 'src/app/service/role/role.service';
+
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 
 
 interface warenbestellungID {
@@ -59,8 +62,10 @@ export class LoginFirstPageComponent implements OnInit {
 
   isMobile: boolean;
 
+  //Kalender Menü, rechts
   isKundenbestellungDropdown: boolean = false;
   dropdownUp: boolean = true;
+
 
   //Kalender
   currentDate = new Date();
@@ -75,8 +80,6 @@ export class LoginFirstPageComponent implements OnInit {
 
   loggedInUserFilialeName: string = '';
 
-
-
   constructor(
     private warenbestellungService: WarenbestellungService,
     private authService: AuthService,
@@ -86,6 +89,7 @@ export class LoginFirstPageComponent implements OnInit {
     private kundenbestellungService: KundenbestellungService,
     private mitarbeiterService: MitabeiterService,
     private filialeService: FilialeService,
+    private rolenService: RoleService,
    
   ) { this.isMobile = window.innerWidth <= 1199,
     this.groupbyDateWarenbestellung = {};}
@@ -105,9 +109,9 @@ export class LoginFirstPageComponent implements OnInit {
     //Boxen oben
     this.countHeutigeKundenbestellungen();
     this.updateHeutigeWarenbestellungStatus();
+    this.checkIfLeiter();
 
   }
-
 
   // Kundenbestellungen zaehlen für die Linke und Rechte Box oben
 
@@ -138,6 +142,34 @@ export class LoginFirstPageComponent implements OnInit {
 
   //----------------------------------------------------------------
 
+  //PopUP-Bestellung aufgeben:--------------------------------------------
+
+  datePickerBestellungen(selectedDateBestellung: Date | undefined): string {
+    if (!selectedDateBestellung) {
+      return 'Keine Warenbestellung gefunden';
+    }
+    const currentDate = new Date();
+    const selectedDateString = selectedDateBestellung.toDateString();
+    const dateExists = Object.keys(this.groupbyDateWarenbestellung).includes(selectedDateString);
+
+    if (dateExists) {
+      if (selectedDateBestellung.getDate() === currentDate.getDate() && currentDate.getHours() < 18) {
+        return '';
+      } else {
+        this.router.navigate(['/bestelluebersichtAbgeschickt', selectedDateString]);
+        return'';
+      }
+    } else {
+      return '! Anstehende Warenbestellung ! ';
+    }
+  }
+  onDateSelectBestellung(event: Date) {
+    this.selectedDateBestellung = event;
+  }
+
+
+  ///----------------------------------------------------------------------
+
 
   //KALENDER Warenbestellungen einsehen
   isEmptyGroupbyDateWarenbestellung(selectedDate: Date | undefined): string {
@@ -166,8 +198,21 @@ export class LoginFirstPageComponent implements OnInit {
   
     const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' } as Intl.DateTimeFormatOptions;
     return date.toLocaleDateString('de-DE', options);
-
   }
+
+  // is Leiter? Ja, mache  die Vorlagen sichtbar
+
+  isLeiter: boolean = false;
+
+  private checkIfLeiter(): void {
+    var username: String = this.authService.getUsernameFromToken();
+    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
+      if (mitarbeiter && mitarbeiter.role && mitarbeiter.role.role == "Leiter") {
+        this.isLeiter = true;
+      }
+    });
+  }
+  
 
   // Und geht filialen namen
   getWarenbestellungen() {
@@ -201,14 +246,22 @@ export class LoginFirstPageComponent implements OnInit {
     this.selectedDate = event;
   }
 
+  // Kundenbestellungen
   toggleKundenbestellungDropdown() {
     this.isKundenbestellungDropdown = !this.isKundenbestellungDropdown;
     this.dropdownUp = !this.dropdownUp;
   }
 
-  onDateSelectBestellung(event: Date) {
-    this.selectedDateBestellung = event;
+  // Vorlagen
+
+  isVorlageDropdown: boolean = false;
+  dropdownUpVorlage: boolean = true;
+
+  toggleVorlagenDropdown() {
+    this.isVorlageDropdown = !this.isVorlageDropdown;
+    this.dropdownUpVorlage = !this.dropdownUpVorlage;
   }
+
 
   
 

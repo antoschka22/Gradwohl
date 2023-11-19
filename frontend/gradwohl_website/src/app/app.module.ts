@@ -45,6 +45,10 @@ import { ZentraleNavbarComponent } from './components/zentrale/zentrale-navbar/z
 import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
 import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
 
+//Warenbestellung
+import { ReactiveFormsModule } from '@angular/forms';
+import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlagen-view.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +68,8 @@ import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenb
     ZentraleNavbarComponent,
     DienstplanModelsComponent,
     WarenbestellungEingabeComponent,
-    KundenbestellungSpeichernComponent
+    KundenbestellungSpeichernComponent,
+    VorlagenViewComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +86,8 @@ import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenb
     ToastrModule.forRoot(),
     MatSelectModule, 
     MatDialogModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

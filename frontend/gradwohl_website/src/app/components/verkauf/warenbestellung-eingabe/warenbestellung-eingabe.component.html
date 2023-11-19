@@ -3,7 +3,7 @@
   <br /> <br /><br /><br />
   <section class="text-dark pt-5 mg-auto">
     <div class="container-fluid pl-2">
-      <u><h2>Bestellung für den </h2></u>
+      <u><h2>Bestellung für den</h2></u>
       <div class="row">
         <div class="col-sm-8">
           <form class="form-row align-items-center">
@@ -84,29 +84,40 @@
         <div class="col-sm-8">
           <div class="table-container">
             <div class="scrollable-table">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
-                    <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
-                    <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let produkte of angezeigteProdukte">
-                    <td class="card" style="background-color: whitesmoke">{{ produkte.name }}</td>
-                    <td><input type="number" required min="0" ondrop="return false;" onpaste="return false;"
-                        onkeypress="return event.charCode>=48 && event.charCode<=57" required/></td>
-                    <td><input type="number" required min="0" ondrop="return false;" onpaste="return false;"
-                        onkeypress="return event.charCode>=48 && event.charCode<=57" required/></td>
-                  </tr>
-                </tbody>
-              </table>
+              <form [formGroup]="form">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
+                      <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
+                      <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                        <tr *ngFor="let produkte of angezeigteProdukte">
+                          <td class="card" style="background-color: whitesmoke">{{ produkte.name }}</td>
+                          <td>
+                            <input type="number" step="0.5" min="0" formControlName="frisch" 
+                                  ondrop="return false;" onpaste="return false;" 
+                                  onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46" 
+                                  required/>
+                          </td>
+                          <td>
+                            <input type="number" step="0.5" min="0" formControlName="teigig"
+                                  ondrop="return false;" onpaste="return false;" 
+                                  onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46" 
+                                  required/>
+                          </td>
+                        </tr>                                                                                                          
+                  </tbody>
+                </table>
+              </form>
             </div>
           </div>
         </div>
         <!-- Kategorien abbilden-->
-        <div class="col-sm-4 p-3 d-flex justify-content-center align-items-center">
+        <div class="col-sm-4 p-3 d-flex justify-content-center">
             <div class="row">
                 <button class="btn stylingButton" *ngFor="let produktgruppe of produktgruppen" 
                                 [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"

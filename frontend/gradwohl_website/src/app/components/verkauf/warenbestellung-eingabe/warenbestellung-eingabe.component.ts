@@ -11,6 +11,9 @@ import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.servic
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
 
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+
 //Bestellvorlage
 import { vorlage } from 'src/model/vorlage/vorlage';
 import { vorlageId } from 'src/model/vorlage/vorlageId';
@@ -42,6 +45,8 @@ export class WarenbestellungEingabeComponent {
   selectedVorlage: vorlage | null = null;
   groupedVorlagen: VorlageWithProducts[] = [];
 
+  form: FormGroup;
+
   constructor(
     private authService: AuthService,
     private mitarbeiterService: MitabeiterService,
@@ -49,7 +54,26 @@ export class WarenbestellungEingabeComponent {
     private produktService: ProduktService,
     private warenbestellungService: WarenbestellungService,
     private vorlageService: VorlageService,
-  ) {}
+    private fb: FormBuilder,
+    private router: Router, private route: ActivatedRoute,
+  ) {
+    this.form = this.fb.group({
+      frisch: ['', [Validators.required, this.validateInput]],
+      teigig: ['', [Validators.required, this.validateInput]]
+    });
+  }
+
+  validateInput(control: FormControl) {
+    const value = parseFloat(control.value.replace(',', '.'));
+    const roundedValue = Math.floor(value * 2) / 2;
+  
+    if (isNaN(value) || roundedValue !== value) {
+      return { invalidStep: true };
+    }
+  
+    return null;
+  }
+
 
   ngOnInit(): void {
     this.loadWarenbestellungenForDate(this.date);
@@ -115,7 +139,7 @@ export class WarenbestellungEingabeComponent {
   
 
 
-  // Bestellvorlagen-----------ENDE-----
+  // Bestellvorlagen-----------ENDE------------------------------------------
 
   //Produktgruppen + produkte + Button nach kategorie filtern
 

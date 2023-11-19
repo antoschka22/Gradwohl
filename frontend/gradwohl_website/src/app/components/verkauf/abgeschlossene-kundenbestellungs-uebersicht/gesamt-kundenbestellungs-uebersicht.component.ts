@@ -14,9 +14,8 @@ import { group } from '@angular/animations';
 export class GesamtKundenbestellungsUebersichtComponent {
   kundenbestellung: kundenbestellung[] = [];
   groupedKundenbestellungen: { datum: Date, kunden: string[], data: kundenbestellung[] }[] = [];
-  selectedYear: string | number;
-  selectedMonth: string | number;
-  
+  selectedYear: string | undefined;
+  selectedMonth: string | undefined;
 
   uniqueYears: number[] = [];
   uniqueMonths: number[] = [];
@@ -35,13 +34,15 @@ export class GesamtKundenbestellungsUebersichtComponent {
     private authService: AuthService,
     private mitarbeiterService: MitabeiterService
   ) {
-    this.selectedYear = 0;
-    this.selectedMonth = 0;
-    this.uniqueYears = [];
-    this.uniqueMonths = [];
   }
 
   ngOnInit() {
+    this.selectedYear = undefined;
+    this.selectedMonth = undefined;
+    this.uniqueYears = [];
+    this.uniqueMonths = [];
+
+    this.extractUniqueYearsAndMonths();
     this.getKundenbestellungByFiliale();
   }
 
@@ -63,6 +64,7 @@ export class GesamtKundenbestellungsUebersichtComponent {
       });
     });
   }
+
 
   groupKundenbestellungen() {
     this.groupedKundenbestellungen = [];
@@ -89,34 +91,36 @@ export class GesamtKundenbestellungsUebersichtComponent {
     });
   }
 
-  filterKundenbestellungen() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+// ...
+filterKundenbestellungen() {
+  console.log('Selected Year:', this.selectedYear);
+  console.log('Selected Month:', this.selectedMonth);
 
-    /*
-    console.log(this.uniqueYears);
-    console.log(this.uniqueMonths);
 
-    console.log(typeof this.selectedYear);
-    console.log(typeof this.selectedMonth);
-    */
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-    this.groupedKundenbestellungen = this.groupedKundenbestellungen.filter((group) => {
-      let isDateMatch = group.datum < today;
-
-      if (this.selectedYear && !isNaN(+this.selectedYear)) {
-        isDateMatch = isDateMatch && group.datum.getFullYear() === +this.selectedYear;
-      }
-
-      if (this.selectedMonth && !isNaN(+this.selectedMonth)) {
-        isDateMatch = isDateMatch && group.datum.getMonth() + 1 === +this.selectedMonth;
-      }
-
-      return isDateMatch;
-    });
-  }
+  this.groupedKundenbestellungen = this.groupedKundenbestellungen.filter((group) => {
+    let isDateMatch = group.datum < today;
   
+    if (this.selectedYear && !isNaN(+this.selectedYear)) {
+      isDateMatch = isDateMatch && group.datum.getFullYear() === +this.selectedYear;
+    }
   
+    if (this.selectedMonth && !isNaN(+this.selectedMonth)) {
+      isDateMatch = isDateMatch && group.datum.getMonth() + 1 === +this.selectedMonth;
+    }
+  
+    // Nur Bestellungen dieses Monats anzeigen
+    isDateMatch = isDateMatch && group.datum.getMonth() === today.getMonth();
+  
+    return isDateMatch;
+  });
+  
+}
+
+
+
 
   formattedDate(group: { datum: Date; kunden: string[]; data: kundenbestellung[] }): string {
     const abgeschicktAm = group.datum;
@@ -139,7 +143,11 @@ export class GesamtKundenbestellungsUebersichtComponent {
     // alle Kundenbestellungsdatume aufgeteilt in years und months
     this.uniqueYears = Array.from(uniqueYears);
     this.uniqueMonths = Array.from(uniqueMonths);
+  
+    console.log('Unique Years:', this.uniqueYears);
+    console.log('Unique Months:', this.uniqueMonths);
   }
+  
   
 
   
