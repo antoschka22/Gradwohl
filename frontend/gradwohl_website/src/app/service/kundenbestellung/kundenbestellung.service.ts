@@ -22,7 +22,7 @@ export class KundenbestellungService {
     return this.http.get(this.baseUri+'/kundenbestellung/filiale/'+filialeId)
   }
 
-  getKundenbestellungByDate(datum: Date){
+  getKundenbestellungByDate(datum: string){
     return this.http.get(this.baseUri+'/kundenbestellung/date/'+datum)
   }
 
@@ -30,7 +30,7 @@ export class KundenbestellungService {
     return this.http.post(this.baseUri+'/kundenbestellung', kundenbestellungToInsert)
   }
 
-  updateKundenbestellung(datum: Date, 
+  updateKundenbestellung(datum: string, 
                         produktId: number, 
                         filialeId: number, 
                         kunde: string, 
@@ -38,7 +38,7 @@ export class KundenbestellungService {
     return this.http.put(this.baseUri+'/kundenbestellung/'+datum+'/'+produktId+'/'+filialeId+'/'+kunde, kundenbestellungToInsert)
   }
 
-  deleteKundenbestellung(datum: Date, 
+  deleteKundenbestellung(datum: string, 
     produktId: number, 
     filialeId: number, 
     kunde: string){

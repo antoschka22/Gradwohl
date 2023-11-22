@@ -3,8 +3,6 @@ import { kundenbestellung } from 'src/model/kundenbestellung/kundenbestellung';
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
-import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
-import { group } from '@angular/animations';
 
 @Component({
   selector: 'app-gesamt-kundenbestellungs-uebersicht',
@@ -14,17 +12,15 @@ import { group } from '@angular/animations';
 export class GesamtKundenbestellungsUebersichtComponent {
   kundenbestellung: kundenbestellung[] = [];
   groupedKundenbestellungen: { datum: Date, kunden: string[], data: kundenbestellung[] }[] = [];
-  selectedYear: string | undefined;
-  selectedMonth: string | undefined;
 
   uniqueYears: number[] = [];
   uniqueMonths: number[] = [];
-  
-
 
   gleichDatum: Date[] = [];
   gleichKunden: string[] = [];
-
+  datum: Date = new Date();
+  selectedYear: string = this.datum.getFullYear().toString();
+  selectedMonth: string = (this.datum.getMonth()+1).toString();
 
   // Kundenbestellungsprodukte ausgeben mit Kategorie
   currentCategory: string | undefined;
@@ -37,90 +33,43 @@ export class GesamtKundenbestellungsUebersichtComponent {
   }
 
   ngOnInit() {
-    this.selectedYear = undefined;
-    this.selectedMonth = undefined;
-    this.uniqueYears = [];
-    this.uniqueMonths = [];
-
-    this.extractUniqueYearsAndMonths();
     this.getKundenbestellungByFiliale();
   }
 
   filialenName: string = '';
-
   getKundenbestellungByFiliale() {
     var username: string = this.authService.getUsernameFromToken();
     this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
       this.filialenName = mitarbeiter.filiale.name;
       this.kundenbestellungService.getKundenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
-        data.forEach((kundenbestellung: kundenbestellung) => {
-          kundenbestellung.id.datum = new Date(kundenbestellung.id.datum);
-        });
-
         this.kundenbestellung = data;
-        this.groupKundenbestellungen();
-        this.filterKundenbestellungen();
+        this.filterKundenbestellungen(this.datum.getFullYear().toString(), (this.datum.getMonth()+1).toString());
         this.extractUniqueYearsAndMonths();
       });
     });
   }
 
-
-  groupKundenbestellungen() {
-    this.groupedKundenbestellungen = [];
-
-    this.kundenbestellung.forEach((kundenbestellung: kundenbestellung) => {
-      const datum = kundenbestellung.id.datum;
-      const kunde = kundenbestellung.id.kunde;
-      const group = this.groupedKundenbestellungen.find((item) => {
-        return (
-          item.datum.getTime() === datum.getTime() &&
-          item.kunden.includes(kunde)
+  filterKundenbestellungen(year: string, month: string) {
+    let heuteKundenbestellungen: kundenbestellung[] = [];
+  
+    for (const item of this.kundenbestellung) {
+      const datumSplit = item.id.datum.split('-');
+  
+      if (parseInt(datumSplit[0]) == parseInt(year)
+        && parseInt(datumSplit[1]) == parseInt(month)
+        && parseInt(datumSplit[2]) < this.datum.getDate()) {
+        const exists = heuteKundenbestellungen.some(existingItem => 
+          existingItem.id.kunde === item.id.kunde && existingItem.id.datum === item.id.datum
         );
-      });
-
-      if (group) {
-        group.data.push(kundenbestellung);
-      } else {
-        this.groupedKundenbestellungen.push({
-          datum: datum,
-          kunden: [kunde],
-          data: [kundenbestellung],
-        });
+  
+        if (!exists) {
+          heuteKundenbestellungen.push(item);
+        }
       }
-    });
+    }
+  
+    return heuteKundenbestellungen;
   }
-
-// ...
-filterKundenbestellungen() {
-  console.log('Selected Year:', this.selectedYear);
-  console.log('Selected Month:', this.selectedMonth);
-
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  this.groupedKundenbestellungen = this.groupedKundenbestellungen.filter((group) => {
-    let isDateMatch = group.datum < today;
-  
-    if (this.selectedYear && !isNaN(+this.selectedYear)) {
-      isDateMatch = isDateMatch && group.datum.getFullYear() === +this.selectedYear;
-    }
-  
-    if (this.selectedMonth && !isNaN(+this.selectedMonth)) {
-      isDateMatch = isDateMatch && group.datum.getMonth() + 1 === +this.selectedMonth;
-    }
-  
-    // Nur Bestellungen dieses Monats anzeigen
-    isDateMatch = isDateMatch && group.datum.getMonth() === today.getMonth();
-  
-    return isDateMatch;
-  });
-  
-}
-
-
-
 
   formattedDate(group: { datum: Date; kunden: string[]; data: kundenbestellung[] }): string {
     const abgeschicktAm = group.datum;
@@ -135,20 +84,23 @@ filterKundenbestellungen() {
     const uniqueMonths = new Set<number>();
   
     for (const kundenbestellung of this.kundenbestellung) {
-      const datum = kundenbestellung.id.datum;
-      uniqueYears.add(datum.getFullYear());
-      uniqueMonths.add(datum.getMonth() + 1);
+      const datum: string[] = kundenbestellung.id.datum.split("-");
+      uniqueYears.add(parseInt(datum[0]));
+      uniqueMonths.add(parseInt(datum[1]));
     }
   
     // alle Kundenbestellungsdatume aufgeteilt in years und months
     this.uniqueYears = Array.from(uniqueYears);
     this.uniqueMonths = Array.from(uniqueMonths);
-  
-    console.log('Unique Years:', this.uniqueYears);
-    console.log('Unique Months:', this.uniqueMonths);
   }
-  
-  
 
-  
+  getDetailKundenbestellung(kunde: string, datum: string){
+    let detailKundenbestellung: kundenbestellung[] = []
+    for (const item of this.kundenbestellung) {
+      if (item.id.kunde === kunde && item.id.datum === datum) {
+        detailKundenbestellung.push(item);
+      }
+    }
+    return detailKundenbestellung;
+  }
 }

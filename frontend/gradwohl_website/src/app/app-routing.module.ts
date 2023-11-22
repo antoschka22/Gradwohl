@@ -14,7 +14,6 @@ import { LandingPageComponent } from './components/zentrale/landing-page/landing
 import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-verwaltung/dienstplan-verwaltung.component';
 import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
 import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
-import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
 import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlagen-view.component';
 import { MitarbeiterComponent } from './components/zentrale/mitarbeiter/mitarbeiter.component';
 
@@ -33,8 +32,6 @@ const routes: Routes = [
   {path: 'abgeschlosseneUebersicht', component: GesamtKundenbestellungsUebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'warenbestellungEingabe', component: WarenbestellungEingabeComponent,
-  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
-  {path: 'kundenbestellung', component: KundenbestellungSpeichernComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
 
   {path: 'vorlagenView', component: VorlagenViewComponent,

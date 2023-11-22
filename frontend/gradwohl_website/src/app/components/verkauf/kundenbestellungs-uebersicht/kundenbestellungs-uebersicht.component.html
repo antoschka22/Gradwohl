@@ -2,197 +2,318 @@
 
 <body>
     <br /> <br /> <br /><br />
-    <section class="text-dark pt-5 mg-auto">
-        <button type="button" class="btn stylingButton" data-bs-toggle="modal" data-bs-target="#hinzufuegenPopup">+ Hinzufügen</button>
-                <!-- Popup-Hinzufügen-Anfang -->
-
-                    <div class="modal fade" id="hinzufuegenPopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="hinzufuegenPopupLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
-                            </div>
-                            <div>
-                                <div class="modal-body">
-                                    <div>
-                                        <!-- INHALT -->
-                                        <div class="container-fluid">
-                                            <h2 style="text-align: center;">
-                                                <u>Bitte wählen Sie hier die bestellten Produkte</u>
-                                            </h2>
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" id="auftragnameKundenbestellung" placeholder="Auftragsname">
-                                                    <label for="auftragnameKundenbestellung" id="auftragnameKundenbestellung">Auftragsname</label>
-                                                </div>
-                                                <br />
-                                                Datum <input type="date" id="datumInput" required/>
-                                                <br /><br />
-                                                Telefonnummer <input type="text" id="telefonnummerInput" onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==43" required/>
-                                                <br /><br />
-                                                <div class="input-group">
-                                                    <input id="produktSuche" type="text" placeholder="Nach Produktnamen suchen..." class="form-control"  (input)="searchProduct($event)">
-                                                    <div class="input-group-append">
-                                                      <button class="btn btn-outline-dark" type="button" id="searchButton" disabled>
-                                                        <i class="bi bi-search" style="font-size: 20px;"></i>
-                                                      </button>
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                
-                                                <div class="button-container container">
-                                                    <button *ngFor="let produktgruppe of produktgruppen" class="btn kategorieButtons"
-                                                            [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
-                                                            (click)="onProduktgruppeClicked(produktgruppe)">
-                                                        {{ produktgruppe.name }}
-                                                    </button>
-                                                    
-                                                </div>
-                                                <hr>
-                                                    <div class="table-container">
-                                                        <div class="scrollable-table">
-                                                            <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
-                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
-                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr *ngFor="let produkt of angezeigteProdukte">
-                                                                    <td class="card" style="background-color: whitesmoke">{{ produkt.name }}</td>
-                                                                    <td><input type="number" min="0"step="0.5"
-                                                                        onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46"/></td>
-                                                                    <td><input type="number"  min="0"step="0.5"
-                                                                        onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46"/></td>
-                                                                </tr>
-                                                            </tbody>
-                                                            </table>
-                                                        </div>
-                                                        </div>
-                                 
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn" style="background-color: #8C5263;color:white;width: 200px;" data-bs-dismiss="modal">Weiter</button>
-                                        <br />
-                                    </div>
+<section class="text-dark pt-5 mg-auto">
+    <button type="button" class="btn stylingButton" data-bs-toggle="modal" data-bs-target="#hinzufuegenPopup">+ Hinzufügen</button>
+        <!-- Popup-Hinzufügen-Anfang -->
+        <div class="modal fade" 
+        id="hinzufuegenPopup" 
+        data-bs-backdrop="static" 
+        data-bs-keyboard="false" 
+        tabindex="-1" 
+        aria-labelledby="hinzufuegenPopupLabel" 
+        aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
+                </div>
+                <div class="modal-body" *ngIf="!showBestellung">
+                    <!-- INHALT -->
+                    <div class="container-fluid">
+                        <h2 style="text-align: center;">
+                            <u>Bitte wählen Sie hier die bestellten Produkte</u>
+                        </h2>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="auftragnameKundenbestellung" placeholder="Auftragsname" [value]="auftragname ? auftragname : ''">
+                            <label for="auftragnameKundenbestellung" id="auftragnameKundenbestellung">Auftragsname</label>
+                        </div>
+                        <br />
+                        Datum <input type="date" id="datumInput" [value]="datumInput ? datumInput : ''" required/>
+                        <br /><br />
+                        Telefonnummer <input type="text" [value]="tel ? tel : ''" id="telefonnummerInput" onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==43" required/>
+                        <br /><br />
+                        <div class="input-group">
+                            <input id="produktSuche" type="text" placeholder="Nach Produktnamen suchen..." class="form-control"  (input)="searchProduct($event)">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-dark" type="button" id="searchButton" disabled>
+                                <i class="bi bi-search" style="font-size: 20px;"></i>
+                                </button>
                             </div>
                         </div>
+                        <br />
+                        <div class="button-container container">
+                            <button class="btn kategorieButtons"
+                                    [ngClass]="{'selected': ausgewaehlteProduktgruppe === null }"
+                                    (click)="onProduktgruppeClicked(null)">
+                                Alle
+                            </button>
+                            <button *ngFor="let produktgruppe of produktgruppen" class="btn kategorieButtons"
+                                    [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
+                                    (click)="onProduktgruppeClicked(produktgruppe)">
+                                {{ produktgruppe.name }}
+                            </button>
+                        </div>
+                        <hr>
+                        <div class="table-container">
+                            <div class="scrollable-table">
+                                <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
+                                        <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
+                                        <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let produkt of angezeigteProdukte">
+                                        <td class="card" style="background-color: whitesmoke">{{ produkt.id.produkt.name }}</td>
+                                        <td>
+                                          <input type="number" min="0" step="0.5" id="frisch_{{ produkt.id.produkt.name }}" 
+                                            [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                            (keypress)="validateInput($event)" />
+                                        </td>
+                                        <td>
+                                          <input type="number" min="0" step="0.5" id="teigig_{{ produkt.id.produkt.name }}" 
+                                            [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                            (keypress)="validateInput($event)" />
+                                        </td>
+                                      </tr>
+                                </tbody>
+                                </table>
+                            </div>                    
                         </div>
                     </div>
-                <!-- Popup-Hinzufügen-Ende -->
-                
-        <div class="container-fluid card pt-3">
-            <h1>Kundenbestellungen für</h1>
-        </div>
-        <br />
-        <div class="container-fluid">
-            <div class="row">
-                <h2>Heute Anstehend</h2>
-                <div *ngFor="let group of groupedKundenbestellungen" class="col-lg-6 col-md-12 pb-3">
-                    <div class="card pt-3 container">
-                        <u>Datum: {{ formattedDate(group) }}</u>
-                        <table class="table table-striped">
-                            <tr>
-                                <th scope="col">Auftragsname</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                            </tr>
-                            <tr *ngFor="let kunde of group.kunden">
-                                <td scope="row">{{ kunde }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-style detailButton" data-toggle="modal" [attr.data-target]="'#detailKundenname-' + kunde">Details</button>
-                                  </td>
-                                  
-                                   <!-- Popup-Details-ANFANG -->
-                                        <ng-container *ngFor="let Kundenbestellung of kundenbestellung;">
-                                        <div class="modal fade bd-example-modal-lg" [attr.id]="'detailKundenname-' + kunde" tabindex="-1" role="dialog">
-                                            <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                <h1 class="modal-title">Kundenbestellung ({{ filialenName }})</h1>
-                                                <hr>
-                                                <!-- Inhalt -->
-                                                <div>
-                                                        <p style="color:rgb(128,128,128);">
-                                                            Auftragsname:
-                                                                <span class="card p-1">{{kunde}}</span>
-                                                            <br />
-                                                            Datum: 
-                                                                <span class="card p-1">{{ formattedDate(group) }}</span> <br />
-                                                            Telefonnummer: 
-                                                                {{Kundenbestellung.telefonnummer}} <br /><br />
-                                                            Bestellung:
-                                                        </p>
-                                                </div>                                        
-                                                    <table class="table table-striped">
-                                                        <tbody>
-                                                            <ng-container *ngIf="!currentCategory || currentCategory !== Kundenbestellung.id.produkt.produktgruppe.name">
-                                                                <tr>
-                                                                <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{  Kundenbestellung.id.produkt.produktgruppe.name }}</th>
-                                                                </tr>
-                                                            </ng-container>
-                                                            <tr>
-                                                                <th>Produkt</th>
-                                                                <th>Frisch</th>
-                                                                <th>Teigig</th>
-                                                            </tr>
-                                                            <tr *ngFor="let kunde of group.data; let j = index">
-                                                                <td>{{kunde.id.produkt.name}}</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" [ngModel]="kunde.id.produkt.hb ? '0' : kunde.menge" disabled>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"[ngModel]="kunde.id.produkt.hb ? kunde.menge : '0'" disabled>
-                                                                </td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                
-                                                </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary active" style="background-color: #8C5263" data-dismiss="modal">Zurück</button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        </ng-container>
-                                  <!-- Popup-Details-ENDE -->
-                            
-                                  
-                                <td> 
-                                    <button type="submit" class="btn btn-style deleteButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Löschen</button> 
-                                </td>
-                            </tr>
-                            <!-- Popup-Löschen-Anfang -->
-
-                              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                  <div class="modal-content">
-                                    <div class="modal-body">
-                                        Möchten Sie diese Kundenbestellung wirklich löschen?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-style" style="background-color: #B42F2F;color:white;">
-                                            Ja (NICHT rückgängig)</button>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                            Nein</button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            <!-- Popup-Löschen-Ende -->
-                        </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color: #8C5263;color:white;width: 200px;" (click)="validateForm()">Weiter</button>
+                        <br />
                     </div>
                 </div>
-                <hr class="pb-2">
-                <h2>Später Anstehend</h2>
-  
+
+                <!-- SHOW GEWÄHLTE PRODUKTE -->
+                <div class="modal-body" *ngIf="showBestellung">
+                    <p (click)="showKundenbestellung()">Zurück</p>
+                    <br>
+                    <!-- MI AMOR FORMATIEREN!!!!!!!!!!!!!!!!!!!!!!-->
+                    <div *ngFor="let produktId of getProduktInputKeys()">
+                        <div *ngIf="produktInputs[produktId].frisch != 0 || produktInputs[produktId].teigig != 0">
+                            <p>{{ produktId }}</p>
+                            <p>Frisch: {{ produktInputs[produktId].frisch }}</p>
+                            <p>Teigig: {{ produktInputs[produktId].teigig }}</p>
+                        </div>
+                    </div>
+                      
+                </div>
+            </div>
             </div>
         </div>
-        
-    </section>
+            <!-- Popup-Hinzufügen-Ende -->
+            
+    <div class="container-fluid card pt-3">
+        <h1>Kundenbestellungen für {{ formattedDate(null) }}</h1>
+    </div>
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <h2>Heute Anstehend</h2>
+            <div *ngFor="let kundenbestellung of getKundenbestellungenByDate(formattedDate(null))" class="col-lg-6 col-md-12 pb-3">
+                <div class="card pt-3 container">
+                    <u>Datum: {{ kundenbestellung.id.datum }}</u>
+                    <table class="table table-striped">
+                        <tr>
+                            <th scope="col">Auftragsname</th>
+                            <th scope="col">Telefonnummer</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        <tr>
+                            <td scope="row">{{ kundenbestellung.id.kunde }}</td>
+                            <td scope="row">{{ kundenbestellung.telefonnummer }}</td>
+                            <td>
+                                <button type="button" class="btn btn-style detailButton" data-toggle="modal" [attr.data-target]="'#detailKundenname-' + kundenbestellung.id.kunde">Details</button>
+                            </td>
+                            <td> 
+                                <button type="submit" class="btn btn-style deleteButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Löschen</button> 
+                            </td>
+                        </tr>
+
+        <!-- Popup-Details-ANFANG -->
+            <ng-container *ngFor="let detailKundenbestellung of getDetailKundenbestellung(kundenbestellung.id.kunde, kundenbestellung.id.datum)">
+                <div class="modal fade bd-example-modal-lg" [attr.id]="'detailKundenname-' + kundenbestellung.id.kunde" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                        <h1 class="modal-title">Kundenbestellung ({{ filialenName }})</h1>
+                        <hr>
+                        <!-- Inhalt -->
+                        <div>
+                            <p style="color:rgb(128,128,128);">
+                                Auftragsname:
+                                    <span class="card p-1">{{kundenbestellung.id.kunde}}</span>
+                                <br />
+                                Datum: 
+                                    <span class="card p-1">{{kundenbestellung.id.datum}}</span> <br />
+                                Telefonnummer: 
+                                    {{kundenbestellung.telefonnummer}} <br /><br />
+                                Bestellung:
+                            </p>
+                        </div>                                        
+                            <table class="table table-striped">
+                                <tbody>
+                                    <ng-container>
+                                        <tr>
+                                        <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{  kundenbestellung.id.produkt.produktgruppe.name }}</th>
+                                        </tr>
+                                    </ng-container>
+                                    <tr>
+                                        <th>Produkt</th>
+                                        <th>Frisch</th>
+                                        <th>Teigig</th>
+                                    </tr>
+                                    <tr *ngFor="let kunde of getDetailKundenbestellung(kundenbestellung.id.kunde, kundenbestellung.id.datum); let j = index">
+                                        <td>{{kunde.id.produkt.name}}</td>
+                                        <td>
+                                            <input type="text" class="form-control" [ngModel]="kunde.id.produkt.hb ? '0' : kunde.menge" disabled>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control"[ngModel]="kunde.id.produkt.hb ? kunde.menge : '0'" disabled>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary active" style="background-color: #8C5263" data-dismiss="modal">Zurück</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </ng-container>
+        <!-- Popup-Details-ENDE -->
+
+        <!-- Popup-Löschen-Anfang -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-body">
+                    Möchten Sie diese Kundenbestellung wirklich löschen?
+                </div>
+                <div class="modal-footer">
+                    <button (click)="deleteKundenbestellung(kundenbestellung, 1)" type="button" class="btn btn-style" style="background-color: #B42F2F;color:white;">
+                        Ja (NICHT rückgängig)</button>
+                    <button #schliessenButton1 type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Nein</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        <!-- Popup-Löschen-Ende -->
+                    </table>
+                </div>
+            </div>
+            <hr class="pb-2">
+            <h2>Später Anstehend</h2>
+            <div *ngFor="let kundenbestellung of getKundenbestellungenByDate(null)" class="col-lg-6 col-md-12 pb-3">
+                <div class="card pt-3 container">
+                    <u>Datum: {{ kundenbestellung.id.datum }}</u>
+                    <table class="table table-striped">
+                        <tr>
+                            <th scope="col">Auftragsname</th>
+                            <th scope="col">Telefonnummer</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        <tr>
+                            <td scope="row">{{ kundenbestellung.id.kunde }}</td>
+                            <td scope="row">{{ kundenbestellung.telefonnummer }}</td>
+                            <td>
+                                <button type="button" class="btn btn-style detailButton" data-toggle="modal" [attr.data-target]="'#detailKundennamen-' + kundenbestellung.id.kunde">Details</button>
+                            </td>
+                            <td> 
+                                <button type="submit" class="btn btn-style deleteButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">Löschen</button> 
+                            </td>
+                        </tr>
+
+        <!-- Popup-Details-ANFANG -->
+            <ng-container *ngFor="let detailKundenbestellung of getDetailKundenbestellung(kundenbestellung.id.kunde, kundenbestellung.id.datum)">
+                <div class="modal fade bd-example-modal-lg" [attr.id]="'detailKundennamen-' + kundenbestellung.id.kunde" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                        <h1 class="modal-title">Kundenbestellung ({{ filialenName }})</h1>
+                        <hr>
+                        <!-- Inhalt -->
+                        <div>
+                            <p style="color:rgb(128,128,128);">
+                                Auftragsname:
+                                    <span class="card p-1">{{kundenbestellung.id.kunde}}</span>
+                                <br />
+                                Datum: 
+                                    <span class="card p-1">{{kundenbestellung.id.datum}}</span> <br />
+                                Telefonnummer: 
+                                    {{kundenbestellung.telefonnummer}} <br /><br />
+                                Bestellung:
+                            </p>
+                        </div>                                        
+                            <table class="table table-striped">
+                                <tbody>
+                                    <ng-container>
+                                        <tr>
+                                        <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{  kundenbestellung.id.produkt.produktgruppe.name }}</th>
+                                        </tr>
+                                    </ng-container>
+                                    <tr>
+                                        <th>Produkt</th>
+                                        <th>Frisch</th>
+                                        <th>Teigig</th>
+                                    </tr>
+                                    <tr *ngFor="let kunde of getDetailKundenbestellung(kundenbestellung.id.kunde, kundenbestellung.id.datum); let j = index">
+                                        <td>{{kunde.id.produkt.name}}</td>
+                                        <td>
+                                            <input type="text" class="form-control" [ngModel]="kunde.id.produkt.hb ? '0' : kunde.menge" disabled>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control"[ngModel]="kunde.id.produkt.hb ? kunde.menge : '0'" disabled>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary active" style="background-color: #8C5263" data-dismiss="modal">Zurück</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </ng-container>
+        <!-- Popup-Details-ENDE -->
+
+        <!-- Popup-Löschen-Anfang -->
+
+            <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-body">
+                    Möchten Sie diese Kundenbestellung wirklich löschen?
+                </div>
+                <div class="modal-footer">
+                    <button (click)="deleteKundenbestellung(kundenbestellung, 2)" type="button" class="btn btn-style" style="background-color: #B42F2F;color:white;">
+                        Ja (NICHT rückgängig)</button>
+                    <button #schliessenButton2 type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Nein</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        <!-- Popup-Löschen-Ende -->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
 </body>

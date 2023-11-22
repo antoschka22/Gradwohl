@@ -47,6 +47,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Configuration
@@ -5784,8 +5785,53 @@ public class initApplication {
                             .id(kundenbestellungId2)
                             .build();
 
+            KundenbestellungId kundenbestellungId3 =
+                    KundenbestellungId.builder()
+                            .datum(LocalDate.now())
+                            .filiale(hietzing)
+                            .produkt(kastanienzipf)
+                            .kunde("Herbert")
+                            .build();
+
+            Kundenbestellung kundenbestellung3 =
+                    Kundenbestellung.builder()
+                            .menge(2)
+                            .telefonnummer("104393042")
+                            .id(kundenbestellungId3)
+                            .build();
+
+            KundenbestellungId kundenbestellungId4 =
+                    KundenbestellungId.builder()
+                            .datum(LocalDate.now().plusDays(1))
+                            .filiale(hietzing)
+                            .produkt(kastanienzipf)
+                            .kunde("Herbert")
+                            .build();
+
+            Kundenbestellung kundenbestellung4 =
+                    Kundenbestellung.builder()
+                            .menge(20)
+                            .telefonnummer("124393042")
+                            .id(kundenbestellungId4)
+                            .build();
+
+            KundenbestellungId kundenbestellungId5 =
+                    KundenbestellungId.builder()
+                            .datum(LocalDate.now().minusDays(1))
+                            .filiale(hietzing)
+                            .produkt(nussbrotstange)
+                            .kunde("Herbert")
+                            .build();
+
+            Kundenbestellung kundenbestellung5 =
+                    Kundenbestellung.builder()
+                            .menge(1.5)
+                            .telefonnummer("676013948329")
+                            .id(kundenbestellungId5)
+                            .build();
+
             List<Kundenbestellung> kundenbestellungen = Arrays.asList(
-              kundenbestellung1, kundenbestellung2, kundenbestellung1HB
+              kundenbestellung1, kundenbestellung2, kundenbestellung1HB, kundenbestellung3, kundenbestellung4, kundenbestellung5
             );
 
             kundenbestellungRepository.saveAll(kundenbestellungen);
@@ -5892,8 +5938,84 @@ public class initApplication {
                             .sonntag(false)
                             .build();
 
+            LieferbarId lieferbarId4 =
+                    LieferbarId.builder()
+                            .firma(wien)
+                            .produkt(nusskipferl)
+                            .build();
+
+
+            Lieferbar lieferbar4 =
+                    Lieferbar.builder()
+                            .id(lieferbarId4)
+                            .montag(true)
+                            .dienstag(true)
+                            .mittwoch(true)
+                            .donnerstag(true)
+                            .freitag(true)
+                            .samstag(false)
+                            .sonntag(false)
+                            .build();
+
+            LieferbarId lieferbarId5 =
+                    LieferbarId.builder()
+                            .firma(wien)
+                            .produkt(dinkelbrotStange)
+                            .build();
+
+
+            Lieferbar lieferbar5 =
+                    Lieferbar.builder()
+                            .id(lieferbarId5)
+                            .montag(true)
+                            .dienstag(true)
+                            .mittwoch(true)
+                            .donnerstag(true)
+                            .freitag(true)
+                            .samstag(false)
+                            .sonntag(false)
+                            .build();
+
+            LieferbarId lieferbarId6 =
+                    LieferbarId.builder()
+                            .firma(wien)
+                            .produkt(kastanienzipf)
+                            .build();
+
+
+            Lieferbar lieferbar6 =
+                    Lieferbar.builder()
+                            .id(lieferbarId6)
+                            .montag(true)
+                            .dienstag(true)
+                            .mittwoch(true)
+                            .donnerstag(true)
+                            .freitag(true)
+                            .samstag(false)
+                            .sonntag(false)
+                            .build();
+
+            LieferbarId lieferbarId7 =
+                    LieferbarId.builder()
+                            .firma(wien)
+                            .produkt(dinkelbrot)
+                            .build();
+
+
+            Lieferbar lieferbar7 =
+                    Lieferbar.builder()
+                            .id(lieferbarId7)
+                            .montag(true)
+                            .dienstag(true)
+                            .mittwoch(true)
+                            .donnerstag(true)
+                            .freitag(true)
+                            .samstag(false)
+                            .sonntag(false)
+                            .build();
+
             List<Lieferbar> lieferbar = Arrays.asList(
-                    lieferbar1, lieferbar2, lieferbar3
+                    lieferbar1, lieferbar2, lieferbar3, lieferbar4, lieferbar5, lieferbar6, lieferbar7
             );
 
             lieferbarRepository.saveAll(lieferbar);

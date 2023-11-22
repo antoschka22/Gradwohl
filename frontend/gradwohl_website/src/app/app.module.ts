@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { RouterModule,Routes } from '@angular/router';
 
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -43,7 +42,6 @@ import { DienstplanVerwaltungComponent } from './components/zentrale/dienstplan-
 import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/dienstplan-view.component';
 import { ZentraleNavbarComponent } from './components/zentrale/zentrale-navbar/zentrale-navbar.component';
 import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
-import { KundenbestellungSpeichernComponent } from './components/verkauf/kundenbestellung-speichern/kundenbestellung-speichern.component';
 import { MitarbeiterModelsComponent } from './components/zentrale/mitarbeiter-models/mitarbeiter-models.component';
 import { MitarbeiterComponent } from './components/zentrale/mitarbeiter/mitarbeiter.component';
 import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlagen-view.component';
@@ -67,7 +65,6 @@ import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlag
     ZentraleNavbarComponent,
     DienstplanModelsComponent,
     WarenbestellungEingabeComponent,
-    KundenbestellungSpeichernComponent,
     MitarbeiterModelsComponent,
     MitarbeiterComponent,
     VorlagenViewComponent

@@ -2,7 +2,7 @@ import { filiale } from "../filiale/filiale"
 import { produkt } from "../produkt/produkt"
 
 export interface kundenbestellungId{
-    datum: Date,
+    datum: string,
     produkt: produkt,
     kunde: string,
     filiale: filiale

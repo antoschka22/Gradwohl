@@ -1,5 +1,4 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
 
@@ -9,18 +8,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { filiale } from 'src/model/filiale/filiale';
 import { produkt } from 'src/model/produkt/produkt';
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
-import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
 import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
 import { FilialeService } from 'src/app/service/filiale/filiale.service';
 
-// Popup / Generieren/ Händisch
-import { MatDialog } from '@angular/material/dialog';
-
 // Linke und Rechte Obere Box
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
-import { RoleService } from 'src/app/service/role/role.service';
-
-import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 
 
 interface warenbestellungID {
@@ -83,20 +75,16 @@ export class LoginFirstPageComponent implements OnInit {
   constructor(
     private warenbestellungService: WarenbestellungService,
     private authService: AuthService,
-    private toastr: ToastrService,
     private router: Router, private route: ActivatedRoute,
-    private dialogRef: MatDialog,
     private kundenbestellungService: KundenbestellungService,
     private mitarbeiterService: MitabeiterService,
-    private filialeService: FilialeService,
-    private rolenService: RoleService,
-   
+    private filialeService: FilialeService,   
   ) { this.isMobile = window.innerWidth <= 1199,
     this.groupbyDateWarenbestellung = {};}
 
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
+  onResize() {
     this.isMobile = window.innerWidth <= 1199;
   }
 
@@ -115,30 +103,30 @@ export class LoginFirstPageComponent implements OnInit {
 
   // Kundenbestellungen zaehlen für die Linke und Rechte Box oben
 
-    // Linke Box-----------
-    heutigeKundenbestellungenCount: number = 0;
-    countHeutigeKundenbestellungen() {
-      const heute = new Date();
-      heute.setHours(0, 0, 0, 0);
-      this.kundenbestellungService.getKundenbestellungByDate(heute).subscribe((data: any) => {
-        this.heutigeKundenbestellungenCount = data.length;
-      });
-    }
+  // Linke Box-----------
+  heutigeKundenbestellungenCount: number = 0;
+  countHeutigeKundenbestellungen() {
+    const datum = new Date();
+    const heute = datum.getFullYear().toString()+"-"+(datum.getMonth()+1).toString()+"-"+datum.getDate().toString()
+    this.kundenbestellungService.getKundenbestellungByDate(heute).subscribe((data: any) => {
+      this.heutigeKundenbestellungenCount = data.length;
+    });
+  }
 
-    // Rechte Box-----------
-    heutigerWarenbestellungsStatus: string = '';
+  // Rechte Box-----------
+  heutigerWarenbestellungsStatus: string = '';
 
-    updateHeutigeWarenbestellungStatus() {
-      const aktuelleUhrzeit = new Date();
-      const abgabeWarenbestellung = new Date();
-      abgabeWarenbestellung.setHours(18, 0, 0, 0);
-      
-      if (aktuelleUhrzeit >= abgabeWarenbestellung) {
-        this.heutigerWarenbestellungsStatus = 'abgeschickt';
-      } else {
-        this.heutigerWarenbestellungsStatus = 'offen';
-      }
+  updateHeutigeWarenbestellungStatus() {
+    const aktuelleUhrzeit = new Date();
+    const abgabeWarenbestellung = new Date();
+    abgabeWarenbestellung.setHours(18, 0, 0, 0);
+    
+    if (aktuelleUhrzeit >= abgabeWarenbestellung) {
+      this.heutigerWarenbestellungsStatus = 'abgeschickt';
+    } else {
+      this.heutigerWarenbestellungsStatus = 'offen';
     }
+  }
 
   //----------------------------------------------------------------
 
@@ -167,9 +155,7 @@ export class LoginFirstPageComponent implements OnInit {
     this.selectedDateBestellung = event;
   }
 
-
   ///----------------------------------------------------------------------
-
 
   //KALENDER Warenbestellungen einsehen
   isEmptyGroupbyDateWarenbestellung(selectedDate: Date | undefined): string {
@@ -201,45 +187,30 @@ export class LoginFirstPageComponent implements OnInit {
   }
 
   // is Leiter? Ja, mache  die Vorlagen sichtbar
-
   isLeiter: boolean = false;
-
   private checkIfLeiter(): void {
-    var username: String = this.authService.getUsernameFromToken();
-    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
-      if (mitarbeiter && mitarbeiter.role && mitarbeiter.role.role == "Leiter") {
-        this.isLeiter = true;
-      }
-    });
+    if(this.authService.getUserRole() == "Leiter"){
+      this.isLeiter = true;
+    }
   }
   
-
   // Und geht filialen namen
   getWarenbestellungen() {
-      var username: String = this.authService.getUsernameFromToken();
-      this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
-        this.warenbestellungService.getWarenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
-          data.forEach((warenbestellung: warenbestellung) => {
-            warenbestellung.id.datum = new Date(warenbestellung.id.datum);
-          });
-      
-          this.warenbestellungen = data;
-          this.groupbyDateWarenbestellung = groupDates(this.warenbestellungen);
-
+    var username: String = this.authService.getUsernameFromToken();
+    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
+      this.warenbestellungService.getWarenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
+        data.forEach((warenbestellung: warenbestellung) => {
+          warenbestellung.id.datum = new Date(warenbestellung.id.datum);
         });
-        if (mitarbeiter && mitarbeiter.filiale) {
-          const filialeId: number = mitarbeiter.filiale.id;
-          this.getFilialeNameById(filialeId);
-        }
-      })
-  }
+    
+        this.warenbestellungen = data;
+        this.groupbyDateWarenbestellung = groupDates(this.warenbestellungen);
 
-  private getFilialeNameById(filialeId: number): void {
-    this.filialeService.getFilialeById(filialeId).subscribe((filiale: any) => {
-      if (filiale) {
-        this.loggedInUserFilialeName = filiale.name;
+      });
+      if (mitarbeiter && mitarbeiter.filiale) {
+        this.loggedInUserFilialeName = mitarbeiter.filiale.name;
       }
-    });
+    })
   }
 
   onDateSelect(event: Date) {
@@ -256,13 +227,8 @@ export class LoginFirstPageComponent implements OnInit {
 
   isVorlageDropdown: boolean = false;
   dropdownUpVorlage: boolean = true;
-
   toggleVorlagenDropdown() {
     this.isVorlageDropdown = !this.isVorlageDropdown;
     this.dropdownUpVorlage = !this.dropdownUpVorlage;
   }
-
-
-  
-
 }
