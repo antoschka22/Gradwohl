@@ -29,7 +29,8 @@
               <tr *ngFor="let mit of filteredMitarbeiter">
                 <td scope="row">{{ mit.name }}</td>
                 <td *ngIf="mit.filiale">{{ mit.filiale.name }}</td>
-                <td *ngIf="mit.filiale">{{ mit.filiale.firma.name }}</td>
+                <td *ngIf="mit.filiale && mit.filiale.firma">{{ mit.filiale.firma.name }}</td>
+                <td *ngIf="mit.filiale && !mit.filiale.firma"></td>
                 <td *ngIf="!mit.filiale"></td>
                 <td *ngIf="!mit.filiale"></td>
                 <td>{{ mit.role.role }}</td>

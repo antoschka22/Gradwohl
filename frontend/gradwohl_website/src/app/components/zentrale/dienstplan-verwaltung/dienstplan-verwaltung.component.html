@@ -11,8 +11,20 @@
     <div class="col-12" *ngFor="let firmaName of firmenNamen">
       <h2>{{ firmaName }}</h2>
       <div class="row">
-        <ng-container *ngFor="let filiale of filialen">
+        <ng-container *ngFor="let filiale of filialenMitFirma">
           <div class="col-md-4 col-sm-6 mb-4" *ngIf="filiale.firma.name === firmaName">
+            <div class="box" [routerLink]="['/dienstplan/view', filiale.id]">
+              <h2>{{ filiale.name }}</h2>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="filialenOhneFirma.length > 0">
+      <h2>Filialen ohne Firma</h2>
+      <div class="row">
+        <ng-container *ngFor="let filiale of filialenOhneFirma">
+          <div class="col-md-4 col-sm-6 mb-4">
             <div class="box" [routerLink]="['/dienstplan/view', filiale.id]">
               <h2>{{ filiale.name }}</h2>
             </div>

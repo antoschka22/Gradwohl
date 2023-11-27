@@ -3,6 +3,7 @@ package at.gradwohl.website.service.filiale;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
+import at.gradwohl.website.repository.firmenUrlaub.FirmenUrlaubRepository;
 import at.gradwohl.website.repository.kundenbestellung.KundenbestellungRepository;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
 import at.gradwohl.website.repository.vorlage.VorlageRepository;
@@ -23,6 +24,7 @@ public class FilialeService {
     private final DienstplanRepository dienstplanRepository;
     private final KundenbestellungRepository kundenbestellungRepository;
     private final VorlageRepository vorlageRepository;
+    private final FirmenUrlaubRepository firmenUrlaubRepository;
 
     public List<Filiale> getAllFilialen() {
         return filialeRepository.findAll();
@@ -57,6 +59,7 @@ public class FilialeService {
             warenbestellungRepository.deleteByFiliale(filiale);
             kundenbestellungRepository.deleteByFiliale(filiale);
             vorlageRepository.deleteByFiliale(filiale);
+            firmenUrlaubRepository.deleteByFiliale(filiale);
             filialeRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("Filiale doesn't exist");
@@ -73,29 +76,3 @@ public class FilialeService {
         }
     }
 }
-
-
-/*
-{
-    "id": 1000,
-    "name": "adfdf",
-    "filialleiter": {
-      "id": 1,
-      "name": "Barbara",
-      "password": "$2a$10$EYGa1zYzo5MJD5wDmHklfuyH4yd89eHrPHHUozWdKQA43u22uUb2W",
-      "role": {
-        "role": "Leiter"
-      },
-      "filiale": {
-        "id": 14,
-        "name": "Hietzing",
-        "firma": {
-          "name": "Wien"
-        }
-      }
-    },
-    "firma": {
-      "name": "Olivers Teigwerkstätte"
-    }
-  }
- */

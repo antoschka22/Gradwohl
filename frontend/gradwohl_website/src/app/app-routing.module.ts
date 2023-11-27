@@ -16,6 +16,8 @@ import { DienstplanViewComponent } from './components/zentrale/dienstplan-view/d
 import { WarenbestellungEingabeComponent } from './components/verkauf/warenbestellung-eingabe/warenbestellung-eingabe.component';
 import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlagen-view.component';
 import { MitarbeiterComponent } from './components/zentrale/mitarbeiter/mitarbeiter.component';
+import { FilialeComponent } from './components/zentrale/filiale/filiale.component';
+import { FirmaComponent } from './components/zentrale/firma/firma.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
@@ -33,10 +35,8 @@ const routes: Routes = [
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'warenbestellungEingabe', component: WarenbestellungEingabeComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
-
   {path: 'vorlagenView', component: VorlagenViewComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Leiter']}},
-
   {path: 'zentrale', component: LandingPageComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
   {path: 'dienstplan/verwalten', component: DienstplanVerwaltungComponent,
@@ -45,7 +45,10 @@ const routes: Routes = [
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
   {path: 'mitarbeiter/verwalten', component: MitarbeiterComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
-
+  {path: 'filiale/verwalten', component: FilialeComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+  {path: 'firma/verwalten', component: FirmaComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
 ];
 
 @NgModule({

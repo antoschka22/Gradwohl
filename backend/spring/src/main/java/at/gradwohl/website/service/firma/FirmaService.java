@@ -3,7 +3,6 @@ package at.gradwohl.website.service.firma;
 import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.firma.FirmaRepository;
-import at.gradwohl.website.repository.firmenUrlaub.FirmenUrlaubRepository;
 import at.gradwohl.website.repository.lieferbar.LieferbarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ public class FirmaService {
     private final FirmaRepository firmaRepository;
     private final FilialeRepository filialeRepository;
     private final LieferbarRepository lieferbarRepository;
-    private final FirmenUrlaubRepository firmenUrlaubRepository;
 
     public List<Firma> getAllFirma() {
         return firmaRepository.findAll();
@@ -59,7 +57,6 @@ public class FirmaService {
             Firma firma = optionalFirma.get();
             filialeRepository.setFirmaToNull(firma);
             lieferbarRepository.deleteByFirma(firma);
-            firmenUrlaubRepository.deleteByFirma(firma);
             firmaRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("Firma doesn't exist");

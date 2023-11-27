@@ -1,5 +1,6 @@
 package at.gradwohl.website.model.firmenUrlaub;
 
+import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.model.urlaubstage.Urlaubstage;
 import jakarta.persistence.Embeddable;
@@ -18,10 +19,10 @@ import java.io.Serializable;
 @Setter
 public class FirmenUrlaubId implements Serializable {
 
-    @MapsId("firma")
+    @MapsId("filiale")
     @ManyToOne
-    @JoinColumn(name = "FU_Firma", referencedColumnName = "F_Name")
-    private Firma firma;
+    @JoinColumn(name = "FU_Filiale", referencedColumnName = "F_ID")
+    private Filiale filiale;
 
     @MapsId("urlaubstage")
     @ManyToOne

@@ -1,9 +1,6 @@
 package at.gradwohl.website.model.filiale;
 
 import at.gradwohl.website.model.firma.Firma;
-import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -29,10 +26,6 @@ public class Filiale {
 
     @Column(name = "SOoffen")
     private boolean SOoffen;
-
-    @ManyToOne
-    @JoinColumn(name = "F_Filialleiter", referencedColumnName = "M_ID")
-    private Mitarbeiter filialleiter;
 
     @ManyToOne
     @JoinColumn(name = "F_Firma", referencedColumnName = "F_Name")

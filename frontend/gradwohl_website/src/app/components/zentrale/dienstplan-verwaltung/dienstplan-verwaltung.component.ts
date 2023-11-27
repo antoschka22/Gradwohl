@@ -10,8 +10,9 @@ import { filiale } from 'src/model/filiale/filiale';
 })
 export class DienstplanVerwaltungComponent {
 
-  filialen: filiale[] = [];
   firmenNamen: string[] = [];
+  filialenMitFirma: filiale[] = []
+  filialenOhneFirma: filiale[] = []
 
   constructor(private filialeService: FilialeService){}
 
@@ -22,11 +23,14 @@ export class DienstplanVerwaltungComponent {
 
   getFilialen(){
     this.filialeService.getAllFilialen().subscribe((filialen: any) =>{
-      this.filialen = filialen;
-
       filialen.forEach((item: filiale) => {
-        if (!this.firmenNamen.includes(item.firma.name)) {
-          this.firmenNamen.push(item.firma.name);
+        if(item.firma != undefined){
+          this.filialenMitFirma.push(item)
+          if (!this.firmenNamen.includes(item.firma.name)) {
+            this.firmenNamen.push(item.firma.name);
+          }
+        }else{
+          this.filialenOhneFirma.push(item)
         }
       });
     });

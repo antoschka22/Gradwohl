@@ -18,8 +18,8 @@ export class LieferbarService {
     return this.http.get(this.baseUri + '/lieferbar/'+firma)
   }            
 
-  insertLieferbar(lieferbarToInsert: lieferbar){
-    return this.http.post(this.baseUri+'/liefebar', lieferbarToInsert)
+  insertLieferbar(lieferbarToInsert: lieferbar[]){
+    return this.http.post(this.baseUri+'/lieferbar', lieferbarToInsert)
   }
 
   deleteLieferbar(firmaId: string, produktId: number){

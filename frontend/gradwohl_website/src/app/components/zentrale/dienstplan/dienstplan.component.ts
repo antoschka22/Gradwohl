@@ -27,7 +27,7 @@ class dienstplanModell implements dienstplan {
 
 
 /**
- * von URLAUB zu  12:00 - 11:00 geht nicht 
+ * von ZA zu  11:00 - 12:00 geht nicht 
  */
 
 @Component({
@@ -112,9 +112,11 @@ export class DienstplanComponent implements AfterViewInit{
         this.extractNeededDateFromMonth(this.currentMonat.toString(), this.currentYear)
 
         //get firmenUrlaube
-        this.firmenUrlaubService.getfirmenUrlaubByFirma(mitarbeiter.filiale.firma.name).subscribe((firmenUrlaub: any) => {
-          this.firmenUrlaube = firmenUrlaub
-        });
+        if(mitarbeiter.filiale.firma != undefined){
+          this.firmenUrlaubService.getfirmenUrlaubByFirma(mitarbeiter.filiale.id).subscribe((firmenUrlaub: any) => {
+            this.firmenUrlaube = firmenUrlaub
+          });
+        }
       });
     });
   }

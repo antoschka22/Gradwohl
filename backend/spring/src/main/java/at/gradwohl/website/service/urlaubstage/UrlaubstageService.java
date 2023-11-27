@@ -1,9 +1,11 @@
 package at.gradwohl.website.service.urlaubstage;
 
+import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firma.Firma;
 import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaub;
 import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaubId;
 import at.gradwohl.website.model.urlaubstage.Urlaubstage;
+import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.firma.FirmaRepository;
 import at.gradwohl.website.repository.firmenUrlaub.FirmenUrlaubRepository;
 import at.gradwohl.website.repository.urlaubstage.UrlaubgstageRepository;
@@ -20,11 +22,11 @@ public class UrlaubstageService {
 
     private final UrlaubgstageRepository urlaubgstageRepository;
     private final FirmenUrlaubRepository firmenUrlaubRepository;
-    private final FirmaRepository firmaRepository;
+    private final FilialeRepository filialeRepository;
 
-    public List<FirmenUrlaub> getUrlaubsTageOfFirma(String firmaId){
-        Firma firma = firmaRepository.getById(firmaId);
-        return firmenUrlaubRepository.findByIdFirma(firma);
+    public List<FirmenUrlaub> getUrlaubsTageOfFiliale(int filialeId){
+        Filiale filiale = filialeRepository.getById(filialeId);
+        return firmenUrlaubRepository.findByIdFiliale(filiale);
     }
 
     public Optional<Urlaubstage> getUrlaubstageById(int id){

@@ -18,7 +18,6 @@ public class MitarbeiterService {
 
     private final MitarbeiterRepository mitarbeiterRepository;
     private final DienstplanRepository dienstplanRepository;
-    private final FilialeRepository filialeRepository;
     private final PasswordEncoder passwordEncoder;
 
     public Mitarbeiter getMitarbeiterById(int id) {
@@ -80,7 +79,6 @@ public class MitarbeiterService {
         if (optionalMitarbeiter.isPresent()) {
             Mitarbeiter mitarbeiter = optionalMitarbeiter.get();
             dienstplanRepository.deleteMitarbeiterIfTrue(mitarbeiter);
-            filialeRepository.setFilialleiterToNull(mitarbeiter);
             mitarbeiterRepository.deleteById(id);
         } else
             throw new IllegalArgumentException("Mitarbeiter doesn't exist");
