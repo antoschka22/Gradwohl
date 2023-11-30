@@ -116,7 +116,6 @@ class WebsiteApplicationTests {
 				Filiale.builder()
 						.id(1)
 						.name("Hietzing")
-						.filialleiter(mitarbeiter)
 						.build();
 		filialeRepository.save(filiale);
 
@@ -163,7 +162,6 @@ class WebsiteApplicationTests {
 				Filiale.builder()
 						.id(1)
 						.name("Hietzing")
-						.filialleiter(null)
 						.firma(null)
 						.build();
 
@@ -171,7 +169,6 @@ class WebsiteApplicationTests {
 
 		VorlageId vorlageId =
 				VorlageId.builder()
-						.id(1)
 						.produkt(produkt)
 						.filiale(filiale)
 						.build();
@@ -210,7 +207,6 @@ class WebsiteApplicationTests {
 				Filiale.builder()
 						.id(1)
 						.name("Hietzing")
-						.filialleiter(null)
 						.firma(null)
 						.build();
 
@@ -258,7 +254,6 @@ class WebsiteApplicationTests {
 				Filiale.builder()
 						.id(1)
 						.name("Hietzing")
-						.filialleiter(null)
 						.firma(null)
 						.build();
 

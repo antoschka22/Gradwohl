@@ -1,0 +1,226 @@
+<!-- INSERT-->
+<div class="modal fade" id="insert" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Hinzufügen</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeInsert></button>
+        </div>
+        <div class="modal-body" style="font-size: 16px;">
+            <div class="row">
+              <div class="col-md-12" style="margin-bottom: 20px;">
+                <div class="form-group">
+                  <label for="firmenName"><b>Firmenname</b></label>
+                  <input type="text" class="form-control" id="firmenName" [(ngModel)]="firmenName">
+                </div>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="form-group">
+                  <label for="selectedFilialen" style="margin-bottom: 10px;"><b>Filialen</b></label>
+                  <div class="select-multiple">
+                    <select multiple class="form-control" id="selectedFilialen" [(ngModel)]="selectedFilialen" style="height: 200px; cursor: pointer;">
+                      <option *ngFor="let filiale of filialen" [value]="filiale">{{ filiale.name }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6" style="margin-bottom: 20px;">
+                <div>
+                  <p style="margin-bottom: 10px;"><strong>Selected Filialen:</strong></p>
+                  <ul>
+                    <li *ngFor="let selectedFiliale of selectedFilialen">
+                      {{ selectedFiliale.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label style="margin-bottom: 10px;" for="lieferbareProdukte"><b>Lieferbare Produkte</b></label>
+                  <input type="text" class="form-control" id="searchProduct" [(ngModel)]="searchTerm" placeholder="Suche nach..."/> 
+                  <br>
+                  <div class="product-list" style="height: 300px; overflow-y: scroll;">
+                    <div *ngFor="let produkt of filteredProdukte" class="product-item">
+                      <input type="checkbox" (change)="toggleSelection(produkt, false)" 
+                      [checked]="isSelected(produkt.id, 'Montag', false)" id="{{ 'produkt_' + produkt.id }}" 
+                      style="cursor: pointer;"/>
+                      <label for="{{ 'produkt_' + produkt.id }}" style="cursor:pointer; padding-left: 10px;">{{ produkt.name }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="selected-products">
+                  <span *ngFor="let selectedProdukt of selectedProdukte" class="selected-product" 
+                        (click)="openSecondModal(selectedProdukt)"
+                        style="cursor: pointer;">  
+                    {{ selectedProdukt.name }}
+                    <span data-bs-target="#detail" data-bs-toggle="modal" #insertToOpenDetail></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" #schliessenDelete class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+            <button type="button" class="btn btn-success" (click)="speichern()">speichern</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- INSERT LIEFERBAR TAGE-->
+<div class="modal fade" id="detail" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" *ngIf="lieferbarProdukt">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">{{lieferbarProdukt.name}} bearbeiten</h1>
+        <span data-bs-dismiss="modal" aria-label="Close" #closeDetail></span>
+      </div>
+      <div class="modal-body">
+        <div class="day-selection-container">
+          <div class="days-container">
+            <span *ngFor="let day of daysOfWeek" class="day-item" 
+                  [class.selected]="isSelected(lieferbarProdukt.id, day, false)" 
+                  (click)="toggleProductDaySelection(lieferbarProdukt.id, day, false)">
+              {{ day }}
+            </span>          
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="openFirstModal()">Zurück</button>
+        <span data-bs-toggle="modal" data-bs-target="#insert" #deltailToOpenInsert></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- DELETE AND UPDATE MODAL -->
+<div class="modal fade" id="delete" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" *ngIf="selectedFirma" style="font-size: 16px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">{{selectedFirma.name}} bearbeiten</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+        <span data-bs-dismiss="modal" aria-label="Close" #closeDelete></span>
+      </div>
+      <div class="modal-body">
+        <div class="text-end">
+          <button type="button" class="btn btn-danger" (click)="openSecondModaldelete()">Firma löschen</button>
+          <span data-bs-target="#deleteDetail" data-bs-toggle="modal" #deleteToOpenDeleteDetail></span>
+        </div>
+          <div class="row">
+            <div class="col-md-12" style="margin-bottom: 20px;">
+              <div class="form-group">
+                <label for="firmenName"><b>Firmenname</b></label>
+                <input type="text" class="form-control" id="firmenName" #firmenNameInput [value]="selectedFirma.name">
+              </div>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 20px;">
+              <div class="form-group">
+                <label for="selectedFilialen" style="margin-bottom: 10px;"><b>Filialen</b></label>
+                <div class="select-multiple">
+                  <select multiple class="form-control" id="selectedFilialen" [(ngModel)]="filialenSelectedFirma" style="height: 200px; cursor: pointer;">
+                    <option *ngFor="let filiale of filialen" [ngValue]="filiale" [selected]="filiale.firma?.name === selectedFirma?.name">
+                      <span *ngIf="filiale.firma">{{ filiale.name }}</span>
+                      <span *ngIf="!filiale.firma" style="color:red;">{{ filiale.name }}</span>
+                    </option>
+                  </select>                                                
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 20px;">
+              <div>
+                <p style="margin-bottom: 10px;"><strong>Selected Filialen:</strong></p>
+                <ul>
+                  <li *ngFor="let selectedFiliale of filialenSelectedFirma">
+                    {{ selectedFiliale.name }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label style="margin-bottom: 10px;" for="lieferbareProdukte"><b>Lieferbare Produkte</b></label>
+                <input type="text" class="form-control" id="searchProduct" [(ngModel)]="searchTerm" placeholder="Suche nach..."/> 
+                <br>
+                <div class="product-list" style="height: 300px; overflow-y: scroll;">
+                  <div *ngFor="let produkt of filteredProdukte" class="product-item">
+                    <input type="checkbox" (change)="toggleSelection(produkt, true)" 
+                    [checked]="isSelected(produkt.id, 'Montag', true)" id="{{ 'produkt__' + produkt.id }}" 
+                    style="cursor: pointer;"/>
+                    <label for="{{ 'produkt__' + produkt.id }}" style="cursor:pointer; padding-left: 10px;">{{ produkt.name }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="selected-products">
+                <span *ngFor="let selectedProdukt of lieferbareProdukteVonFirma" class="selected-product" 
+                      (click)="openSecondModalUpdateDetail(selectedProdukt.id.produkt)"
+                      style="cursor: pointer;">  
+                  {{ selectedProdukt.id.produkt.name }}
+                  <span data-bs-target="#detailUpdate" data-bs-toggle="modal" #deleteToOpenUpdateDetail></span>
+                </span>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="update()">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM-->
+<div class="modal fade" id="deleteDetail" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" *ngIf="selectedFirma">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel4">{{selectedFirma.name}} löschen</h1>
+        <span data-bs-dismiss="modal" aria-label="Close" #closeDeleteDetail></span>
+      </div>
+      <div class="modal-body" style="font-size: 15px;">
+        Wenn Sie die Firma <b>{{selectedFirma.name}}</b> löschen, werden alle Filialen in der Firma keine lieferbaren Produkte mehr haben.
+        <br><br>
+        Sie werden diese Filialen in <b>andere Firmen</b> hinzufügen müssen oder eine <b>neue Firma</b> erstellen, damit die Filialen bestellen können.
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="openFirstModalDelete()">Zurück</button>
+        <button type="button" class="btn btn-danger" (click)="loeschen()">Firma löschen</button>
+        <span data-bs-toggle="modal" data-bs-target="#delete" #deleteDetailToOpenInsert></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- UPDATE LIEFERBAR TAGE-->
+<div class="modal fade" id="detailUpdate" aria-hidden="true" data-bs-backdrop="static" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" *ngIf="lieferbarProdukt">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">{{lieferbarProdukt.name}} bearbeiten</h1>
+        <span data-bs-dismiss="modal" aria-label="Close" #closeDetailUpdate></span>
+      </div>
+      <div class="modal-body">
+        <div class="day-selection-container">
+          <div class="days-container">
+            <span *ngFor="let day of daysOfWeek" class="day-item" 
+                  [class.selected]="isSelected(lieferbarProdukt.id, day, true)" 
+                  (click)="toggleProductDaySelection(lieferbarProdukt.id, day, true)">
+              {{ day }}
+            </span>          
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="openFirstModalUpdateDetail()">Zurück</button>
+        <span data-bs-toggle="modal" data-bs-target="#delete" #deleteDetailToOpenUpdate></span>
+      </div>
+    </div>
+  </div>
+</div>

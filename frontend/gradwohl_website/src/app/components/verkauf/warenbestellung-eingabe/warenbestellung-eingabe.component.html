@@ -98,13 +98,13 @@
                         <tr *ngFor="let produkte of angezeigteProdukte">
                           <td class="card" style="background-color: whitesmoke">{{ produkte.name }}</td>
                           <td>
-                            <input type="number" step="0.5" min="0" formControlName="frisch" 
+                            <input type="number" step="0.5" min="0" 
                                   ondrop="return false;" onpaste="return false;" 
                                   onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46" 
                                   required/>
                           </td>
                           <td>
-                            <input type="number" step="0.5" min="0" formControlName="teigig"
+                            <input type="number" step="0.5" min="0"
                                   ondrop="return false;" onpaste="return false;" 
                                   onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46" 
                                   required/>

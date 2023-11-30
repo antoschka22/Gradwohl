@@ -1,6 +1,6 @@
 package at.gradwohl.website.repository.firmenUrlaub;
 
-import at.gradwohl.website.model.firma.Firma;
+import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaub;
 import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaubId;
 import at.gradwohl.website.model.urlaubstage.Urlaubstage;
@@ -19,11 +19,10 @@ public interface FirmenUrlaubRepository extends JpaRepository<FirmenUrlaub, Firm
     @Query("DELETE FROM FirmenUrlaub u WHERE u.id.urlaubstage = :id")
     void deleteByUrlaubstag(@Param("id") Urlaubstage id);
 
-    @Transactional
     @Modifying
-    @Query("DELETE FROM FirmenUrlaub u WHERE u.id.firma = :id")
-    void deleteByFirma(@Param("id") Firma id);
+    @Transactional
+    @Query("DELETE FROM FirmenUrlaub u WHERE u.id.filiale = :filiale")
+    void deleteByFiliale(Filiale filiale);
 
-    List<FirmenUrlaub> findByIdFirma(Firma firma);
-
+    List<FirmenUrlaub> findByIdFiliale(Filiale filiale);
 }

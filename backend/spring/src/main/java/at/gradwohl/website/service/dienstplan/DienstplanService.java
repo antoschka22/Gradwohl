@@ -61,38 +61,3 @@ public class DienstplanService {
             throw new IllegalArgumentException("Dienstplan doesnt exist");
     }
 }
-
-/*
-
-{
-    "id": {
-      "datum": "2023-10-11",
-      "filiale": {
-        "id": 14,
-        "name": "Hietzing",
-        "firma": {
-          "name": "Wien"
-        }
-      },
-      "von": "06:30:00",
-      "mitarbeiter": {
-        "id": 2,
-        "name": "Szimone",
-        "password": "$2a$10$Ox/wZhfIftkLucn7/qzrse878PVbeBSIYL8pflJPduv4070cWuRsK",
-        "role": {
-          "role": "Verkauf"
-        },
-        "filiale": {
-          "id": 14,
-          "name": "Hietzing",
-          "firma": {
-            "name": "Wien"
-          }
-        }
-      }
-    },
-    "bis": "13:00:00",
-    "anfrage": true
-  }
-
- */

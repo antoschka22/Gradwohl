@@ -16,10 +16,5 @@ public interface FilialeRepository extends JpaRepository<Filiale, Integer> {
     @Query("UPDATE Filiale f SET f.firma = null WHERE f.firma = :firmaInput")
     void setFirmaToNull(Firma firmaInput);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE Filiale f SET f.filialleiter = null WHERE f.filialleiter = :filialleiterInput")
-    void setFilialleiterToNull(Mitarbeiter filialleiterInput);
-
     void deleteById(int id);
 }

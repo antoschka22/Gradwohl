@@ -45,6 +45,9 @@ import { WarenbestellungEingabeComponent } from './components/verkauf/warenbeste
 import { MitarbeiterModelsComponent } from './components/zentrale/mitarbeiter-models/mitarbeiter-models.component';
 import { MitarbeiterComponent } from './components/zentrale/mitarbeiter/mitarbeiter.component';
 import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlagen-view.component';
+import { FilialeComponent } from './components/zentrale/filiale/filiale.component';
+import { FirmaComponent } from './components/zentrale/firma/firma.component';
+import { FirmaModelsComponent } from './components/zentrale/firma-models/firma-models.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,10 @@ import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlag
     WarenbestellungEingabeComponent,
     MitarbeiterModelsComponent,
     MitarbeiterComponent,
-    VorlagenViewComponent
+    VorlagenViewComponent,
+    FilialeComponent,
+    FirmaComponent,
+    FirmaModelsComponent
   ],
   imports: [
     BrowserModule,
@@ -91,6 +97,6 @@ import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlag
     useClass: AuthInterceptorService,
     multi: true,
   }],
-  bootstrap: [AppComponent,LoginFirstPageComponent,NavbarHeaderComponent, BestelluebersichtComponent, KundenbestellungsUebersichtComponent, GesamtKundenbestellungsUebersichtComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

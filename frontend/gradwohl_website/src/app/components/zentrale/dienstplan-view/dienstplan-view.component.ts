@@ -87,9 +87,11 @@ export class DienstplanViewComponent {
       this.loginFiliale = filiale;
       this.isFilialeSoOffen = filiale.sooffen
       //get firmenUrlaube
-      this.firmenUrlaubService.getfirmenUrlaubByFirma(filiale.firma.name).subscribe((firmenUrlaub: any) => {
-        this.firmenUrlaube = firmenUrlaub
-      });
+      if(filiale.firma != undefined){
+        this.firmenUrlaubService.getfirmenUrlaubByFirma(filiale.id).subscribe((firmenUrlaub: any) => {
+          this.firmenUrlaube = firmenUrlaub
+        });
+      }
     })
 
     this.dienstplanService.getDienstplanByFiliale(filialeId).subscribe((dienstplan: any) => {

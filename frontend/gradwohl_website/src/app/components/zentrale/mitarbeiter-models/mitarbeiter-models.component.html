@@ -253,12 +253,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" *ngIf="changeMitarbeiter" style="font-size: 16px;">
-            <div *ngIf="changeMitarbeiter.filiale">
+            <div *ngIf="changeMitarbeiter.filiale && changeMitarbeiter.filiale.firma">
               Sind Sie sich sicher, dass <b>{{ changeMitarbeiter.name }}</b> aus der Filiale <b>{{ changeMitarbeiter.filiale.name }}</b>
             und Firma <b>{{ changeMitarbeiter.filiale.firma.name }}</b> gelöscht werden soll.<br><br>
             Bedenken Sie, dass das nicht widerruflich ist und dass alle Daten über diese Person gelöscht werden.
             </div>
-            <div *ngIf="!changeMitarbeiter.filiale">
+            <div *ngIf="!changeMitarbeiter.filiale || !changeMitarbeiter.filiale.firma">
               Sind Sie sich sicher, dass <b>{{ changeMitarbeiter.name }}</b> gelöscht werden soll.<br><br>
             Bedenken Sie, dass das nicht widerruflich ist und dass alle Daten über diese Person gelöscht werden.
             </div>

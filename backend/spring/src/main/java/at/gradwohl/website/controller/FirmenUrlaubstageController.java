@@ -1,11 +1,11 @@
 package at.gradwohl.website.controller;
 
 import at.gradwohl.website.config.JwtService;
-import at.gradwohl.website.model.firma.Firma;
+import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaub;
 import at.gradwohl.website.model.firmenUrlaub.FirmenUrlaubId;
 import at.gradwohl.website.model.urlaubstage.Urlaubstage;
-import at.gradwohl.website.service.firma.FirmaService;
+import at.gradwohl.website.service.filiale.FilialeService;
 import at.gradwohl.website.service.urlaubstage.UrlaubstageService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,17 +26,17 @@ public class FirmenUrlaubstageController {
 
     private final JwtService jwtService;
     private final UrlaubstageService urlaubstageService;
-    private final FirmaService firmaService;
+    private final FilialeService filialeService;
 
-    @GetMapping("/firma/{firmaId}")
+    @GetMapping("/firma/{filialeId}")
     public ResponseEntity<List<FirmenUrlaub>> getFirmenUrlaubByFirma(
             HttpServletRequest request,
-            @PathVariable("firmaId") String firmaId) {
+            @PathVariable("filialeId") int filialeId) {
         String myHeader = request.getHeader("Authorization").substring(7);
         if(!jwtService.getRoleIsVerkauf(myHeader))
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-        return new ResponseEntity<>(urlaubstageService.getUrlaubsTageOfFirma(firmaId), HttpStatus.OK);
+        return new ResponseEntity<>(urlaubstageService.getUrlaubsTageOfFiliale(filialeId), HttpStatus.OK);
     }
 
     @PostMapping("/firmenUrlaub")
@@ -50,9 +50,9 @@ public class FirmenUrlaubstageController {
         return new ResponseEntity<>(urlaubstageService.insertFirmenUrlaub(firmenUrlaub), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{firmenId}/{urlaubstageId}")
+    @PutMapping("/{filialeId}/{urlaubstageId}")
     public ResponseEntity<FirmenUrlaub> updateFirmenUrlaub(
-            @PathVariable("firmenId") String firmenId,
+            @PathVariable("filialeId") int filialeId,
             @PathVariable("urlaubstageId") int urlaubstageId,
             @RequestBody FirmenUrlaub firmenUrlaub,
             HttpServletRequest request) {
@@ -60,10 +60,10 @@ public class FirmenUrlaubstageController {
         if(!jwtService.getRoleIsZentrale(myHeader))
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-        Firma firma = firmaService.getFirmaById(firmenId);
+        Filiale filiale = filialeService.getFilialeById(filialeId);
         Optional<Urlaubstage> urlaubstage = urlaubstageService.getUrlaubstageById(urlaubstageId);
         FirmenUrlaubId firmenUrlaubId = FirmenUrlaubId.builder()
-                .firma(firma)
+                .filiale(filiale)
                 .urlaubstage(urlaubstage.get())
                 .build();
         FirmenUrlaub result = urlaubstageService.updateFirmenUrlaub(firmenUrlaubId, firmenUrlaub);
@@ -74,19 +74,19 @@ public class FirmenUrlaubstageController {
 
     }
 
-    @DeleteMapping("/{firmenId}/{urlaubstageId}")
+    @DeleteMapping("/{filialeId}/{urlaubstageId}")
     public ResponseEntity<Void> deleteFirmenUrlaub(
-            @PathVariable("firmenId") String firmenId,
+            @PathVariable("filialeId") int filialeId,
             @PathVariable("urlaubstageId") int urlaubstageId,
             HttpServletRequest request) {
         String myHeader = request.getHeader("Authorization").substring(7);
         if(!jwtService.getRoleIsZentrale(myHeader))
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-        Firma firma = firmaService.getFirmaById(firmenId);
+        Filiale filiale = filialeService.getFilialeById(filialeId);
         Optional<Urlaubstage> urlaubstage = urlaubstageService.getUrlaubstageById(urlaubstageId);
         FirmenUrlaubId firmenUrlaubId = FirmenUrlaubId.builder()
-                .firma(firma)
+                .filiale(filiale)
                 .urlaubstage(urlaubstage.get())
                 .build();
 

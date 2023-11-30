@@ -75,11 +75,11 @@ public class initApplication {
         return args -> {
             Firma wien =
                     Firma.builder()
-                            .name("Wien")
+                            .name("Wien Gradwohl")
                             .build();
             Firma burgenland=
                     Firma.builder()
-                            .name("Burgenland")
+                            .name("Burgenland Gradwohl")
                             .build();
 
             Firma teigwerkstatt =
@@ -89,7 +89,7 @@ public class initApplication {
 
             Firma niederoesterreich =
                     Firma.builder()
-                            .name("Niederösterreich")
+                            .name("Niederösterreich Gradwohl")
                             .build();
 
             List<Firma> firmen = Arrays.asList(
@@ -1487,7 +1487,7 @@ public class initApplication {
             Produkt mohnkipferHB =
                     Produkt.builder()
                             .id(2133)
-                            .name("Mohnkipfer teigig")
+                            .name("Mohnkipferl teigig")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -1498,7 +1498,7 @@ public class initApplication {
             Produkt topfenmarille =
                     Produkt.builder()
                             .id(134)
-                            .name("MohnkipfeTopfenmarille")
+                            .name("Topfenmarille")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -1510,7 +1510,7 @@ public class initApplication {
             Produkt topfenmarilleHB =
                     Produkt.builder()
                             .id(2134)
-                            .name("MohnkipfeTopfenmarille teigig")
+                            .name("Topfenmarille teigig")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -2573,7 +2573,7 @@ public class initApplication {
             Produkt yourMohnkipferab20Stueck =
                     Produkt.builder()
                             .id(122)
-                            .name("Jour Mohnkipfer ab20Stk.")
+                            .name("Jour Mohnkipferl ab20Stk.")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -2584,7 +2584,7 @@ public class initApplication {
             Produkt yourMohnkipferab20StueckHB =
                     Produkt.builder()
                             .id(3122)
-                            .name("Jour Mohnkipfer ab20Stk.HB")
+                            .name("Jour Mohnkipferl ab20Stk.HB")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -2608,7 +2608,7 @@ public class initApplication {
             Produkt yourSchokostangerab20StueckHB =
                     Produkt.builder()
                             .id(3184)
-                            .name("Jour Mohnkipfer ab20Stk.HB")
+                            .name("Jour Mohnkipferl ab20Stk.HB")
                             .bio(false)
                             .mehl(Mehl.Dinkel)
                             .mehlMischung(null)
@@ -5117,7 +5117,7 @@ public class initApplication {
             Produkt plastiksackerlZumAbreissenKlein =
                     Produkt.builder()
                             .id(1875)
-                            .name("PLastiksackerl Zum Abreißen klein")
+                            .name("Plastiksackerl Zum Abreißen klein")
                             .bio(false)
                             .mehl(null)
                             .mehlMischung(null)
@@ -5129,7 +5129,7 @@ public class initApplication {
             Produkt plastiksackerlZumAbreissenMittel =
                     Produkt.builder()
                             .id(1876)
-                            .name("PLastiksackerl Zum Abreißen mittel")
+                            .name("Plastiksackerl Zum Abreißen mittel")
                             .bio(false)
                             .mehl(null)
                             .mehlMischung(null)
@@ -5140,7 +5140,7 @@ public class initApplication {
             Produkt plastiksackerlZumAbreissenGross =
                     Produkt.builder()
                             .id(1877)
-                            .name("PLastiksackerl Zum Abreißen groß")
+                            .name("Plastiksackerl Zum Abreißen groß")
                             .bio(false)
                             .mehl(null)
                             .mehlMischung(null)
@@ -6382,7 +6382,7 @@ public class initApplication {
 
 
             FirmenUrlaubId firmenUrlaubBurgenland1id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage1)
                     .build();
 
@@ -6391,7 +6391,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland2id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage2)
                     .build();
 
@@ -6400,7 +6400,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland3id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage3)
                     .build();
 
@@ -6409,7 +6409,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland4id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage4)
                     .build();
 
@@ -6418,7 +6418,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland5id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage5)
                     .build();
 
@@ -6427,7 +6427,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland6id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage6)
                     .build();
 
@@ -6436,7 +6436,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland7id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage7)
                     .build();
 
@@ -6445,7 +6445,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland8id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage8)
                     .build();
 
@@ -6454,7 +6454,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland9id = FirmenUrlaubId.builder()
-                    .firma(burgenland)
+                    .filiale(hietzing)
                     .urlaubstage(urlaubstage9)
                     .build();
 
@@ -6463,7 +6463,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland10id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage1)
                     .build();
 
@@ -6472,7 +6472,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland11id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage2)
                     .build();
 
@@ -6481,7 +6481,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland12id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage3)
                     .build();
 
@@ -6490,7 +6490,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland13id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage4)
                     .build();
 
@@ -6499,7 +6499,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland14id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage5)
                     .build();
 
@@ -6508,7 +6508,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland15id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage6)
                     .build();
 
@@ -6517,7 +6517,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland16id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage7)
                     .build();
 
@@ -6526,7 +6526,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland17id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage8)
                     .build();
 
@@ -6535,7 +6535,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland18id = FirmenUrlaubId.builder()
-                    .firma(wien)
+                    .filiale(mariahilfer)
                     .urlaubstage(urlaubstage9)
                     .build();
 
@@ -6544,7 +6544,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland19id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage1)
                     .build();
 
@@ -6553,7 +6553,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland20id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage2)
                     .build();
 
@@ -6562,7 +6562,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland21id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage3)
                     .build();
 
@@ -6571,7 +6571,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland22id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage4)
                     .build();
 
@@ -6580,7 +6580,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland23id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage5)
                     .build();
 
@@ -6589,7 +6589,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland24id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage6)
                     .build();
 
@@ -6598,7 +6598,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland25id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage7)
                     .build();
 
@@ -6607,7 +6607,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland26id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage8)
                     .build();
 
@@ -6616,7 +6616,7 @@ public class initApplication {
                     .build();
 
             FirmenUrlaubId firmenUrlaubBurgenland27id = FirmenUrlaubId.builder()
-                    .firma(teigwerkstatt)
+                    .filiale(weppersdorf)
                     .urlaubstage(urlaubstage9)
                     .build();
 

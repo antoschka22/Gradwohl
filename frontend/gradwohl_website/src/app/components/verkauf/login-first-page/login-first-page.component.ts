@@ -9,7 +9,6 @@ import { filiale } from 'src/model/filiale/filiale';
 import { produkt } from 'src/model/produkt/produkt';
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
 import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
-import { FilialeService } from 'src/app/service/filiale/filiale.service';
 
 // Linke und Rechte Obere Box
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
@@ -78,7 +77,6 @@ export class LoginFirstPageComponent implements OnInit {
     private router: Router, private route: ActivatedRoute,
     private kundenbestellungService: KundenbestellungService,
     private mitarbeiterService: MitabeiterService,
-    private filialeService: FilialeService,   
   ) { this.isMobile = window.innerWidth <= 1199,
     this.groupbyDateWarenbestellung = {};}
 
