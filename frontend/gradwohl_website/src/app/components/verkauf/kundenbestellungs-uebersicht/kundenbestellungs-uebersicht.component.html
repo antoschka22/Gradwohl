@@ -91,17 +91,45 @@
 
                 <!-- SHOW GEWÄHLTE PRODUKTE -->
                 <div class="modal-body" *ngIf="showBestellung">
-                    <p (click)="showKundenbestellung()">Zurück</p>
-                    <br>
+                    <p (click)="showKundenbestellung()"><u>Zurück</u></p>
+                    <h2> Kundenbestellung für...</h2>
                     <!-- MI AMOR FORMATIEREN!!!!!!!!!!!!!!!!!!!!!!-->
-                    <div *ngFor="let produktId of getProduktInputKeys()">
-                        <div *ngIf="produktInputs[produktId].frisch != 0 || produktInputs[produktId].teigig != 0">
-                            <p>{{ produktId }}</p>
-                            <p>Frisch: {{ produktInputs[produktId].frisch }}</p>
-                            <p>Teigig: {{ produktInputs[produktId].teigig }}</p>
-                        </div>
+                    <span style="color: rgb(157, 154, 154);">Auftragsname</span> 
+                    <div class="card p-2">{{auftragname}}</div>
+
+                    <br />
+
+                    <span style="color: rgb(157, 154, 154);">Datum:</span>
+                    <div class="card p-2">{{datumInput}}</div>
+                    
+                    <br />
+                    
+                    <span style="color: rgb(157, 154, 154);">Telefonnummer:</span>
+                    {{tel}}
+                    <hr />
+
+
+                    <h2>Bestellung:</h2>
+                    <div class="table-container">
+                        <div class="scrollable-table">
+                            <table class="table">
+                                
+                            <tbody>
+                                <tr *ngFor="let produktId of getProduktInputKeys()">
+                                    <td class="card" style="background-color: whitesmoke" *ngIf="produktInputs[produktId].frisch != 0 || produktInputs[produktId].teigig != 0">
+                                        <u>{{produktId}}</u> | Frisch: {{ produktInputs[produktId].frisch }} | Teigig: {{ produktInputs[produktId].teigig }}
+                                    </td>
+                                </tr>
+                                <br />
+                            </tbody>
+
+                            </table>
+                        </div>                    
                     </div>
-                      
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" style="background-color: #8C5263">Auftrag aufgeben</button>
+                    </div>
+                    
                 </div>
             </div>
             </div>
@@ -109,7 +137,7 @@
             <!-- Popup-Hinzufügen-Ende -->
             
     <div class="container-fluid card pt-3">
-        <h1>Kundenbestellungen für {{ formattedDate(null) }}</h1>
+        <h1>Kundenbestellungen für ...</h1>
     </div>
     <br />
     <div class="container-fluid">
