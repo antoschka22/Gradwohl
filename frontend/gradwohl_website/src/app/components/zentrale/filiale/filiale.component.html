@@ -1,1 +1,49 @@
-<p>filiale works!</p>
+<!-- HEADER-->
+<app-zentrale-navbar></app-zentrale-navbar>
+<div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
+    <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/zentrale']">
+      <i class="bi bi-arrow-left"></i>Zurück
+    </button>
+    <h1 style="margin: 0 auto; font-size: 35px; margin-left: 480px;">Filiale</h1>
+</div>
+
+
+<div class="container">
+    <input style="margin: 20px 0px;" type="text" [(ngModel)]="searchTerm" placeholder="Suche nach..." />
+    <button style="border-radius: 10px;" type="button" class="btn btn-primary"
+    data-bs-toggle="modal" data-bs-target="#insert">Hinzufügen</button>
+    <br>
+    <div style="margin-right: 150px;">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Filiale</th>
+                <th scope="col">Sonntag offen</th>
+                <th scope="col">Lieferfirma</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let filiale of filteredFiliale">
+                <td scope="row">{{ filiale.name }}</td>
+                <td *ngIf="filiale.sooffen">offen</td>
+                <td *ngIf="!filiale.sooffen">geschlossen</td>
+                <td *ngIf="filiale.firma">{{ filiale.firma.name }}</td>
+                <td *ngIf="!filiale.firma">-</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" 
+                    data-bs-toggle="modal" data-bs-target="#update" (click)="select(filiale)">ändern</button>
+                    <button type="button" class="btn btn-outline-danger" 
+                    data-bs-toggle="modal" data-bs-target="#delete" (click)="select(filiale)">löschen</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-filiale-models
+[filialen]="filialen"
+[selectedFiliale]="selectedFiliale"
+[firmen]="firmen">
+</app-filiale-models>

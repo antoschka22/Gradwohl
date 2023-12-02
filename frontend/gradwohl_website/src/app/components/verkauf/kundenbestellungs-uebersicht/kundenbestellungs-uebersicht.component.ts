@@ -5,7 +5,6 @@ import { kundenbestellung } from 'src/model/kundenbestellung/kundenbestellung';
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
 
 // Hinzufügen
-import { produkt } from './../../../../model/produkt/produkt';
 import { produktgruppe } from 'src/model/produktgruppe/produktgruppe';
 import { ProduktgruppeService } from './../../../service/produktgruppe/produktgruppe.service';
 

@@ -176,7 +176,7 @@ export class FirmaModelsComponent {
     this.firmenService.insertFirma(model).subscribe((data: any) => {
       this.firmen.push(data)
       for(const filiale of this.selectedFilialen){
-        const filialeModel: filialeModell = new filialeModell(filiale.id, filiale.name, data, filiale.soOffen)
+        const filialeModel: filialeModell = new filialeModell(filiale.id, filiale.name, data, filiale.sooffen)
         this.filialeService.updateFiliale(filiale.id, filialeModel).subscribe()
       }
       this.lieferbarService.insertLieferbar(this.lieferbarData).subscribe()

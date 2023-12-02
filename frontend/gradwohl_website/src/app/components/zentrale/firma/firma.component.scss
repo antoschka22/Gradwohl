@@ -1,15 +1,16 @@
 .box {
-    cursor: pointer;
-    background-color: #f0f0f0;
-    padding: 40px;
-    text-align: center;
-    transition: all 0.3s ease;
-    border-radius: 10px;
-  }
+  cursor: pointer;
+  background-color: #8C5263;
+  color: white;
+  padding: 40px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+}
   
   .box:hover {
-    background-color: #d9d9d9;
-    border-radius: 50px;
+    background-color: #b16279;
+    border-radius: 40px;
     transform: scale(1.1);
   }
   

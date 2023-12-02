@@ -48,6 +48,7 @@ import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlag
 import { FilialeComponent } from './components/zentrale/filiale/filiale.component';
 import { FirmaComponent } from './components/zentrale/firma/firma.component';
 import { FirmaModelsComponent } from './components/zentrale/firma-models/firma-models.component';
+import { FilialeModelsComponent } from './components/zentrale/filiale-models/filiale-models.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { FirmaModelsComponent } from './components/zentrale/firma-models/firma-m
     VorlagenViewComponent,
     FilialeComponent,
     FirmaComponent,
-    FirmaModelsComponent
+    FirmaModelsComponent,
+    FilialeModelsComponent
   ],
   imports: [
     BrowserModule,

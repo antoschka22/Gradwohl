@@ -6,6 +6,7 @@ import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.firmenUrlaub.FirmenUrlaubRepository;
 import at.gradwohl.website.repository.kundenbestellung.KundenbestellungRepository;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
+import at.gradwohl.website.repository.nachrichtsenden.NachrichtSendenRepository;
 import at.gradwohl.website.repository.vorlage.VorlageRepository;
 import at.gradwohl.website.repository.warenbestellung.WarenbestellungRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class FilialeService {
     private final KundenbestellungRepository kundenbestellungRepository;
     private final VorlageRepository vorlageRepository;
     private final FirmenUrlaubRepository firmenUrlaubRepository;
+    private final NachrichtSendenRepository nachrichtSendenRepository;
 
     public List<Filiale> getAllFilialen() {
         return filialeRepository.findAll();
@@ -60,6 +62,7 @@ public class FilialeService {
             kundenbestellungRepository.deleteByFiliale(filiale);
             vorlageRepository.deleteByFiliale(filiale);
             firmenUrlaubRepository.deleteByFiliale(filiale);
+            nachrichtSendenRepository.deleteByFiliale(filiale);
             filialeRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("Filiale doesn't exist");

@@ -27,7 +27,7 @@ export class FilialeService {
   }
 
   deleteFiliale(id: number){
-    return this.http.delete(this.baseUri+'/filiiale/'+id)
+    return this.http.delete(this.baseUri+'/filiale/'+id)
   }
 
   updateFiliale(id: number, filialeToInsert: any){

@@ -18,5 +18,10 @@ public interface NachrichtSendenRepository extends JpaRepository<NachrichtSenden
     @Query("delete NachrichtSenden n WHERE n.id.nachricht = :nachricht")
     void deleteNachrichtFromInput(Nachricht nachricht);
 
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM NachrichtSenden n WHERE n.id.filiale = :filiale")
+    void deleteByFiliale(Filiale filiale);
+
     List<NachrichtSenden> getNachrichtSendenByIdFiliale(Filiale filiale);
 }

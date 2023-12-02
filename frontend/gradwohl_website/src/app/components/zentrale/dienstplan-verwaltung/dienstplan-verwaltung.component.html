@@ -9,7 +9,7 @@
 <div style="margin-left: 20px; margin-right: 230px; overflow-wrap: break-word;" class="d-flex justify-content-center align-items-center">
   <div class="row mt-4">
     <div class="col-12" *ngFor="let firmaName of firmenNamen">
-      <h2>{{ firmaName }}</h2>
+      <h2 class="title">{{ firmaName }}</h2>  
       <div class="row">
         <ng-container *ngFor="let filiale of filialenMitFirma">
           <div class="col-md-4 col-sm-6 mb-4" *ngIf="filiale.firma.name === firmaName">
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="col-12" *ngIf="filialenOhneFirma.length > 0">
-      <h2>Filialen ohne Firma</h2>
+      <h2 class="title">Filialen ohne Firma</h2>
       <div class="row">
         <ng-container *ngFor="let filiale of filialenOhneFirma">
           <div class="col-md-4 col-sm-6 mb-4">

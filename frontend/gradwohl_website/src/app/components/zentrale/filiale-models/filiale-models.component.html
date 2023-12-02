@@ -1,0 +1,113 @@
+<!-- DELETE MODAL-->
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Löschen</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeDelete></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedFiliale" style="font-size: 16px;">
+            <p style="line-height: 20px;">
+                Sind Sie sich sicher, dass die Filiale <b>{{ selectedFiliale.name }}</b> gelöscht werden soll. 
+                <br><br>
+                Beim Löschen werden die <b>Dienstpläne</b>, <b>Kundenbestellungen</b> und <b>Vorlagen</b> gelöscht. 
+                Die <b>Mitarbeiter</b> in der Filiale werden sich <b>nicht einlogen</b> können, bis sie einer <b>anderen Filiale hinzugefügt</b> werden.
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="delete()">Entfernen</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- INSERT MODAL -->
+<div class="modal fade" id="insert" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Hinzufügen</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeInsert (click)="reset()"></button>
+      </div>
+      <div class="modal-body" style="font-size: 16px;">
+        <div class="container">
+          <div class="input-group">
+            <label for="name">Filialename</label>
+            <input #name type="text" id="name" name="name" placeholder="name" class="rounded-input">
+          </div>
+<br>
+          <div class="custom-dropdown">
+            <b>Firma</b>
+            <div class="dropdown" *ngIf="firmen">
+                <button class="dropbtn" (click)="toggleDropdownFirma()"><p *ngIf="selectedFirma">{{ selectedFirma.name }}</p></button>
+                <div class="dropdown-content" *ngIf="isDropdownOpenFirma">
+                  <a *ngFor="let firma of firmen"
+                    (click)="selectFirma(firma)">{{firma.name}}
+                  </a>
+                </div>
+            </div>
+            <div class="dropdown-arrow">
+              <i *ngIf="!isDropdownOpenFirma" class="bi bi-chevron-compact-down"></i>
+              <i *ngIf="isDropdownOpenFirma" class="bi bi-chevron-compact-up"></i>
+            </div>
+          </div>
+<br><br>
+          <div class="input-group">
+            <label for="myCheckbox"><b>Sonntag offen</b></label>
+            <input [(ngModel)]="isCheckedSonntag" type="checkbox" id="myCheckbox" name="myCheckbox" value="isChecked">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="insertFiliale()">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPDATE MODAL-->
+<div class="modal fade" id="update" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Ändern</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeUpdate (click)="reset()"></button>
+      </div>
+      <div class="modal-body" style="font-size: 16px;" *ngIf="selectedFiliale">
+        <div class="container">
+          <div class="input-group">
+            <label for="name">Filialename</label>
+            <input #nameUpdate [value]="selectedFiliale.name" type="text" id="name" name="name" placeholder="name" class="rounded-input">
+          </div>
+<br>
+          <div class="custom-dropdown">
+            <b>Firma</b>
+            <div class="dropdown" *ngIf="firmen">
+                <button class="dropbtn" (click)="toggleDropdownFirma()">
+                  <p *ngIf="selectedFirma">{{ selectedFirma.name }}</p>
+                  <p *ngIf="selectedFiliale && !selectedFirma">{{selectedFiliale.firma.name}}</p>
+                </button>
+                <div class="dropdown-content" *ngIf="isDropdownOpenFirma">
+                  <a *ngFor="let firma of firmen"
+                    (click)="selectFirma(firma)">{{firma.name}}
+                  </a>
+                </div>
+            </div>
+            <div class="dropdown-arrow">
+              <i *ngIf="!isDropdownOpenFirma" class="bi bi-chevron-compact-down"></i>
+              <i *ngIf="isDropdownOpenFirma" class="bi bi-chevron-compact-up"></i>
+            </div>
+          </div>
+<br><br>
+          <div class="input-group">
+            <label for="myCheckbox"><b>Sonntag offen</b></label>
+            <input [checked]="selectedFiliale.sooffen" [(ngModel)]="isCheckedSonntag" type="checkbox" id="myCheckbox" name="myCheckbox" value="isChecked">
+          </div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="update()">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
