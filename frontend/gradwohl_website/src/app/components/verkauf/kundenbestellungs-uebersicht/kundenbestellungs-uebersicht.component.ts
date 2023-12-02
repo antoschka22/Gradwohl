@@ -14,12 +14,23 @@ import { ToastrService } from 'ngx-toastr';
 import { LieferbarService } from 'src/app/service/lieferbar/lieferbar.service';
 import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
 import { lieferbar } from 'src/model/lieferbar/lieferbar';
+import { kundenbestellungId } from 'src/model/kundenbestellung/kundenbestellungId';
+import { produkt } from 'src/model/produkt/produkt';
+import { filiale } from 'src/model/filiale/filiale';
+import { ProduktService } from 'src/app/service/produkt/produkt.service';
+
+class kundenbestellungModel implements kundenbestellung {
+  constructor(public id: kundenbestellungId,
+    public menge: number,
+    public telefonnummer: string){}
+}
 
 @Component({
   selector: 'app-kundenbestellungs-uebersicht',
   templateUrl: './kundenbestellungs-uebersicht.component.html',
   styleUrls: ['./kundenbestellungs-uebersicht.component.scss']
 })
+
 export class KundenbestellungsUebersichtComponent implements OnInit {
 
   kundenbestellungen: kundenbestellung[] = [];
@@ -29,6 +40,7 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
 
   //Hinzufügen
   produkte: lieferbar[] = [];
+  alleProdukte: produkt[] = []
   ausgewaehlteProduktgruppe: produktgruppe | null = null;
   angezeigteProdukte: lieferbar[] = [];
   datum: Date = new Date();
@@ -39,7 +51,8 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
     private authService: AuthService,
     private mitarbeiterService: MitabeiterService,
     private produktgruppeService: ProduktgruppeService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private produktService: ProduktService
   ) {}
 
   ngOnInit() {
@@ -77,12 +90,13 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
     
   }
   
-  produktInputs: { [key: string]: { frisch: number, teigig: number } } = {};
+  produktInputs: { [key: string]: { frisch: number, teigig: number, id: number } } = {};
   saveInputValues(): void {
     for (const produkt of this.angezeigteProdukte) {
       this.produktInputs[produkt.id.produkt.name] = {
         frisch: 0,
         teigig: 0,
+        id: produkt.id.produkt.id
       };
     }
   }
@@ -97,13 +111,11 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
   }
 
   // welches Datum wurde gewählt?
-
-selectedDate: string | null = null; 
-
-onDateSelected(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    this.selectedDate = inputElement.value;
-}
+  selectedDate: string | null = null; 
+  onDateSelected(event: Event) {
+      const inputElement = event.target as HTMLInputElement;
+      this.selectedDate = inputElement.value;
+  }
 
   
   //Search-button-Hinzu
@@ -137,7 +149,6 @@ onDateSelected(event: Event) {
       this.auftragname = (document.getElementById('auftragnameKundenbestellung') as HTMLInputElement).value
       this.tel = (document.getElementById('telefonnummerInput') as HTMLInputElement).value
     }
-    console.log(this.datumInput, this.auftragname, this.tel)
     this.showBestellung = !this.showBestellung
   }
 
@@ -170,15 +181,16 @@ onDateSelected(event: Event) {
 
 //---------ENDE-Hinzufügen-POPUP------  
 
-  filialenName: string = '';
+  filiale!: filiale;
   getKundenbestellungByFiliale() {
     var username: string = this.authService.getUsernameFromToken();
     this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
       this.getProdukteAndGruppen(mitarbeiter)
-      this.filialenName = mitarbeiter.filiale.name;
+      this.filiale = mitarbeiter.filiale;
       this.kundenbestellungService.getKundenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
         this.kundenbestellungen = data;
       });
+      this.produktService.getAllProdukts().subscribe((data: any) => this.alleProdukte = data)
     });
   }
 
@@ -187,20 +199,30 @@ onDateSelected(event: Event) {
   getKundenbestellungenByDate(datum: string | null) {
     let heuteKundenbestellungen: kundenbestellung[] = [];
     const today = new Date();
-    
+  
     for (const item of this.kundenbestellungen) {
       const itemDate = new Date(item.id.datum);
       if (datum === null) {
-        if (itemDate > today) {
+        if (itemDate > today && !heuteKundenbestellungen.some((data: kundenbestellung) => data.id.datum === item.id.datum && data.id.kunde === item.id.kunde && data.telefonnummer === item.telefonnummer)) {
           heuteKundenbestellungen.push(item);
         }
       } else if (datum !== null && item.id.datum === datum) {
         heuteKundenbestellungen.push(item);
       }
     }
-    
+  
+    //Datum sortieren
+    if (datum === null) {
+      heuteKundenbestellungen.sort((a, b) => {
+        const dateA = new Date(a.id.datum);
+        const dateB = new Date(b.id.datum);
+        return dateA.getTime() - dateB.getTime();
+      });
+    }
+  
     return heuteKundenbestellungen;
   }
+  
 
   getDetailKundenbestellung(kunde: string, datum: string){
     let detailKundenbestellung: kundenbestellung[] = []
@@ -223,8 +245,8 @@ onDateSelected(event: Event) {
       return `${year}-${month}-${day}`;
     }else{
       const year = this.datum.getFullYear();
-      const month = this.datum.getMonth()+1;
-      const day = this.datum.getDate();
+      const month = (this.datum.getMonth()+1).toString().padStart(2, '0');
+      const day = this.datum.getDate().toString().padStart(2, '0');
       return `${year}-${month}-${day}`;
     }
   }
@@ -254,4 +276,40 @@ onDateSelected(event: Event) {
         });
       })
   } 
+
+  kundenbestellungenModel: kundenbestellungModel[] =[] 
+  @ViewChild('closeInsert') closeInsert!: ElementRef<HTMLElement>
+  insert(){
+    for(let produkt of this.getProduktInputKeys()){
+      if(this.produktInputs[produkt].frisch > 0){
+        const prod: produkt = this.produkte[this.produkte.findIndex((data: lieferbar) => data.id.produkt.id == this.produktInputs[produkt].id)].id.produkt;
+        const id: kundenbestellungId = {
+          datum: this.datumInput,
+          produkt: prod,
+          kunde: this.auftragname,
+          filiale: this.filiale
+        }
+        this.kundenbestellungenModel.push(new kundenbestellungModel(id, this.produktInputs[produkt].frisch, this.tel))
+      }
+
+      if(this.produktInputs[produkt].teigig > 0){
+        if(this.alleProdukte.findIndex((data: produkt) => data.id == this.produktInputs[produkt].id+2000) > -1){
+          const prod: produkt = this.alleProdukte[this.alleProdukte.findIndex((data: produkt) => data.id == this.produktInputs[produkt].id+2000)];
+          const id: kundenbestellungId = {
+            datum: this.datumInput,
+            produkt: prod,
+            kunde: this.auftragname,
+            filiale: this.filiale
+          }
+          this.kundenbestellungenModel.push(new kundenbestellungModel(id, this.produktInputs[produkt].teigig, this.tel))
+        }
+      }
+    }
+    this.kundenbestellungService.insertKundenbestellung(this.kundenbestellungenModel).subscribe((data: any) => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+      this.toastr.success("Kundenbestellung wurde hinzugefügt", "Erfolg")
+    })
+  }
 }

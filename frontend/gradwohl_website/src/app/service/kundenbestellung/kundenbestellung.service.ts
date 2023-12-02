@@ -26,7 +26,7 @@ export class KundenbestellungService {
     return this.http.get(this.baseUri+'/kundenbestellung/date/'+datum)
   }
 
-  insertKundenbestellung(kundenbestellungToInsert: kundenbestellung){
+  insertKundenbestellung(kundenbestellungToInsert: kundenbestellung[]){
     return this.http.post(this.baseUri+'/kundenbestellung', kundenbestellungToInsert)
   }
 

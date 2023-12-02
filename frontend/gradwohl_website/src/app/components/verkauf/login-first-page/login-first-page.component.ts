@@ -105,8 +105,12 @@ export class LoginFirstPageComponent implements OnInit {
   heutigeKundenbestellungenCount: number = 0;
   countHeutigeKundenbestellungen() {
     const datum = new Date();
-    const heute = datum.getFullYear().toString()+"-"+(datum.getMonth()+1).toString()+"-"+datum.getDate().toString()
-    this.kundenbestellungService.getKundenbestellungByDate(heute).subscribe((data: any) => {
+    const year = datum.getFullYear().toString();
+    const month = (datum.getMonth() + 1).toString().padStart(2, '0');
+    const day = datum.getDate().toString().padStart(2, '0');
+    const heute = `${year}-${month}-${day}`;
+
+    this.kundenbestellungService.getKundenbestellungByDate(heute.trim()).subscribe((data: any) => {
       this.heutigeKundenbestellungenCount = data.length;
     });
   }
