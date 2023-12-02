@@ -6,13 +6,13 @@
             <u>Bestellung vom <span style="font-weight: bold;">{{ getFormattedDate(date) }}</span></u>
             <br /><br />
             <div class="table-container">
-                <table class="table table-striped">
+                <table class="table">
                     <tbody>
                       <ng-container *ngFor="let warenbestellung of warenbestellungen">
                         <!-- Überprüft ob er eine Überschrift für die Kategorie machen muss -->
                         <ng-container *ngIf="!currentCategory || currentCategory !== warenbestellung.produktgruppe.name">
                           <tr>
-                            <th colspan="4" style="background-color: rgb(172, 171, 171);">Kategorie: {{  warenbestellung.produkt.produktgruppe.name }}</th>
+                            <th colspan="4" style="background-color: whitesmoke;">Kategorie: {{  warenbestellung.produkt.produktgruppe.name }}</th>
                           </tr>
 
                           <tr>

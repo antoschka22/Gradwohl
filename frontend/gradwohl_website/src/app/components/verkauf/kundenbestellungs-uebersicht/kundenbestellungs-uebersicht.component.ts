@@ -95,6 +95,16 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
   getProduktInputKeys(): string[] {
     return Object.keys(this.produktInputs);
   }
+
+  // welches Datum wurde gewählt?
+
+selectedDate: string | null = null; 
+
+onDateSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.selectedDate = inputElement.value;
+}
+
   
   //Search-button-Hinzu
   searchProduct(event: Event): void {
