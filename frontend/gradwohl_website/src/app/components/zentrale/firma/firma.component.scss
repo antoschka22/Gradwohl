@@ -8,21 +8,21 @@
   border-radius: 10px;
 }
   
-  .box:hover {
-    background-color: #b16279;
-    border-radius: 40px;
-    transform: scale(1.1);
+.box:hover {
+  background-color: #b16279;
+  border-radius: 40px;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .box {
+    margin-bottom: 20px;
   }
+}
+
+@media (max-width: 576px) {
+  .box {
+    margin-bottom: 20px;
+  }
+}
   
-  @media (max-width: 768px) {
-    .box {
-      margin-bottom: 20px;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .box {
-      margin-bottom: 20px;
-    }
-  }
-    

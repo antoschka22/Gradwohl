@@ -1,4 +1,4 @@
-<app-zentrale-navbar></app-zentrale-navbar>
+<app-zentrale-navbar (newItemEvent)="toggleNavbar($event)"></app-zentrale-navbar>
 <div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
   <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/zentrale']">
     <i class="bi bi-arrow-left"></i>Zurück
@@ -6,7 +6,7 @@
   <h1 style="margin: 0 auto; font-size: 35px;">Dienstpläne</h1>
 </div>
 
-<div style="margin-left: 20px; margin-right: 230px; overflow-wrap: break-word;" class="d-flex justify-content-center align-items-center">
+<div style="margin-left: 20px;overflow-wrap: break-word;" class="d-flex justify-content-center align-items-center" [style.margin-right.px]="navbarToggle ? 20 : 240">
   <div class="row mt-4">
     <div class="col-12" *ngFor="let firmaName of firmenNamen">
       <h2 class="title">{{ firmaName }}</h2>  

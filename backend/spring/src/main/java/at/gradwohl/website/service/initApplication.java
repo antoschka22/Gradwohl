@@ -4519,8 +4519,8 @@ public class initApplication {
                             .mehl(null)
                             .mehlMischung(null)
                             .hb(false)
-                    .produktgruppe(organisatorisch)
-                    .build();
+                            .produktgruppe(organisatorisch)
+                            .build();
 
             Produkt bluetencremehonig450g =
                     Produkt.builder()
@@ -4530,6 +4530,7 @@ public class initApplication {
                             .mehl(null)
                             .mehlMischung(null)
                             .hb(false)
+                            .produktgruppe(organisatorisch)
                             .build();
 
             Produkt bluetencremehonig220g =
@@ -4540,6 +4541,7 @@ public class initApplication {
                             .mehl(null)
                             .mehlMischung(null)
                             .hb(false)
+                            .produktgruppe(organisatorisch)
                             .build();
 
             Produkt lindenbluetenhonig450g =

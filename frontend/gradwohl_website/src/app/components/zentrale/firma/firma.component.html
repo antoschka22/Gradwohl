@@ -1,4 +1,4 @@
-<app-zentrale-navbar></app-zentrale-navbar>
+<app-zentrale-navbar (newItemEvent)="toggleNavbar($event)"></app-zentrale-navbar>
 <div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
   <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/zentrale']">
     <i class="bi bi-arrow-left"></i>Zurück
@@ -6,17 +6,18 @@
     <h1 style="margin: 0 auto; font-size: 35px;">Lieferfirmen</h1>
 </div>
 <div class="container">
-    <button style="border-radius: 10px;" type="button" class="btn btn-primary"
-    data-bs-toggle="modal" data-bs-target="#insert">Hinzufügen</button>
-    <br>
+    <div class="d-grid gap-2" [style.margin-right.px]="navbarToggle ? 0 : 150">
+      <button style="border-radius: 10px;" class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#insert">Hinzufügen</button>
+    </div>
     <div class="row mt-4" 
-    style="justify-content: center; align-items: center; margin-right: 100px;" 
-    *ngIf="firmen" data-bs-toggle="modal" data-bs-target="#delete">
-        <div class="col-md-4 col-sm-6 mb-4" *ngFor="let firma of firmen">
-          <div class="box" (click)="storeClickedFirma(firma)">
-              <h2>{{firma.name}}</h2>
-          </div>
+    [style.margin-right.px]="navbarToggle ? 0 : 140"
+    style="justify-content: center; align-items: center" 
+    *ngIf="firmen">
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let firma of firmen">
+        <div class="box" (click)="storeClickedFirma(firma)" data-bs-toggle="modal" data-bs-target="#delete">
+            <h2>{{firma.name}}</h2>
         </div>
+      </div>
     </div>
 </div>
 

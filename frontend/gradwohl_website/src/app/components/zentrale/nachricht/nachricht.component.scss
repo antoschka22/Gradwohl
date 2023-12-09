@@ -1,0 +1,55 @@
+/* nachricht.component.css */
+
+.nachricht-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .nachricht-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .new-message-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .filter-button {
+    background-color: #ccc;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .nachricht-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .nachricht-item {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .nachricht-item h4 {
+    margin-bottom: 5px;
+  }
+  
+  .nachricht-item p {
+    color: #888;
+  }
+  

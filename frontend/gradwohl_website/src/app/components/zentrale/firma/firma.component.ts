@@ -31,8 +31,12 @@ export class FirmaComponent {
     this.getFirmen()
   }
 
-  getFirmen(){
+  navbarToggle: boolean = false;
+  toggleNavbar(bol: boolean){
+    this.navbarToggle = bol
+  }
 
+  getFirmen(){
     this.firmaService.getAllFirma().subscribe((firmen: any) => {
       this.firmen = firmen;
     })

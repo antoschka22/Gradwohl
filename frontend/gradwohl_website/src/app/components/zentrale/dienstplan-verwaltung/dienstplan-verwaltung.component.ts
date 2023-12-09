@@ -20,6 +20,10 @@ export class DienstplanVerwaltungComponent {
     this.getFilialen()
   }
 
+  navbarToggle: boolean = false;
+  toggleNavbar(bol: boolean){
+    this.navbarToggle = bol
+  }
 
   getFilialen(){
     this.filialeService.getAllFilialen().subscribe((filialen: any) =>{

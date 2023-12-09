@@ -1,6 +1,13 @@
-<div class="vertical-navbar">
-    <div class="nav-item" routerLink="/produkte">Produkte</div>
-    <div class="nav-item" routerLink="/produkte">Produktegruppen</div>
+<div class="toggle-button" *ngIf="isNavbarCollapsed" (click)="toggleNavbar('')">
+  <i style="font-size:30px;" class="bi bi-toggle-off"></i>
+</div>
+
+<div class="vertical-navbar" [ngClass]="{ 'collapsed': isNavbarCollapsed }">
+  <div class="vertical-navbar">
+    <div class="toggle-button" (click)="toggleNavbar('')" *ngIf="!isNavbarCollapsed">
+      <i style="font-size:30px;" class="bi bi-toggle-on"></i>
+    </div>
+    <div class="nav-item" [routerLink]="['/produkte/verwalten']">Produkte</div>
     <div class="nav-item" routerLink="/bestelluebersicht">Bestellübersicht</div>
     <div class="nav-item" routerLink="/nachrichten">Nachrichten</div>
     <div class="nav-item" [routerLink]="['/dienstplan/verwalten']">Dienstpläne</div>
@@ -8,4 +15,4 @@
     <div class="nav-item" [routerLink]="['/filiale/verwalten']">Filiale</div>
     <div class="nav-item" [routerLink]="['/firma/verwalten']">Lieferfirmen</div>
   </div>
-  
+</div>
