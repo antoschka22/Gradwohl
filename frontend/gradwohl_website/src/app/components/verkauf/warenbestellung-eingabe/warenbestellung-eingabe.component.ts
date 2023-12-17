@@ -19,12 +19,6 @@ import { vorlage } from 'src/model/vorlage/vorlage';
 import { vorlageId } from 'src/model/vorlage/vorlageId';
 import { VorlageService } from 'src/app/service/vorlage/vorlage.service';
 
-interface VorlageWithProducts {
-  vorlage: vorlage;
-  products: produkt[];
-}
-
-
 @Component({
   selector: 'app-warenbestellung-eingabe',
   templateUrl: './warenbestellung-eingabe.component.html',
@@ -41,9 +35,10 @@ export class WarenbestellungEingabeComponent {
   angezeigteProdukte: produkt[] = [];
 
   //Vorlagen
+  vorlageId: vorlageId[] = [];
   vorlage: vorlage[] = [];
   selectedVorlage: vorlage | null = null;
-  groupedVorlagen: VorlageWithProducts[] = [];
+  groupedVorlagen: { [key: string]: vorlage[] } = {};
 
   form: FormGroup;
 
@@ -94,17 +89,65 @@ export class WarenbestellungEingabeComponent {
       });
     });
   }
+
+  // -------------------- Bestellvorlage:
   public loadAllBestellvorlagen(): void {
     var username: String = this.authService.getUsernameFromToken();
     this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
       this.vorlageService.getVorlageByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
+        this.vorlageId = data;
         this.vorlage = data;
-        //Bestellvorlage: 
+
+        // Group Vorlagen by name
+        this.groupedVorlagen = this.groupByTemplateName(this.vorlage);
       });
     });
   }
 
-  // Bestellvorlagen-----------ENDE------------------------------------------
+  private groupByTemplateName(vorlagen: vorlage[]): { [key: string]: vorlage[] } {
+    return vorlagen.reduce((grouped, vorlage) => {
+      const name = vorlage.id.name;
+      grouped[name] = grouped[name] || [];
+      grouped[name].push(vorlage);
+      return grouped;
+    }, {} as { [key: string]: vorlage[] }); // Specify the type here as well
+  }
+
+  toggleAccordion(group: any) {
+    this.accordionStates[group.vorlage.id.id] = !this.accordionStates[group.vorlage.id.id];
+  }
+
+  isAccordionOpen(id: number): boolean {
+    return this.accordionStates[id];
+  }
+
+  accordionStates: { [id: number]: boolean } = {};
+
+  selectVorlage(vorlage: vorlage): void {
+    this.selectedVorlage = vorlage;
+  }
+
+// Einklappen / Ausklappen
+toggleProducts(groupName: string): void {
+  if (this.isSelected(groupName)) {
+      this.selectedGroupName = null;
+  } else {
+      this.selectedGroupName = groupName;
+  }
+}
+
+isSelected(groupName: string): boolean {
+  return this.selectedGroupName === groupName;
+}
+
+selectedGroupName: string | null = null;
+  showProducts(groupName: string): void {
+  this.selectedGroupName = groupName;
+}
+
+// Kategorie Überschrift
+currentCategory: string | undefined;
+  //-------------------- ENDE - Bestellvorlage:
 
   //Produktgruppen + produkte + Button nach kategorie filtern
 

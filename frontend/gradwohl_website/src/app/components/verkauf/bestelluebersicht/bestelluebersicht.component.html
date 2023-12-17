@@ -3,16 +3,17 @@
     <br /> <br /> <br /><br />
     <section class="p-1 text-dark pt-5 mg-auto">
         <div class="container-fluid">
-            <u>Bestellung vom <span style="font-weight: bold;">{{ getFormattedDate(date) }}</span></u>
+            <u style="font-size: 18px;">Bestellung vom <span style="font-weight: bold;">{{ getFormattedDate(date) }}</span></u>
             <br /><br />
-            <div class="table-container">
+            <div class="table-container card">
                 <table class="table">
                     <tbody>
                       <ng-container *ngFor="let warenbestellung of warenbestellungen">
                         <!-- Überprüft ob er eine Überschrift für die Kategorie machen muss -->
+                        <br />
                         <ng-container *ngIf="!currentCategory || currentCategory !== warenbestellung.produktgruppe.name">
                           <tr>
-                            <th colspan="4" style="background-color: whitesmoke;">Kategorie: {{  warenbestellung.produkt.produktgruppe.name }}</th>
+                            <th colspan="4" style="background-color: rgb(214, 211, 211);">Kategorie: {{  warenbestellung.produkt.produktgruppe.name }}</th>
                           </tr>
 
                           <tr>
@@ -35,12 +36,6 @@
                                       <input type="text" [value]="warenbestellung.menge" disabled>
                                   </td>
                                 </tr>
-                        <!-- Abstand der unterschiedlichen Kategorien -->
-                        <ng-container *ngIf="warenbestellung.produktgruppe.name">
-                          <ng-container *ngIf="!currentCategory || currentCategory !== warenbestellung.produktgruppe.name">
-                            <br />
-                          </ng-container>
-                        </ng-container>
                       </ng-container>
                     </tbody>
                   </table>

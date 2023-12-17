@@ -3,7 +3,7 @@
   <br /> <br /><br /><br />
   <section class="text-dark pt-5 mg-auto">
     <div class="container-fluid pl-2">
-      <u><h2>Bestellung für den</h2></u>
+      <u><h2>Bestellung für den <span style="font-weight: bold;">2023-12-01</span></h2></u>
       <div class="row">
         <div class="col-sm-8">
           <form class="form-row align-items-center">
@@ -27,48 +27,49 @@
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
             <div class="modal-body">
               <div class="container-fluid">
-                <br />
                 <h2>Bestellvorlage wählen...</h2>
 
-                <div *ngFor="let group of groupedVorlagen">
-                  <div class="accordion">
-                    <div class="accordion-header" class="card p-2">
-                      {{ group.vorlage.id.name }}
-                    </div>
-                    <div class="accordion-content">
-                        <div *ngFor="let produkt of group.products">
+                <div class="card p-2">
+                  <div *ngFor="let groupName of groupedVorlagen | keyvalue">
+                     <button class="btn btn-style card" (click)="toggleProducts(groupName.key)"> Name: {{ groupName.key }}</button>
+                     
+                      <div *ngIf="isSelected(groupName.key)">
+                        <br />  
+                        <ng-container *ngFor="let produkt of groupName.value; let i = index">
                           <table class="table table-striped">
                             <tbody>
-                                    <tr>
-                                      <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{produkt.produktgruppe.name}}</th>
-                                    </tr>
-
-                                <tr>
-                                    <th>Produkt</th>
-                                    <th>Frisch</th>
-                                    <th>Teigig</th>
-                                </tr>
-                                <tr>
-                                    <td>{{produkt.name}}</td>
-                                    <td>
-                                      <input type="text" class="form-control" [ngModel]="(produkt.hb ? '0' : (vorlage && vorlage.length > 0) ? vorlage[0].menge : '')" disabled>
-                                    </td>
-                                    <td>
-                                      <input type="text" class="form-control" [ngModel]="(produkt.hb ? vorlage[0].menge : '0')" disabled>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    <ng-container *ngIf="i === 0 || groupedVorlagen[groupName.key][i - 1].id.produkt.produktgruppe.name !== produkt.id.produkt.produktgruppe.name">
+                                        <tr>
+                                            <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{produkt.id.produkt.produktgruppe.name}}</th>
+                                          </tr>
+                                      <tr>
+                                          <th>Produkt</th>
+                                          <th>Frisch</th>
+                                          <th>Teigig</th>
+                                      </tr>
+                                    </ng-container>
+                                      <tr>
+                                          <td>{{produkt.id.produkt.name}}</td>
+                                          <td>
+                                            <input type="text" class="form-control" [ngModel]="produkt.id.produkt.hb ? '0' : produkt.menge" disabled>
+                                          </td>
+                                          <td>
+                                            <input type="text" class="form-control" [ngModel]="produkt.id.produkt.hb ? produkt.menge : '0'" disabled>
+                                          </td>
+                                          <td></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </ng-container>
+                        </div>
                       </div>
-                      <!-- Weitere Informationen anzeigen, wenn erforderlich -->
-                    </div>
-                  </div>
-                </div>
-                
-                
+          
+                </div>   
               </div>
             </div>
             <div class="modal-footer">

@@ -147,26 +147,108 @@
           
                     <i *ngIf="!dropdownUp"class="bi bi-chevron-right"></i>
           
-                     Kundenbestellungen
+                     <button class="noneButton">Kundenbestellungen</button>
                   </p>
                   <ul *ngIf="isKundenbestellungDropdown" class="home-dropdown-menu">
-                    <li><a [routerLink]="'kundenbestellungsUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Laufende Aufträge</u></a></li>
-                    <li><a [routerLink]="'abgeschlosseneUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Abgeschlossen</u></a></li>
+                    <li><a class="noneButton" [routerLink]="'kundenbestellungsUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Laufende Aufträge</u></a></li>
+                    <li><a class="noneButton" [routerLink]="'abgeschlosseneUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Abgeschlossen</u></a></li>
                   </ul>
                 </li>
 
-                
-                <li (click)="toggleVorlagenDropdown()" *ngIf="isLeiter">
+                <li (click)="toggleVorlagenDropdown()">
                   <p style="color:rgb(128,128,128);">
                     <i *ngIf="dropdownUpVorlage" class="bi bi-chevron-down"></i>
           
                     <i *ngIf="!dropdownUpVorlage"class="bi bi-chevron-right"></i>
-
-                    Vorlagen
+                    <button class="noneButton">Vorlagen</button>
                   </p>
                   <ul *ngIf="isVorlageDropdown" class="home-dropdown-menu">
-                    <li><a [routerLink]="'vorlagenView'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Übersicht</u></a></li>
-                    <li><a [routerLink]="'abgeschlosseneUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Neu Erstellen</u></a></li>
+                    <li><a class="noneButton" [routerLink]="'vorlagenView'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Übersicht</u></a></li>
+                    <li><a class="noneButton" style="margin-left: -20px;" data-bs-toggle="modal" href="#vorlageHinzufuegenPopup" *ngIf="isLeiter"><u> <i class="bi bi-chevron-compact-right"></i>Neu Erstellen</u></a></li>
+                            <!--Vorlagen POPUP Hinzufügen-->
+                                <div class="modal fade" 
+                                id="vorlageHinzufuegenPopup" 
+                                data-bs-backdrop="static" 
+                                data-bs-keyboard="false" 
+                                tabindex="-1" 
+                                aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        Vorlage hinzufügen...
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
+                                      </div>
+                                        <div class="modal-body">
+                                            <!-- INHALT -->
+                                            <div class="container-fluid">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="vorlagenname">
+                                                    <label id="vorlagenname">Vorlagenname wählen...</label>
+                                                </div>
+                                                <br />
+                                                  <h2>Produktauswahl:</h2>
+                                                <div class="input-group">
+                                                    <input id="produktSuche" type="text" placeholder="Nach Produktnamen suchen..." class="form-control"  (input)="searchProduct($event)">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-dark" type="button" id="searchButton" disabled>
+                                                        <i class="bi bi-search" style="font-size: 20px;"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="button-container container">
+                                                    <button class="btn kategorieButtons"
+                                                            [ngClass]="{'selected': ausgewaehlteProduktgruppe === null }"
+                                                            (click)="onProduktgruppeClicked(null)">
+                                                        Alle
+                                                    </button>
+                                                    <button *ngFor="let produktgruppe of produktgruppen" class="btn kategorieButtons"
+                                                            [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
+                                                            (click)="onProduktgruppeClicked(produktgruppe)">
+                                                        {{ produktgruppe.name }}
+                                                    </button>
+                                                </div>
+                                                <hr>
+                                                <div class="table-container">
+                                                    <div class="scrollable-table">
+                                                        <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
+                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
+                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let produkt of angezeigteProdukte">
+                                                                <td class="card" style="background-color: whitesmoke">{{ produkt.id.produkt.name }}</td>
+                                                                <td>
+                                                                  <input type="number" min="0" step="0.5" id="frisch_{{ produkt.id.produkt.name }}" 
+                                                                    [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                                                    (keypress)="validateInput($event)" />
+                                                                </td>
+                                                                <td>
+                                                                  <input type="number" min="0" step="0.5" id="teigig_{{ produkt.id.produkt.name }}" 
+                                                                    [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                                                    (keypress)="validateInput($event)" />
+                                                                </td>
+                                                              </tr>
+                                                        </tbody>
+                                                        </table>
+                                                    </div>                    
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn" style="background-color: #8C5263;color:white;width: 200px;">Weiter</button>
+                                                <br />
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                    </div>
+                                </div>
+                                <!--Vorlagen POPUP Hinzufügen-ENDE-->
                   </ul>
                 </li>
               </ul>

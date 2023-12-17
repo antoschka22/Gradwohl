@@ -13,11 +13,6 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
 
 
-interface VorlageWithProducts {
-  vorlage: vorlage;
-  products: produkt[];
-}
-
 @Component({
   selector: 'app-vorlagen-view',
   templateUrl: './vorlagen-view.component.html',
@@ -26,9 +21,10 @@ interface VorlageWithProducts {
 export class VorlagenViewComponent {
 
     //Vorlagen
+    vorlageId: vorlageId[] = [];
     vorlage: vorlage[] = [];
     selectedVorlage: vorlage | null = null;
-    groupedVorlagen: VorlageWithProducts[] = [];
+    groupedVorlagen: { [key: string]: vorlage[] } = {};
 
     constructor(
       private vorlageService: VorlageService,
@@ -38,18 +34,30 @@ export class VorlagenViewComponent {
 
     ngOnInit(){
       this.loadAllBestellvorlagen();
+      this.checkIfLeiter();
     }
 
     public loadAllBestellvorlagen(): void {
       var username: String = this.authService.getUsernameFromToken();
       this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
         this.vorlageService.getVorlageByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
+          this.vorlageId = data;
           this.vorlage = data;
-          //Bestellvorlage: 
+
+          // Group Vorlagen by name
+          this.groupedVorlagen = this.groupByTemplateName(this.vorlage);
         });
       });
     }
 
+    private groupByTemplateName(vorlagen: vorlage[]): { [key: string]: vorlage[] } {
+      return vorlagen.reduce((grouped, vorlage) => {
+        const name = vorlage.id.name;
+        grouped[name] = grouped[name] || [];
+        grouped[name].push(vorlage);
+        return grouped;
+      }, {} as { [key: string]: vorlage[] }); // Specify the type here as well
+    }
   
     toggleAccordion(group: any) {
       this.accordionStates[group.vorlage.id.id] = !this.accordionStates[group.vorlage.id.id];
@@ -65,5 +73,33 @@ export class VorlagenViewComponent {
       this.selectedVorlage = vorlage;
     }
 
+  // Einklappen / Ausklappen
+  toggleProducts(groupName: string): void {
+    if (this.isSelected(groupName)) {
+        this.selectedGroupName = null;
+    } else {
+        this.selectedGroupName = groupName;
+    }
+  }
+
+  isSelected(groupName: string): boolean {
+    return this.selectedGroupName === groupName;
+  }
+
+  selectedGroupName: string | null = null;
+    showProducts(groupName: string): void {
+    this.selectedGroupName = groupName;
+  }
+
+  // Kategorie Überschrift
+  currentCategory: string | undefined;
+
+  // Löschen Button
+  isLeiter: boolean = false;
+  private checkIfLeiter(): void {
+    if(this.authService.getUserRole() == "Leiter"){
+      this.isLeiter = true;
+    }
+  }
 
 }

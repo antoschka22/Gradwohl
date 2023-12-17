@@ -3,49 +3,53 @@
 <body>  
     <br /> <br /> <br /><br />
     <section class="text-dark pt-5 mg-auto">
-        <div class="container row">
-            <h2><u>Bestellvorlagen Übersicht:</u></h2>
+      <div class="container row">
+        <h2><u>Bestellvorlagen Übersicht:</u></h2>
 
-        <div *ngFor="let group of groupedVorlagen">
-          <div class="p-2 col-sm-6">
-            <div class="accordion">
-              <div class="accordion-header" class="card p-2">
-                <button class="btn card"> Name der Vorlage</button>
-              </div>
-
-              <div class="accordion-content">
-                  <div *ngFor="let produkt of group.products">
-                    <table class="table table-striped">
-                      <tbody>
-                              <tr>
-                                <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{produkt.produktgruppe.name}}</th>
-                              </tr>
-
-                          <tr>
-                              <th>Produkt</th>
-                              <th>Frisch</th>
-                              <th>Teigig</th>
-                          </tr>
-                          <tr>
-                              <td>{{produkt.name}}</td>
-                              <td>
-                                <input type="text" class="form-control" disabled>
-                              </td>
-                              <td>
-                                <input type="text" class="form-control" disabled>
-                              </td>
-                              <td></td>
-                          </tr>
-                      </tbody>
-                  </table>
-                </div>
-                  <button style="float:right" class="btn btn-style deleteButton" data-toggle="modal" data-target="#exampleModal">Löschen</button>
+        <div>
+            <div class="p-2 col-sm-6">
+               
+                    <div class="card p-2">
+                        <div *ngFor="let groupName of groupedVorlagen | keyvalue">
+                           <button class="btn btn-style card" (click)="toggleProducts(groupName.key)"> Name: {{ groupName.key }}</button>
+                           
+                            <div *ngIf="isSelected(groupName.key)">
+                              <br />  
+                              <ng-container *ngFor="let produkt of groupName.value; let i = index">
+                                <table class="table table-striped">
+                                  <tbody>
+                                          <ng-container *ngIf="i === 0 || groupedVorlagen[groupName.key][i - 1].id.produkt.produktgruppe.name !== produkt.id.produkt.produktgruppe.name">
+                                              <tr>
+                                                  <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{produkt.id.produkt.produktgruppe.name}}</th>
+                                                </tr>
+                                            <tr>
+                                                <th>Produkt</th>
+                                                <th>Frisch</th>
+                                                <th>Teigig</th>
+                                            </tr>
+                                          </ng-container>
+                                            <tr>
+                                                <td>{{produkt.id.produkt.name}}</td>
+                                                <td>
+                                                  <input type="text" class="form-control" [ngModel]="produkt.id.produkt.hb ? '0' : produkt.menge" disabled>
+                                                </td>
+                                                <td>
+                                                  <input type="text" class="form-control" [ngModel]="produkt.id.produkt.hb ? produkt.menge : '0'" disabled>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </ng-container>
+                              </div>
+                              <button style="float:right" class="btn btn-style deleteButton" data-toggle="modal" data-target="#exampleModal" *ngIf="isLeiter" >Löschen</button>
+                            </div>
+                
+                      </div>
+               
               </div>
             </div>
-          </div>
-        </div>
         </div>       
-    </section>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -54,12 +58,14 @@
             <h2 class="modal-title" id="exampleModalLabel">Löschen</h2>
           </div>
           <div class="modal-body">
-            Möchten Sie wirklich die Vorlage "Name" löschen?
+            <div *ngFor="let groupName of groupedVorlagen | keyvalue">
+                  Möchten Sie wirklich die Vorlage: <span style="font-style: italic; font-weight: bold;">"{{groupName.key}}"</span> löschen?
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Löschen</button>
           </div>
         </div>
       </div>
+     
   </div>
-</body>

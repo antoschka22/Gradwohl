@@ -180,3 +180,17 @@
   margin-bottom: 10px;
   margin-left: auto;
 }
+
+// Navigation
+.noneButton{
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  padding: 0; 
+  margin: 0;
+  text-decoration: none;
+  font: inherit; 
+  color: inherit; 
+  appearance: none;
+}

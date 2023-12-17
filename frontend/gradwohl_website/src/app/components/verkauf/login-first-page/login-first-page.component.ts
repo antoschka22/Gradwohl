@@ -4,6 +4,9 @@ import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbes
 
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
+
+
 // Tabellen:
 import { filiale } from 'src/model/filiale/filiale';
 import { produkt } from 'src/model/produkt/produkt';
@@ -12,6 +15,14 @@ import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.servic
 
 // Linke und Rechte Obere Box
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
+
+// Vorlagen
+import { lieferbar } from 'src/model/lieferbar/lieferbar';
+import { LieferbarService } from 'src/app/service/lieferbar/lieferbar.service';
+
+import { produktgruppe } from 'src/model/produktgruppe/produktgruppe';
+import { ProduktgruppeService } from './../../../service/produktgruppe/produktgruppe.service';
+import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
 
 
 interface warenbestellungID {
@@ -65,7 +76,6 @@ export class LoginFirstPageComponent implements OnInit {
 
   warenbestellungen: warenbestellung[] = [];
   filiale: filiale[] = [];
-  produkt: produkt[] = [];
 
   groupbyDateWarenbestellung: { [datum: string]: warenbestellungID[] } = {};
 
@@ -77,6 +87,8 @@ export class LoginFirstPageComponent implements OnInit {
     private router: Router, private route: ActivatedRoute,
     private kundenbestellungService: KundenbestellungService,
     private mitarbeiterService: MitabeiterService,
+    private lieferbarService: LieferbarService,
+    private produktgruppeService: ProduktgruppeService,
   ) { this.isMobile = window.innerWidth <= 1199,
     this.groupbyDateWarenbestellung = {};}
 
@@ -105,12 +117,8 @@ export class LoginFirstPageComponent implements OnInit {
   heutigeKundenbestellungenCount: number = 0;
   countHeutigeKundenbestellungen() {
     const datum = new Date();
-    const year = datum.getFullYear().toString();
-    const month = (datum.getMonth() + 1).toString().padStart(2, '0');
-    const day = datum.getDate().toString().padStart(2, '0');
-    const heute = `${year}-${month}-${day}`;
-
-    this.kundenbestellungService.getKundenbestellungByDate(heute.trim()).subscribe((data: any) => {
+    const heute = datum.getFullYear().toString()+"-"+(datum.getMonth()+1).toString()+"-"+datum.getDate().toString()
+    this.kundenbestellungService.getKundenbestellungByDate(heute).subscribe((data: any) => {
       this.heutigeKundenbestellungenCount = data.length;
     });
   }
@@ -136,7 +144,7 @@ export class LoginFirstPageComponent implements OnInit {
 
   datePickerBestellungen(selectedDateBestellung: Date | undefined): string {
     if (!selectedDateBestellung) {
-      return 'Keine Warenbestellung gefunden';
+      return '';
     }
     const currentDate = new Date();
     const selectedDateString = selectedDateBestellung.toDateString();
@@ -150,7 +158,7 @@ export class LoginFirstPageComponent implements OnInit {
         return'';
       }
     } else {
-      return '! Anstehende Warenbestellung ! ';
+      return '';
     }
   }
   onDateSelectBestellung(event: Date) {
@@ -176,9 +184,12 @@ export class LoginFirstPageComponent implements OnInit {
         return'';
       }
     } else {
-      return '! Anstehende Warenbestellung ! ';
+      return '! Keine Warenbestellung ! ';
     }
   }
+
+
+  //ENDE des Kalenders--------------------------------------------------------------------------------------------------------------
 
 
   getFormattedDate(dateStr: string): string {
@@ -188,7 +199,7 @@ export class LoginFirstPageComponent implements OnInit {
     return date.toLocaleDateString('de-DE', options);
   }
 
-  // is Leiter? Ja, mache  die Vorlagen sichtbar
+  // is Leiter? Ja, mache  die Vorlagen-erstellen sichtbar
   isLeiter: boolean = false;
   private checkIfLeiter(): void {
     if(this.authService.getUserRole() == "Leiter"){
@@ -227,10 +238,79 @@ export class LoginFirstPageComponent implements OnInit {
 
   // Vorlagen
 
-  isVorlageDropdown: boolean = false;
-  dropdownUpVorlage: boolean = true;
-  toggleVorlagenDropdown() {
-    this.isVorlageDropdown = !this.isVorlageDropdown;
-    this.dropdownUpVorlage = !this.dropdownUpVorlage;
-  }
+        isVorlageDropdown: boolean = false;
+        dropdownUpVorlage: boolean = true;
+
+        produkte: lieferbar[] = [];
+        angezeigteProdukte: lieferbar[] = [];
+        produktgruppen: produktgruppe[] = [];
+        ausgewaehlteProduktgruppe: produktgruppe | null = null;
+
+        toggleVorlagenDropdown() {
+          this.isVorlageDropdown = !this.isVorlageDropdown;
+          this.dropdownUpVorlage = !this.dropdownUpVorlage;
+        }
+
+        searchProduct(event: Event): void {
+          const query = (event.target as HTMLInputElement).value;
+          if (query) {
+            this.angezeigteProdukte = this.produkte.filter((produkt) =>
+              produkt.id.produkt.name.toLowerCase().includes(query.toLowerCase())
+            );
+          } else {
+            // zeige alle Produkte an (wenn leer)
+            this.angezeigteProdukte = this.produkte;
+          }
+        }
+
+        getProdukteAndGruppen(mitabeiter: mitabeiter) {
+          if(mitabeiter.filiale?.firma == null){
+            return
+          }
+          // Produkte
+          this.lieferbarService.getLieferbarByFirma(mitabeiter.filiale?.firma.name).subscribe((data: any) => {
+            this.produkte = data;
+            this.angezeigteProdukte = data
+            // Save input values before changing the displayed products
+            this.saveInputValues();
+          });
+
+          //Produktgruppen
+          this.produktgruppeService.getProduktgruppen().subscribe((data: any) => {
+            this.produktgruppen = data;
+          });
+        }
+
+        produktInputs: { [key: string]: { frisch: number, teigig: number } } = {};
+        saveInputValues(): void {
+          for (const produkt of this.angezeigteProdukte) {
+            this.produktInputs[produkt.id.produkt.name] = {
+              frisch: 0,
+              teigig: 0,
+            };
+          }
+        }
+
+        onProduktgruppeClicked(produktgruppe: produktgruppe | null) {
+          if(produktgruppe == null){
+            this.angezeigteProdukte = this.produkte
+          }else{
+            this.ausgewaehlteProduktgruppe = produktgruppe;
+            this.angezeigteProdukte = this.produkte.filter((produkt) =>
+              produkt.id.produkt.produktgruppe && produkt.id.produkt.produktgruppe.name === produktgruppe.name
+            );
+          }
+          
+        }
+
+        validateInput(event: any): boolean {
+          return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46;
+        }
+
+        resetForm() {
+          (document.getElementById('auftragnameKundenbestellung') as HTMLInputElement).value = '';
+          (document.getElementById('datumInput') as HTMLInputElement).value = '';
+          this.ausgewaehlteProduktgruppe = null;
+        }
+  
 }
