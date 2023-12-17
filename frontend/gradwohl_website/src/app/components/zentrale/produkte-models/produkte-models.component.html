@@ -1,0 +1,117 @@
+<!-- DELETE-->
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Löschen</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeDelete></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedProdukt" style="font-size: 16px;">
+            Sind Sie sich sicher, dass das Produkt <b>{{ selectedProdukt.name }}</b> mit der ID <b>{{ selectedProdukt.id }}</b> gelöscht werden soll
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="delete()">Entfernen</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- UPDATE -->
+<div div class="modal fade" id="update" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel" *ngIf="selectedProdukt" >Ändern</h2>
+          <button #schliessenUpdate (click)="close()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body" *ngIf="selectedProdukt">
+            <div class="container">
+            <div class="input-group">
+                <label for="id">Id</label>
+                <input #id [value]="selectedProdukt.id" type="text" id="id" name="id" placeholder="2000" class="rounded-input" disabled oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) < 0) { this.value = ''; }">
+            </div>
+
+
+            <div class="input-group">
+                <label for="name">Username</label>
+                <input #name [value]="selectedProdukt.name" type="text" id="name" name="name" placeholder="username" class="rounded-input">
+            </div>
+  
+            <div class="custom-dropdown">
+                <b>Produktgruppe</b>
+                <div class="dropdown" *ngIf="produktgruppen">
+                    <button class="dropbtn" (click)="toggleDropdownProdukt()">
+                        <p *ngIf="selectedProduktInput">{{ selectedProduktInput.name }}</p>
+                        <p *ngIf="!selectedProduktInput && selectedProdukt.produktgruppe">{{ selectedProdukt.produktgruppe.name }}</p>
+                        <p *ngIf="!selectedProduktInput && !selectedProdukt.produktgruppe"></p>
+                    </button>
+                    <div class="dropdown-content" *ngIf="isDropdownOpenProdukt">
+                        <a *ngFor="let gruppe of produktgruppen"
+                        (click)="selectProdukt(gruppe)">{{gruppe.name}}</a>
+                    </div>
+                </div>
+                <div class="dropdown-arrow">
+                    <i *ngIf="!isDropdownOpenProdukt" class="bi bi-chevron-compact-down"></i>
+                    <i *ngIf="isDropdownOpenProdukt" class="bi bi-chevron-compact-up"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #schliessenUpdate class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Schließen</button>
+          <button type="button" class="btn btn-primary" (click)="update()">Speichern</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- INSERT -->
+<div div class="modal fade" id="insert" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Hinzufügen</h2>
+          <button #schliessenUpdate (click)="close()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+            <div class="container">
+            <div class="input-group">
+                <label for="id">Id</label>
+                <input #id type="text" id="id" name="id" placeholder="2000" class="rounded-input" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) < 0) { this.value = ''; }">
+            </div>
+
+
+            <div class="input-group">
+                <label for="name">Username</label>
+                <input #name type="text" id="name" name="name" placeholder="username" class="rounded-input">
+            </div>
+  
+            <div class="custom-dropdown">
+                <b>Produktgruppe</b>
+                <div class="dropdown" *ngIf="produktgruppen">
+                    <button class="dropbtn" (click)="toggleDropdownProdukt()">
+                        <p *ngIf="selectedProduktInput">{{ selectedProduktInput.name }}</p>
+                    </button>
+                    <div class="dropdown-content" *ngIf="isDropdownOpenProdukt">
+                        <a *ngFor="let gruppe of produktgruppen"
+                        (click)="selectProdukt(gruppe)">{{gruppe.name}}</a>
+                    </div>
+                </div>
+                <div class="dropdown-arrow">
+                    <i *ngIf="!isDropdownOpenProdukt" class="bi bi-chevron-compact-down"></i>
+                    <i *ngIf="isDropdownOpenProdukt" class="bi bi-chevron-compact-up"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #schliessenInsert class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Schließen</button>
+          <button type="button" class="btn btn-primary" (click)="insert()">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>

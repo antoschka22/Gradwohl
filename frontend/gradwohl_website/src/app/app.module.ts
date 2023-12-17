@@ -49,6 +49,9 @@ import { FilialeComponent } from './components/zentrale/filiale/filiale.componen
 import { FirmaComponent } from './components/zentrale/firma/firma.component';
 import { FirmaModelsComponent } from './components/zentrale/firma-models/firma-models.component';
 import { FilialeModelsComponent } from './components/zentrale/filiale-models/filiale-models.component';
+import { ProdukteComponent } from './components/zentrale/produkte/produkte.component';
+import { ProdukteModelsComponent } from './components/zentrale/produkte-models/produkte-models.component';
+import { NachrichtComponent } from './components/zentrale/nachricht/nachricht.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +78,10 @@ import { FilialeModelsComponent } from './components/zentrale/filiale-models/fil
     FilialeComponent,
     FirmaComponent,
     FirmaModelsComponent,
-    FilialeModelsComponent
+    FilialeModelsComponent,
+    ProdukteComponent,
+    ProdukteModelsComponent,
+    NachrichtComponent,
   ],
   imports: [
     BrowserModule,

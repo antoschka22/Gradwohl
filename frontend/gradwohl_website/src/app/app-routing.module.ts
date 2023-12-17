@@ -18,6 +18,8 @@ import { VorlagenViewComponent } from './components/verkauf/vorlagen-view/vorlag
 import { MitarbeiterComponent } from './components/zentrale/mitarbeiter/mitarbeiter.component';
 import { FilialeComponent } from './components/zentrale/filiale/filiale.component';
 import { FirmaComponent } from './components/zentrale/firma/firma.component';
+import { ProdukteComponent } from './components/zentrale/produkte/produkte.component';
+import { NachrichtComponent } from './components/zentrale/nachricht/nachricht.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
@@ -48,6 +50,10 @@ const routes: Routes = [
   {path: 'filiale/verwalten', component: FilialeComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
   {path: 'firma/verwalten', component: FirmaComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+  {path: 'produkte/verwalten', component: ProdukteComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+  {path: 'nachricht/verwalten', component: NachrichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
 ];
 

@@ -25,6 +25,11 @@ export class MitarbeiterComponent {
     this.getMitarbeiter()
   }
 
+  navbarToggle: boolean = false;
+  toggleNavbar(bol: boolean){
+    this.navbarToggle = bol
+  }
+  
   getMitarbeiter(){
     this.mitarbeiterService.getAllMitarbeiter().subscribe((mitarbeiter: any) => {
       this.mitarbeiter = mitarbeiter;

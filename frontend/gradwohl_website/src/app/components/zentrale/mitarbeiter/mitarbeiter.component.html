@@ -1,5 +1,5 @@
 <!-- HEADER-->
-<app-zentrale-navbar></app-zentrale-navbar>
+<app-zentrale-navbar (newItemEvent)="toggleNavbar($event)"></app-zentrale-navbar>
 <div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
     <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/zentrale']">
       <i class="bi bi-arrow-left"></i>Zurück
@@ -13,7 +13,7 @@
     <button style="border-radius: 10px;" type="button" class="btn btn-primary"
     data-bs-toggle="modal" data-bs-target="#insert">Hinzufügen</button>
     <br>
-    <div style="margin-right: 100px;">
+    <div [style.margin-right.px]="navbarToggle ? 0 : 100">
         <table class="table table-hover">
             <thead>
               <tr>
@@ -35,10 +35,9 @@
                 <td *ngIf="!mit.filiale"></td>
                 <td>{{ mit.role.role }}</td>
                 <td>{{ mit.wochenstunden }}</td>
-                <td>
+                <td class="button-container">
                     <button type="button" class="btn btn-outline-primary" 
                     data-bs-toggle="modal" data-bs-target="#update" (click)="update(mit)">ändern</button>
-
                     <button type="button" class="btn btn-outline-danger" 
                     data-bs-toggle="modal" data-bs-target="#delete" (click)="loeschen(mit)">löschen</button>
                 </td>

@@ -1,0 +1,53 @@
+<app-zentrale-navbar (newItemEvent)="toggleNavbar($event)"></app-zentrale-navbar>
+<div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
+    <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/zentrale']">
+      <i class="bi bi-arrow-left"></i>Zurück
+    </button>
+    <h1 style="margin: 0 auto; font-size: 35px; margin-left: 480px;">Produkte</h1>
+</div>
+
+<div class="container">
+    <input style="margin: 20px 0px;" type="text" [(ngModel)]="searchTerm" placeholder="Suche nach..." />
+    <button style="border-radius: 10px;" type="button" class="btn btn-primary"
+    data-bs-toggle="modal" data-bs-target="#insert">Hinzufügen</button>
+    <br>
+
+    <div class="container2" [style.margin-right.px]="navbarToggle ? 0 : 100">
+      <div *ngFor="let group of produktgruppen" class="box" (click)="selectGruppe(group)">
+        {{ group.name }}
+      </div>
+    </div>
+
+    <br>
+    <div [style.margin-right.px]="navbarToggle ? 0 : 100">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Produktgruppe</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let produkt of filteredProdukte">
+                <td scope="row">{{ produkt.id }}</td>
+                <td scope="row">{{ produkt.name }}</td>
+                <td scope="row" *ngIf="produkt.produktgruppe">{{ produkt.produktgruppe.name }}</td>
+                <td class="button-container">
+                    <button type="button" class="btn btn-outline-primary" 
+                    data-bs-toggle="modal" data-bs-target="#update" (click)="selectProdukt(produkt)">ändern</button>
+                    <button type="button" class="btn btn-outline-danger" 
+                    data-bs-toggle="modal" data-bs-target="#delete" (click)="selectProdukt(produkt)">löschen</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-produkte-models
+[selectedProdukt]="selectedProdukt"
+[produkte]="produkte"
+[produktgruppen]="produktgruppen"
+></app-produkte-models>
