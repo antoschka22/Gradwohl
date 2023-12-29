@@ -52,6 +52,7 @@ import { FilialeModelsComponent } from './components/zentrale/filiale-models/fil
 import { ProdukteComponent } from './components/zentrale/produkte/produkte.component';
 import { ProdukteModelsComponent } from './components/zentrale/produkte-models/produkte-models.component';
 import { NachrichtComponent } from './components/zentrale/nachricht/nachricht.component';
+import { BestelluebersichtverwaltenComponent } from './components/zentrale/bestelluebersichtverwalten/bestelluebersichtverwalten.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { NachrichtComponent } from './components/zentrale/nachricht/nachricht.co
     ProdukteComponent,
     ProdukteModelsComponent,
     NachrichtComponent,
+    BestelluebersichtverwaltenComponent,
   ],
   imports: [
     BrowserModule,

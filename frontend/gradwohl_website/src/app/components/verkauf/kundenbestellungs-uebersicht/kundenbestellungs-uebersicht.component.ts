@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { kundenbestellung } from 'src/model/kundenbestellung/kundenbestellung';
 import { KundenbestellungService } from 'src/app/service/kundenbestellung/kundenbestellung.service';
@@ -87,7 +86,6 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
         produkt.id.produkt.produktgruppe && produkt.id.produkt.produktgruppe.name === produktgruppe.name
       );
     }
-    
   }
   
   produktInputs: { [key: string]: { frisch: number, teigig: number, id: number } } = {};
@@ -100,11 +98,30 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
       };
     }
   }
+
+  isReadOnly(produktId: number): boolean {
+    return this.alleProdukte.some(p => p.id === produktId + 2000);
+  }
   
   //überprüft mengen input
-  validateInput(event: any): boolean {
-    return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46;
+  validateInput(event: KeyboardEvent, produktGruppeName: string): void {
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+    if (allowedKeys.includes(event.key)) {
+        return; 
+    }
+
+    const isDecimalPoint = event.key === '.' || event.key === ',';
+    const isDigit = event.key.match(/^\d$/);
+
+    if (isDecimalPoint && produktGruppeName !== 'VK Brot Stangen') {
+        event.preventDefault();
+    }
+
+    if (!isDigit && !isDecimalPoint) {
+        event.preventDefault();
+    }
   }
+
 
   getProduktInputKeys(): string[] {
     return Object.keys(this.produktInputs);

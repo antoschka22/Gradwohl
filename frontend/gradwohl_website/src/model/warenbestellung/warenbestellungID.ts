@@ -2,7 +2,7 @@ import { filiale } from "../filiale/filiale"
 import { produkt } from "../produkt/produkt"
 
 export interface warenbestellungID{
-    datum: Date,
+    datum: Date | string,
     produkt: produkt,
     filiale: filiale
 }

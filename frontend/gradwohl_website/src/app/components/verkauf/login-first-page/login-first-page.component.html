@@ -1,336 +1,318 @@
 <app-navbar-header></app-navbar-header>
 <body>  
   <br /> <br /> <br /><br />
-  <section class="text-dark pt-5 mg-auto">
-    <div class="container-fluid" style="padding-left: 20px; padding-right: 20px;">
-      <div class="row justify-content-center">
-        <div class="col-md mb-2">
-          <div class="card boxOnTop">
-            <div class="card-body d-flex align-items-center">
-              <img src="assets/img/LandingPage/BrotVektor.png" class="img-fluid">
-              <h3 class="text-inBox m-0">Heutige Kundenbestellungen</h3>
-              <span class="little-box ml-3">
-                {{ heutigeKundenbestellungenCount }}
-              </span>
-            </div>
+<section class="text-dark pt-5 mg-auto">
+  <div class="container-fluid" style="padding-left: 20px; padding-right: 20px;">
+    <div class="row justify-content-center">
+      <div class="col-md mb-2">
+        <div class="card boxOnTop">
+          <div class="card-body d-flex align-items-center">
+            <img src="assets/img/LandingPage/BrotVektor.png" class="img-fluid">
+            <h3 class="text-inBox m-0">Heutige Kundenbestellungen</h3>
+            <span class="little-box ml-3">
+              {{ heutigeKundenbestellungenCount }}
+            </span>
           </div>
         </div>
-  
-        <div class="col-md mb-1">
-          <div class="card boxOnTop">
-            <div class="card-body d-flex align-items-center">
-              <img src="assets/img/LandingPage/WarenbestellungVektor.png" class="img-fluid">
-              <h3 class="text-inBox m-0">Heutige Warenbestellung</h3>
-              <span class="little-box ml-3">
-                {{ heutigerWarenbestellungsStatus }}
-              </span>
-            </div>
+      </div>
+
+      <div class="col-md mb-1">
+        <div class="card boxOnTop">
+          <div class="card-body d-flex align-items-center">
+            <img src="assets/img/LandingPage/WarenbestellungVektor.png" class="img-fluid">
+            <h3 class="text-inBox m-0">Heutige Warenbestellung</h3>
+            <span class="little-box ml-3">
+              {{ heutigerWarenbestellungsStatus }}
+            </span>
           </div>
         </div>
       </div>
     </div>
-  
+  </div>
 
-    <div class="container-fluid" style="padding-left: 50px; padding-right: 50px;">
-      <div class="container-fluid">
-              <u><p style="margin-right: 20px;" class="FilialInfoAnmeldungText">Übersicht der Warenbestellungen, der Filiale - <span style="font-style: italic;">{{loggedInUserFilialeName}}</span></p></u>
-              <br />
-        <div class="row d-flex flex-lg-row flex-column">
-          <div class="col-lg-2 mb-lg-0 mb-3" *ngIf="!isMobile">
-            <p style="font-size: 14px">Bestellungen einsehen vom...</p>
 
-            <!--1200-->
-            <div class="calendar-container row">
-              <mat-calendar
-                [(selected)]="selectedDate"
-                [startAt]="currentDate"
-                (selectedChange)="onDateSelect($event)"
-                class="custom-calendar"
-              ></mat-calendar>
-            </div>
-            <br />
-            <ng-container *ngIf="selectedDate">
-              <p class="card p-2">{{ selectedDate ? isEmptyGroupbyDateWarenbestellung(selectedDate) : '' }}</p>
-            </ng-container>
-            <!-- Wenn fertig NICHT vergessen für andere formate einsetzten!!!-->
+  <div class="container-fluid" style="padding-left: 50px; padding-right: 50px;">
+    <div class="container-fluid">
+      <u><p style="margin-right: 20px;" class="FilialInfoAnmeldungText">Übersicht der Warenbestellungen, der Filiale - <span style="font-style: italic;">{{loggedInUserFilialeName}}</span></p></u>
+      <br />
+      <div class="row d-flex flex-lg-row flex-column">
+        <div class="col-lg-2 mb-lg-0 mb-3" *ngIf="!isMobile">
+          <p style="font-size: 14px">Bestellungen einsehen vom...</p>
 
-              <div class="dropdownBestellung">
-                <div class="btn-group dropright" *ngIf="!isMobile">
-                  <button type="button" class="btn stylingButton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Bestellung aufgeben
-                  </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Generieren lassen</a>
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#warenbestellungEingabeH">Händisch eingeben</a>
-                  </div>
-                  <!-- Pop-up-ANFANG -->
-                      <div class="modal fade" id="warenbestellungEingabeH" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="row">
-                                <div class="col-8 d-flex align-items-center justify-content-center">
-                                    <h2 style="font-style: italic;">Bestellung aufgeben für...</h2>
-                             
-                                </div>
-                                <div class="col-3">
-                                    <div class="calendar-container row">
-                                      <mat-calendar
-                                        [(selected)]="selectedDateBestellung"
-                                        [startAt]="currentDate"
-                                        (selectedChange)="onDateSelectBestellung($event)"
-                                        class="custom-calendar"
-                                      ></mat-calendar>
-                              
-                                      <p class="selected-date" *ngIf="selectedDateBestellung">Ausgewähltes Datum: <br />{{ selectedDateBestellung | date }}</p>
-                                      <br />
-                                    </div>
-                                </div>
-                                
+          <!--1200-->
+          <div class="calendar-container row">
+            <mat-calendar
+              [(selected)]="selectedDate"
+              [startAt]="currentDate"
+              (selectedChange)="onDateSelect($event)"
+              class="custom-calendar"
+            ></mat-calendar>
+          </div>
+          <br />
+          <!-- Wenn fertig NICHT vergessen für andere formate einsetzten!!!-->
+
+            <div class="dropdownBestellung">
+              <div class="btn-group dropright" *ngIf="!isMobile">
+                <button type="button" class="btn stylingButton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Bestellung aufgeben
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Generieren lassen</a>
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#warenbestellungEingabeH">Händisch eingeben</a>
+                </div>
+                <!-- Pop-up-ANFANG -->
+                    <div class="modal fade" id="warenbestellungEingabeH" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row">
+                              <div class="col-8 d-flex align-items-center justify-content-center">
+                                  <h2 style="font-style: italic;">Bestellung aufgeben für...</h2>
+                          
                               </div>
+                              <div class="col-3">
+                                  <div class="calendar-container row">
+                                    <mat-calendar
+                                      [(selected)]="selectedDateBestellung"
+                                      [startAt]="currentDate"
+                                      (selectedChange)="onDateSelectBestellung($event)"
+                                      class="custom-calendar"
+                                    ></mat-calendar>
+                            
+                                    <!-- <p class="selected-date" *ngIf="selectedDateBestellung">Ausgewähltes Datum: <br />{{ selectedDateBestellung | date }}</p> -->
+                                    <br />
+                                  </div>
+                              </div>
+                              
                             </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [routerLink]="['/warenbestellungEingabe', selectedDateBestellung]">Weiter</button>
-                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="typeBestellung()">Weiter</button>
                           </div>
                         </div>
                       </div>
-                  <!-- Pop-up-ENDE -->
-                </div>
+                    </div>
+                <!-- Pop-up-ENDE -->
               </div>
-          </div>
-          
-          <div class="col-lg-8 mb-lg-0" *ngIf="!isMobile">
-            <div class="container-fluid">
-
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <td scope="col" style="width: 180px;">Datum</td>
-                    <td scope="col">Status</td>
-                    <td scope="col"></td>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let group of groupbyDateWarenbestellung | keyvalue">
-                    <td class="align-middle">
-                        {{ getFormattedDate(group.key) }}
-                    </td>
-                    <td class="align-middle">
-                      abgesendet
-                    </td>
-                    <td class="align-middle">
-                        <a [routerLink]="['/bestelluebersichtAbgeschickt', group.key]">
-                       <button type="submit" class="btn-style-middle">ansehen</button>
-                      </a>       
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
-            
-          </div>
-
-
-          <div class="col-lg-2 mb-lg-0 mb-3" *ngIf="!isMobile">
-            <div class="sidebar container-fluid naviOnRightSide">
-              <h2 style="color:rgb(128,128,128);">Übersicht</h2>
-              <ul class="menu">
-                <li (click)="toggleKundenbestellungDropdown()">
-          
-                  <p style="color:rgb(128,128,128);">
-                    <i *ngIf="dropdownUp" class="bi bi-chevron-down"></i>
-          
-                    <i *ngIf="!dropdownUp"class="bi bi-chevron-right"></i>
-          
-                     <button class="noneButton">Kundenbestellungen</button>
-                  </p>
-                  <ul *ngIf="isKundenbestellungDropdown" class="home-dropdown-menu">
-                    <li><a class="noneButton" [routerLink]="'kundenbestellungsUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Laufende Aufträge</u></a></li>
-                    <li><a class="noneButton" [routerLink]="'abgeschlosseneUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Abgeschlossen</u></a></li>
-                  </ul>
-                </li>
-
-                <li (click)="toggleVorlagenDropdown()">
-                  <p style="color:rgb(128,128,128);">
-                    <i *ngIf="dropdownUpVorlage" class="bi bi-chevron-down"></i>
-          
-                    <i *ngIf="!dropdownUpVorlage"class="bi bi-chevron-right"></i>
-                    <button class="noneButton">Vorlagen</button>
-                  </p>
-                  <ul *ngIf="isVorlageDropdown" class="home-dropdown-menu">
-                    <li><a class="noneButton" [routerLink]="'vorlagenView'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Übersicht</u></a></li>
-                    <li><a class="noneButton" style="margin-left: -20px;" data-bs-toggle="modal" href="#vorlageHinzufuegenPopup" *ngIf="isLeiter"><u> <i class="bi bi-chevron-compact-right"></i>Neu Erstellen</u></a></li>
-                            <!--Vorlagen POPUP Hinzufügen-->
-                                <div class="modal fade" 
-                                id="vorlageHinzufuegenPopup" 
-                                data-bs-backdrop="static" 
-                                data-bs-keyboard="false" 
-                                tabindex="-1" 
-                                aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        Vorlage hinzufügen...
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
-                                      </div>
-                                        <div class="modal-body">
-                                            <!-- INHALT -->
-                                            <div class="container-fluid">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" id="vorlagenname">
-                                                    <label id="vorlagenname">Vorlagenname wählen...</label>
-                                                </div>
-                                                <br />
-                                                  <h2>Produktauswahl:</h2>
-                                                <div class="input-group">
-                                                    <input id="produktSuche" type="text" placeholder="Nach Produktnamen suchen..." class="form-control"  (input)="searchProduct($event)">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-dark" type="button" id="searchButton" disabled>
-                                                        <i class="bi bi-search" style="font-size: 20px;"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                <div class="button-container container">
-                                                    <button class="btn kategorieButtons"
-                                                            [ngClass]="{'selected': ausgewaehlteProduktgruppe === null }"
-                                                            (click)="onProduktgruppeClicked(null)">
-                                                        Alle
-                                                    </button>
-                                                    <button *ngFor="let produktgruppe of produktgruppen" class="btn kategorieButtons"
-                                                            [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
-                                                            (click)="onProduktgruppeClicked(produktgruppe)">
-                                                        {{ produktgruppe.name }}
-                                                    </button>
-                                                </div>
-                                                <hr>
-                                                <div class="table-container">
-                                                    <div class="scrollable-table">
-                                                        <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
-                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
-                                                                <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr *ngFor="let produkt of angezeigteProdukte">
-                                                                <td class="card" style="background-color: whitesmoke">{{ produkt.id.produkt.name }}</td>
-                                                                <td>
-                                                                  <input type="number" min="0" step="0.5" id="frisch_{{ produkt.id.produkt.name }}" 
-                                                                    [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
-                                                                    (keypress)="validateInput($event)" />
-                                                                </td>
-                                                                <td>
-                                                                  <input type="number" min="0" step="0.5" id="teigig_{{ produkt.id.produkt.name }}" 
-                                                                    [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
-                                                                    (keypress)="validateInput($event)" />
-                                                                </td>
-                                                              </tr>
-                                                        </tbody>
-                                                        </table>
-                                                    </div>                    
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn" style="background-color: #8C5263;color:white;width: 200px;">Weiter</button>
-                                                <br />
-                                            </div>
-                                        </div>
-
-                                        
-                                    </div>
-                                    </div>
-                                </div>
-                                <!--Vorlagen POPUP Hinzufügen-ENDE-->
-                  </ul>
-                </li>
-              </ul>
-            </div>
-
-            <div class="sidebar container naviOnRightSide">
-              <h2 style="color:rgb(128,128,128);">Mein Profil</h2>
-              <ul class="menu">
-                <li><a [routerLink]="'/nachricht'"> <i class="bi bi-chevron-right"></i> Nachrichten</a></li>
-                <li><a [routerLink]="'/dienstplan'"> <i class="bi bi-chevron-right"></i> Mein Dienstplan</a></li>
-              </ul>
-            </div>
-
-          </div>
         </div>
-      </div>
-    </div>
+        
+        <div class="col-lg-8 mb-lg-0" *ngIf="!isMobile">
+          <div class="container-fluid">
 
-    <div class="text-dark pt-5 mg-auto">
-      <div class="container-fluid" style="padding-left: 20px; padding-right: 20px;">
-        <div class="row justify-content-center">
-          <!-- Kalender - col-lg-4 -->
-          <div class="col-lg-3 order-lg-1" *ngIf="isMobile">
-            <p style="font-size: 14px" class="FilialInfoAnmeldungText">Bestellungen einsehen vom...</p>
-    
-            <div class="calendar">
-              <mat-calendar
-                [(selected)]="selectedDate"
-                [startAt]="currentDate"
-                (selectedChange)="onDateSelect($event)"
-                class="custom-calendar"
-              ></mat-calendar>
-            </div>
-    
-            <p class="selected-date" *ngIf="selectedDate">Ausgewähltes Datum: <br />{{ selectedDate | date }}</p>
-            <br />
-    
-            <div class="FilialInfoAnmeldungText">
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown button
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </div>         
-            </div>
-            <br /><br />
-
-          </div>
-
-          <!-- Tabelle - col-lg-8 -->
-          <div class="col-lg-9 order-lg-2" *ngIf="isMobile">
-            <div class="container-fluid">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <td scope="col" style="width: 180px;">Datum</td>
-                    <td scope="col">Status</td>
-                    <td scope="col"></td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let group of groupbyDateWarenbestellung | keyvalue">
-                    <td class="align-middle">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <td scope="col" style="width: 180px;">Datum</td>
+                  <td scope="col">Status</td>
+                  <td scope="col"></td>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let group of groupbyDateWarenbestellung | keyvalue">
+                  <td class="align-middle">
                       {{ getFormattedDate(group.key) }}
-                    </td>
-                    <td class="align-middle">
-                      abgesendet
-                    </td>
-                    <td class="align-middle">
-                      <button [routerLink]="['/bestelluebersichtAbgeschickt', group.key]" type="submit" class="btn-style-middle">ansehen</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                  </td>
+                  <td class="align-middle">
+                    abgesendet
+                  </td>
+                  <td class="align-middle">
+                      <a [routerLink]="['/bestelluebersichtAbgeschickt', group.key]">
+                    <button type="submit" class="btn-style-middle">ansehen</button>
+                    </a>       
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <div class="col-lg-2 mb-lg-0 mb-3" *ngIf="!isMobile">
+          <div class="sidebar container-fluid naviOnRightSide">
+            <h2 style="color:rgb(128,128,128);">Übersicht</h2>
+            <ul class="menu">
+              <li (click)="toggleKundenbestellungDropdown()">
+        
+                <p style="color:rgb(128,128,128);">
+                  <i *ngIf="dropdownUp" class="bi bi-chevron-down"></i>
+        
+                  <i *ngIf="!dropdownUp"class="bi bi-chevron-right"></i>
+        
+                  <button class="noneButton">Kundenbestellungen</button>
+                </p>
+                <ul *ngIf="isKundenbestellungDropdown" class="home-dropdown-menu">
+                  <li><a class="noneButton" [routerLink]="'kundenbestellungsUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Laufende Aufträge</u></a></li>
+                  <li><a class="noneButton" [routerLink]="'abgeschlosseneUebersicht'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Abgeschlossen</u></a></li>
+                </ul>
+              </li>
+
+              <li (click)="toggleVorlagenDropdown()">
+                <p style="color:rgb(128,128,128);">
+                  <i *ngIf="dropdownUpVorlage" class="bi bi-chevron-down"></i>
+        
+                  <i *ngIf="!dropdownUpVorlage"class="bi bi-chevron-right"></i>
+                  <button class="noneButton">Vorlagen</button>
+                </p>
+                <ul *ngIf="isVorlageDropdown" class="home-dropdown-menu">
+                  <li><a class="noneButton" [routerLink]="'vorlagenView'" style="margin-left: -20px;"><u> <i class="bi bi-chevron-compact-right"></i>Übersicht</u></a></li>
+                  <li><a class="noneButton" style="margin-left: -20px;" data-bs-toggle="modal" href="#vorlageHinzufuegenPopup" *ngIf="isLeiter"><u> <i class="bi bi-chevron-compact-right"></i>Neu Erstellen</u></a></li>
+                  <!--Vorlagen POPUP Hinzufügen-->
+                    <div class="modal fade" 
+                    id="vorlageHinzufuegenPopup" 
+                    data-bs-backdrop="static" 
+                    data-bs-keyboard="false" 
+                    tabindex="-1" 
+                    aria-hidden="true">
+                      <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            Vorlage hinzufügen...
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()" id="reset"></button>
+                          </div>
+                            <div class="modal-body">
+                              <!-- INHALT -->
+                              <div class="container-fluid">
+                                  <div class="form-floating">
+                                    <input type="text" class="form-control" id="vorlagenname">
+                                      <label id="vorlagennamen">Vorlagenname wählen...</label>
+                                  </div>
+                                  <hr>
+                                  <br>
+                                  <div class="table-container">
+                                      <div class="scrollable-table">
+                                          <table class="table">
+                                          <thead>
+                                              <tr>
+                                                  <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
+                                                  <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
+                                                  <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr *ngFor="let produkt of angezeigteProdukte">
+                                                  <td class="card" style="background-color: whitesmoke">{{ produkt.id.produkt.name }}</td>
+                                                  <td>
+                                                    <input *ngIf="produkt.id.produkt.produktgruppe.name == 'VK Brot Stangen'"
+                                                      type="number" min="0" step="0.5" id="frisch_{{ produkt.id.produkt.name }}" 
+                                                      [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                                      (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)"/>
+                                                      <input *ngIf="produkt.id.produkt.produktgruppe.name != 'VK Brot Stangen'"
+                                                      type="number" min="0" step="1" id="frisch_{{ produkt.id.produkt.name }}" 
+                                                      [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                                      (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)"/>
+                                                  </td>
+                                                  <td>
+                                                    <input *ngIf="produkt.id.produkt.produktgruppe.name == 'VK Brot Stangen'"
+                                                      type="number" min="0" step="0.5" id="teigig_{{ produkt.id.produkt.name }}" 
+                                                      [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                                      (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" disabled/>
+                                                    <input *ngIf="produkt.id.produkt.produktgruppe.name != 'VK Brot Stangen'"
+                                                      type="number" min="0" step="1" id="teigig_{{ produkt.id.produkt.name }}" 
+                                                      [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                                      (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)"/>
+                                                  </td>
+                                                </tr>
+                                          </tbody>
+                                          </table>
+                                      </div>                    
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" id="save" class="btn" style="background-color: #8C5263;color:white;width: 200px;">Speichern</button>
+                                  <br />
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <!--Vorlagen POPUP Hinzufügen-ENDE-->
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sidebar container naviOnRightSide">
+            <h2 style="color:rgb(128,128,128);">Mein Profil</h2>
+            <ul class="menu">
+              <li><a [routerLink]="'/nachricht'"> <i class="bi bi-chevron-right"></i> Nachrichten</a></li>
+              <li><a [routerLink]="'/dienstplan'"> <i class="bi bi-chevron-right"></i> Mein Dienstplan</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-dark pt-5 mg-auto">
+    <div class="container-fluid" style="padding-left: 20px; padding-right: 20px;">
+      <div class="row justify-content-center">
+        <!-- Kalender - col-lg-4 -->
+        <div class="col-lg-3 order-lg-1" *ngIf="isMobile">
+          <p style="font-size: 14px" class="FilialInfoAnmeldungText">Bestellungen einsehen vom...</p>
+  
+          <div class="calendar">
+            <mat-calendar
+              [(selected)]="selectedDate"
+              [startAt]="currentDate"
+              (selectedChange)="onDateSelect($event)"
+              class="custom-calendar"
+            ></mat-calendar>
+          </div>
+  
+          <p class="selected-date" *ngIf="selectedDate">Ausgewähltes Datum: <br />{{ selectedDate | date }}</p>
+          <br />
+  
+          <div class="FilialInfoAnmeldungText">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown button
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>         
+          </div>
+          <br /><br />
+
+        </div>
+
+        <!-- Tabelle - col-lg-8 -->
+        <div class="col-lg-9 order-lg-2" *ngIf="isMobile">
+          <div class="container-fluid">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <td scope="col" style="width: 180px;">Datum</td>
+                  <td scope="col">Status</td>
+                  <td scope="col"></td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let group of groupbyDateWarenbestellung | keyvalue">
+                  <td class="align-middle">
+                    {{ getFormattedDate(group.key) }}
+                  </td>
+                  <td class="align-middle">
+                    abgesendet
+                  </td>
+                  <td class="align-middle">
+                    <button [routerLink]="['/bestelluebersichtAbgeschickt', group.key]" type="submit" class="btn-style-middle">ansehen</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </section>
 </body>

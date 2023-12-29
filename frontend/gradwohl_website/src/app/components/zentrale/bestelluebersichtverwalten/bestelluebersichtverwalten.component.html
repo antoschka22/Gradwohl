@@ -1,0 +1,36 @@
+<app-zentrale-navbar (newItemEvent)="toggleNavbar($event)"></app-zentrale-navbar>
+<div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
+  <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/zentrale']">
+    <i class="bi bi-arrow-left"></i>Zurück
+  </button>
+  <h1 style="margin: 0 auto; font-size: 35px;">Bestellungen</h1>
+</div>
+
+<div style="margin-left: 20px;overflow-wrap: break-word;" class="d-flex justify-content-center align-items-center" [style.margin-right.px]="navbarToggle ? 20 : 240">
+  <div class="row mt-4">
+    <div class="col-12" *ngFor="let firmaName of firmenNamen">
+      <h2 class="title">{{ firmaName }}</h2>  
+      <div class="row">
+        <ng-container *ngFor="let filiale of filialenMitFirma">
+          <div class="col-md-4 col-sm-6 mb-4" *ngIf="filiale.firma.name === firmaName">
+            <div class="box" [routerLink]="['/dienstplan/view', filiale.id]">
+              <h2>{{ filiale.name }}</h2>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="filialenOhneFirma.length > 0">
+      <h2 class="title">Filialen ohne Firma</h2>
+      <div class="row">
+        <ng-container *ngFor="let filiale of filialenOhneFirma">
+          <div class="col-md-4 col-sm-6 mb-4">
+            <div class="box" [routerLink]="['/dienstplan/view', filiale.id]">
+              <h2>{{ filiale.name }}</h2>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

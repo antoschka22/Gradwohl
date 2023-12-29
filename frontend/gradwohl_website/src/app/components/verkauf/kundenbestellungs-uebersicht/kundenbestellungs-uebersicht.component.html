@@ -68,15 +68,29 @@
                                 <tbody>
                                     <tr *ngFor="let produkt of angezeigteProdukte">
                                         <td class="card" style="background-color: whitesmoke">{{ produkt.id.produkt.name }}</td>
-                                        <td>
-                                          <input type="number" min="0" step="0.5" id="frisch_{{ produkt.id.produkt.name }}" 
-                                            [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
-                                            (keypress)="validateInput($event)" />
+                                        <td *ngIf="produktInputs[produkt.id.produkt.name]">
+                                            <input *ngIf="produkt.id.produkt.produktgruppe.name == 'VK Brot Stangen'" type="number" min="0" step="0.5" 
+                                                   id="frisch_{{ produkt.id.produkt.name }}" 
+                                                   [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                                   (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" />
+                                        
+                                            <input *ngIf="produkt.id.produkt.produktgruppe.name != 'VK Brot Stangen'" type="number" min="0" step="1" 
+                                                   id="frisch_{{ produkt.id.produkt.name }}" 
+                                                   [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                                   (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" />
                                         </td>
-                                        <td>
-                                          <input type="number" min="0" step="0.5" id="teigig_{{ produkt.id.produkt.name }}" 
-                                            [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
-                                            (keypress)="validateInput($event)" />
+                                        <td *ngIf="produktInputs[produkt.id.produkt.name]">
+                                            <input *ngIf="produkt.id.produkt.produktgruppe.name == 'VK Brot Stangen'" type="number" min="0" step="0.5" 
+                                                   id="teigig_{{ produkt.id.produkt.name }}" 
+                                                   [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                                   (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" 
+                                                   [readonly]="!isReadOnly(produkt.id.produkt.id)" />
+                                        
+                                            <input *ngIf="produkt.id.produkt.produktgruppe.name != 'VK Brot Stangen'" type="number" min="0" step="1" 
+                                                   id="teigig_{{ produkt.id.produkt.name }}" 
+                                                   [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                                   (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" 
+                                                   [readonly]="!isReadOnly(produkt.id.produkt.id)" />
                                         </td>
                                       </tr>
                                 </tbody>

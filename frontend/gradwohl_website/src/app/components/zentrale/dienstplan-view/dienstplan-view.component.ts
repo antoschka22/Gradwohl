@@ -51,10 +51,6 @@ export class DienstplanViewComponent {
               private firmenUrlaubService: FirmenurlaubService,
               private filialeService: FilialeService){}
 
-  ngAfterViewInit(){
-
-  }
-
   saveToPDF() {
     const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
     const content = this.tableToSave.nativeElement;

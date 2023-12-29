@@ -5685,7 +5685,7 @@ public class initApplication {
 
             WarenbestellungId id1 =
                     WarenbestellungId.builder()
-                                    .datum(LocalDate.of(2022, 8, 30))
+                                    .datum(LocalDate.of(2023, 8, 30))
                                     .filiale(hietzing)
                                     .produkt(baerlauchbrot)
                                     .build();
@@ -5698,7 +5698,7 @@ public class initApplication {
 
             WarenbestellungId id2 =
                     WarenbestellungId.builder()
-                            .datum(LocalDate.of(2022, 8, 30))
+                            .datum(LocalDate.of(2023, 8, 30))
                             .filiale(hietzing)
                             .produkt(dinkelbrotStange)
                             .build();
@@ -5711,7 +5711,7 @@ public class initApplication {
 
             WarenbestellungId id3 =
                     WarenbestellungId.builder()
-                            .datum(LocalDate.of(2022, 8, 30))
+                            .datum(LocalDate.of(2023, 8, 30))
                             .filiale(hietzing)
                             .produkt(pharaobriochestriezerl)
                             .build();
@@ -5724,7 +5724,7 @@ public class initApplication {
 
             WarenbestellungId id4 =
                     WarenbestellungId.builder()
-                            .datum(LocalDate.of(2022, 8, 29))
+                            .datum(LocalDate.of(2023, 8, 30))
                             .filiale(mariahilfer)
                             .produkt(pharaocroissant)
                             .build();
@@ -5735,9 +5735,48 @@ public class initApplication {
                             .menge(5)
                             .build();
 
+            WarenbestellungId id6 =
+                    WarenbestellungId.builder()
+                            .datum(LocalDate.of(2023, 8, 30))
+                            .filiale(hietzing)
+                            .produkt(dinkelbrotHB)
+                            .build();
+
+            Warenbestellung bestellung6 =
+                    Warenbestellung.builder()
+                            .id(id6)
+                            .menge(5)
+                            .build();
+
+            WarenbestellungId id5 =
+                    WarenbestellungId.builder()
+                            .datum(LocalDate.of(2023, 8, 30))
+                            .filiale(hietzing)
+                            .produkt(nusskipferl)
+                            .build();
+
+            Warenbestellung bestellung5 =
+                    Warenbestellung.builder()
+                            .id(id5)
+                            .menge(3)
+                            .build();
+
+            WarenbestellungId id7 =
+                    WarenbestellungId.builder()
+                            .datum(LocalDate.of(2023, 8, 30))
+                            .filiale(hietzing)
+                            .produkt(dinkelbrotHB)
+                            .build();
+
+            Warenbestellung bestellung7 =
+                    Warenbestellung.builder()
+                            .id(id7)
+                            .menge(5)
+                            .build();
+
 
             List<Warenbestellung> bestellungen = Arrays.asList(
-                    bestellung1, bestellung2, bestellung3, bestellung4
+                    bestellung1, bestellung2, bestellung3, bestellung4, bestellung6, bestellung7, bestellung5
             );
 
             warenbestellungRepository.saveAll(bestellungen);
@@ -5867,7 +5906,7 @@ public class initApplication {
             VorlageId vorlageId3 =
                     VorlageId.builder()
                             .name("Zweite Vorlage")
-                            .filiale(mariahilfer)
+                            .filiale(hietzing)
                             .produkt(bauernbrotStange)
                             .build();
 
@@ -5877,8 +5916,47 @@ public class initApplication {
                             .menge(0.5)
                             .build();
 
+            VorlageId vorlageId4 =
+                    VorlageId.builder()
+                            .name("Zweite Vorlage")
+                            .filiale(hietzing)
+                            .produkt(topfengolatscheHB)
+                            .build();
+
+            Vorlage vorlage4 =
+                    Vorlage.builder()
+                            .id(vorlageId4)
+                            .menge(2)
+                            .build();
+
+            VorlageId vorlageId5 =
+                    VorlageId.builder()
+                            .name("Zweite Vorlage")
+                            .filiale(hietzing)
+                            .produkt(dinkelbrot)
+                            .build();
+
+            Vorlage vorlage5 =
+                    Vorlage.builder()
+                            .id(vorlageId5)
+                            .menge(5)
+                            .build();
+
+            VorlageId vorlageId6 =
+                    VorlageId.builder()
+                            .name("Zweite Vorlage")
+                            .filiale(hietzing)
+                            .produkt(marillenKrapfen)
+                            .build();
+
+            Vorlage vorlage6 =
+                    Vorlage.builder()
+                            .id(vorlageId6)
+                            .menge(20)
+                            .build();
+
             List<Vorlage> vorlagen = Arrays.asList(
-              vorlage1, vorlage2,  vorlage3
+              vorlage1, vorlage2,  vorlage3, vorlage4, vorlage5, vorlage6
             );
 
             vorlageRepository.saveAll(vorlagen);

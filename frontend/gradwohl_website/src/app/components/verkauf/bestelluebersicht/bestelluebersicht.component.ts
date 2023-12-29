@@ -2,29 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
 import { ActivatedRoute } from '@angular/router';
 
-// Tabellen:
-import { filiale } from 'src/model/filiale/filiale'; 
-import { produkt } from 'src/model/produkt/produkt'; 
+// Tabellen: 
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
-import { produktgruppe } from 'src/model/produktgruppe/produktgruppe'; 
-import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter'; 
-
-import { warenbestellungID } from 'src/model/warenbestellung/warenbestellungID'; 
-
-import { AuthService } from 'src/app/service/auth/auth.service';
-import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
-
-
-interface WarenbestellungID {
-  datum: Date;
-  produkt: produkt;
-  filiale: filiale;
-  produktgruppe: produktgruppe;
-  warenbestellungID: warenbestellung;
-  menge: number;
-  hb: boolean;
-
-}
 
 @Component({
   selector: 'app-bestelluebersicht',
@@ -35,23 +14,31 @@ export class BestelluebersichtComponent implements OnInit {
 
   date: string = '';
   
-  warenbestellungen: WarenbestellungID[] = [];
+  warenbestellungen: warenbestellung[] = [];
 
   currentCategory: string | undefined;
 
 
   constructor(
     public route: ActivatedRoute,
-    private warenbestellungService: WarenbestellungService,
-    private authService: AuthService,
-    private mitarbeiterService: MitabeiterService,
-  ) {this.date = this.route.snapshot.params['date'] || '';}
+    private warenbestellungService: WarenbestellungService,) {
+      this.date = this.route.snapshot.params['date'] || '';
+    }
 
   ngOnInit(): void {
     const date: string = this.route.snapshot.params['date'];
     this.loadWarenbestellungenForDate(date);
-
   }
+
+  formatDateString(dateString: string) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
 
   getFormattedDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -61,45 +48,29 @@ export class BestelluebersichtComponent implements OnInit {
 
   }
 
-  public loadWarenbestellungenForDate(date: string): void {
-
-    var username: String = this.authService.getUsernameFromToken();
-
-    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
-    this.warenbestellungService.getWarenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
+  loadWarenbestellungenForDate(date: string): void {
+    this.warenbestellungService.getWarenbestellungByDate(this.formatDateString(date)).subscribe((data: any) => {
       data.forEach((warenbestellung: warenbestellung) => {
         warenbestellung.id.datum = new Date(warenbestellung.id.datum);
       });
       
       this.warenbestellungen = data;
-      this.warenbestellungen = this.mapToWarenbestellungID(data);
-
-    });
-  })
-  }
-
-
-  public mapToWarenbestellungID(warenbestellungenFromService: warenbestellung[]): WarenbestellungID[] {
-    const categories: Set<string> = new Set<string>(); // Kategorien speichern
-
-    return warenbestellungenFromService.map((warenbestellung: warenbestellung) => {
-      const produktgruppeName = warenbestellung.id.produkt.produktgruppe.name;
-      const menge = warenbestellung.menge;
-      
-      // Hinzufügen der Kategorien
-      categories.add(produktgruppeName);
-      
-      return {
-        datum: warenbestellung.id.datum,
-        produkt: warenbestellung.id.produkt,
-        filiale: warenbestellung.id.filiale,
-        produktgruppe: warenbestellung.id.produkt.produktgruppe,
-        warenbestellungID: warenbestellung,
-        menge: menge,
-        hb:warenbestellung.id.produkt.hb,
-      };
     });
   }
 
+  getHBMenge(warenbestellung: any) {
+    const teigigId = warenbestellung.id.produkt.id + 2000;
   
+    if (teigigId < 3000) {
+      for (const produkt of this.warenbestellungen) {
+        if (teigigId === produkt.id.produkt.id) {
+          return produkt.menge;
+        }
+      }
+    }
+  
+    return 0;
+  }
+  
+
 }

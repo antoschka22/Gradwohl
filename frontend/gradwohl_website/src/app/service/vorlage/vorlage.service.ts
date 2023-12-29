@@ -18,23 +18,19 @@ export class VorlageService {
     return this.http.get(this.baseUri + '/vorlage')
   }
 
-  getVorlageById(id: number){
-    return this.http.get(this.baseUri + '/vorlage/'+id)
-  }
-
   getVorlageByFiliale(filialeId: number){
     return this.http.get(this.baseUri+'/vorlage/filiale/'+filialeId)
   }
 
-  insertVorlage(vorlageToInsert: vorlage){
+  insertVorlage(vorlageToInsert: vorlage[]){
     return this.http.post(this.baseUri+'/vorlage', vorlageToInsert)
   }
 
-  updateVorlage(id: number, filialeId: number, produktId: number, vorlageToUpdate: vorlage){
-    return this.http.put(this.baseUri+'/vorlage/'+id+'/'+produktId+'/'+filialeId, vorlageToUpdate)
+  updateVorlage(name: string, filialeId: number, produktId: number, vorlageToUpdate: vorlage){
+    return this.http.put(this.baseUri+'/vorlage/'+name+'/'+produktId+'/'+filialeId, vorlageToUpdate)
   }
 
-  deleteVorlage(id: number, filialeId: number, produktId: number){
-    return this.http.delete(this.baseUri+'/vorlage/'+id+'/'+produktId+'/'+filialeId)
+  deleteVorlage(name: string, filialeId: number, produktId: number){
+    return this.http.delete(this.baseUri+'/vorlage/'+name+'/'+produktId+'/'+filialeId)
   }
 }

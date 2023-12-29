@@ -1,11 +1,8 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { WarenbestellungService } from 'src/app/service/warenbestellung/warenbestellung.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
-
-import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
-
 
 // Tabellen:
 import { filiale } from 'src/model/filiale/filiale';
@@ -23,10 +20,20 @@ import { LieferbarService } from 'src/app/service/lieferbar/lieferbar.service';
 import { produktgruppe } from 'src/model/produktgruppe/produktgruppe';
 import { ProduktgruppeService } from './../../../service/produktgruppe/produktgruppe.service';
 import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
+import { ToastrService } from 'ngx-toastr';
+import { VorlageService } from 'src/app/service/vorlage/vorlage.service';
+import { vorlage } from 'src/model/vorlage/vorlage';
+import { vorlageId } from 'src/model/vorlage/vorlageId';
+import { ProduktService } from 'src/app/service/produkt/produkt.service';
 
+class vorlageModel implements vorlage {
+  constructor(
+    public id: vorlageId,
+    public menge: number){}
+}
 
 interface warenbestellungID {
-  datum: Date;
+  datum: string | Date;
   produkt: produkt;
   filiale: filiale;
 }
@@ -36,14 +43,14 @@ function groupDates(warenbestellungen: warenbestellung[]): { [datum: string]: wa
 
 
   for (const warenbestellung of warenbestellungen) {
-    const datum = warenbestellung.id.datum.toDateString();
+    const datum = warenbestellung.id.datum.toString();
 
     if (!groupedData[datum]) {
       groupedData[datum] = [];
     }
 
     const warenbestellungAusgabe: warenbestellungID = {
-      datum: warenbestellung.id.datum,
+      datum: warenbestellung.id.datum.toString(),
       produkt: warenbestellung.id.produkt,
       filiale: warenbestellung.id.filiale,
     };
@@ -72,14 +79,16 @@ export class LoginFirstPageComponent implements OnInit {
   //Kalender
   currentDate = new Date();
   selectedDate: Date | null = null;
-  selectedDateBestellung: Date | null = null;
+  selectedDateBestellung: Date = new Date();
 
   warenbestellungen: warenbestellung[] = [];
   filiale: filiale[] = [];
+  Allprodukte: produkt[] = [];
 
   groupbyDateWarenbestellung: { [datum: string]: warenbestellungID[] } = {};
 
   loggedInUserFilialeName: string = '';
+  loggedInUserFiliale!: filiale;
 
   constructor(
     private warenbestellungService: WarenbestellungService,
@@ -89,6 +98,9 @@ export class LoginFirstPageComponent implements OnInit {
     private mitarbeiterService: MitabeiterService,
     private lieferbarService: LieferbarService,
     private produktgruppeService: ProduktgruppeService,
+    private toastr: ToastrService,
+    private vorlageService: VorlageService,
+    private produktService: ProduktService
   ) { this.isMobile = window.innerWidth <= 1199,
     this.groupbyDateWarenbestellung = {};}
 
@@ -98,8 +110,7 @@ export class LoginFirstPageComponent implements OnInit {
     this.isMobile = window.innerWidth <= 1199;
   }
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void {                                  
     this.getWarenbestellungen();
     this.route.paramMap.subscribe(params => {
       const date = params.get('date');
@@ -109,6 +120,51 @@ export class LoginFirstPageComponent implements OnInit {
     this.updateHeutigeWarenbestellungStatus();
     this.checkIfLeiter();
 
+  }
+
+  getWarenbestellungen() {
+    var username: String = this.authService.getUsernameFromToken();
+    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
+
+      this.warenbestellungService.getWarenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
+        data.forEach((warenbestellung: warenbestellung) => {
+          warenbestellung.id.datum = new Date(warenbestellung.id.datum);
+        });
+    
+        this.warenbestellungen = data;
+        this.groupbyDateWarenbestellung = groupDates(this.warenbestellungen);
+
+      });
+
+      this.getProdukteAndGruppen(mitarbeiter)
+
+      this.produktService.getAllProdukts().subscribe((data: any) => {
+        this.Allprodukte = data
+      })
+
+      if (mitarbeiter && mitarbeiter.filiale) {
+        this.loggedInUserFilialeName = mitarbeiter.filiale.name;
+        this.loggedInUserFiliale = mitarbeiter.filiale
+      }
+    })
+  }
+
+  getProdukteAndGruppen(mitabeiter: mitabeiter) {
+    if(mitabeiter.filiale?.firma == null){
+      return
+    }
+    // Produkte
+    this.lieferbarService.getLieferbarByFirma(mitabeiter.filiale?.firma.name).subscribe((data: any) => {
+      this.produkte = data;
+      this.angezeigteProdukte = data
+      // Save input values before changing the displayed products
+      this.saveInputValues();
+    });
+
+    //Produktgruppen
+    this.produktgruppeService.getProduktgruppen().subscribe((data: any) => {
+      this.produktgruppen = data;
+    });
   }
 
   // Kundenbestellungen zaehlen für die Linke und Rechte Box oben
@@ -125,72 +181,55 @@ export class LoginFirstPageComponent implements OnInit {
 
   // Rechte Box-----------
   heutigerWarenbestellungsStatus: string = '';
-
   updateHeutigeWarenbestellungStatus() {
-    const aktuelleUhrzeit = new Date();
-    const abgabeWarenbestellung = new Date();
-    abgabeWarenbestellung.setHours(18, 0, 0, 0);
-    
-    if (aktuelleUhrzeit >= abgabeWarenbestellung) {
-      this.heutigerWarenbestellungsStatus = 'abgeschickt';
-    } else {
-      this.heutigerWarenbestellungsStatus = 'offen';
-    }
+    setTimeout(() => {
+      for(const ware of this.warenbestellungen){
+        if(ware.id.datum instanceof Date){
+          if(ware.id.datum.getDate() == this.currentDate.getDate()+1 && ware.id.datum.getMonth() == this.currentDate.getMonth()){
+            this.heutigerWarenbestellungsStatus = 'abgeschickt';
+          }
+        }
+      }
+
+      if(this.heutigerWarenbestellungsStatus.length == 0){
+        this.heutigerWarenbestellungsStatus = 'offen'
+      }
+    }, 500);
   }
 
   //----------------------------------------------------------------
 
   //PopUP-Bestellung aufgeben:--------------------------------------------
 
-  datePickerBestellungen(selectedDateBestellung: Date | undefined): string {
-    if (!selectedDateBestellung) {
-      return '';
-    }
-    const currentDate = new Date();
-    const selectedDateString = selectedDateBestellung.toDateString();
-    const dateExists = Object.keys(this.groupbyDateWarenbestellung).includes(selectedDateString);
-
-    if (dateExists) {
-      if (selectedDateBestellung.getDate() === currentDate.getDate() && currentDate.getHours() < 18) {
-        return '';
-      } else {
-        this.router.navigate(['/bestelluebersichtAbgeschickt', selectedDateString]);
-        return'';
-      }
-    } else {
-      return '';
-    }
-  }
   onDateSelectBestellung(event: Date) {
     this.selectedDateBestellung = event;
   }
 
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() returns 0-11
+    const day = date.getDate();
+
+    // Pad the month and day with leading zeros if necessary
+    const formattedMonth = month < 10 ? `0${month}` : `${month}`;
+    const formattedDay = day < 10 ? `0${day}` : `${day}`;
+
+    return `${year}-${formattedMonth}-${formattedDay}`;
+  }
+
   ///----------------------------------------------------------------------
 
-  //KALENDER Warenbestellungen einsehen
-  isEmptyGroupbyDateWarenbestellung(selectedDate: Date | undefined): string {
-    if (!selectedDate) {
-      return 'Keine Warenbestellung gefunden';
-    }
-    const currentDate = new Date();
-    const selectedDateString = selectedDate.toDateString();
-    const dateExists = Object.keys(this.groupbyDateWarenbestellung).includes(selectedDateString);
-
-    if (dateExists) {
-      if (selectedDate.getDate() === currentDate.getDate() && currentDate.getHours() < 18) {
-        return '';
-      } else {
-        this.router.navigate(['/bestelluebersichtAbgeschickt', selectedDateString]);
-        return'';
-      }
+  typeBestellung(){
+    if (this.currentDate.getTime() > this.selectedDateBestellung.getTime()) {
+      this.toastr.error("Datum darf nicht von früher sein", "Error")
+    } else if (this.currentDate.getTime() < this.selectedDateBestellung.getTime()) {
+      this.router.navigate(['/warenbestellungEingabe', this.formatDate(this.selectedDateBestellung)]);
     } else {
-      return '! Keine Warenbestellung ! ';
+      this.toastr.error("Datum darf nicht von früher sein", "Error")
     }
   }
 
-
   //ENDE des Kalenders--------------------------------------------------------------------------------------------------------------
-
 
   getFormattedDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -206,29 +245,26 @@ export class LoginFirstPageComponent implements OnInit {
       this.isLeiter = true;
     }
   }
-  
-  // Und geht filialen namen
-  getWarenbestellungen() {
-    var username: String = this.authService.getUsernameFromToken();
-    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) =>{
-      this.warenbestellungService.getWarenbestellungByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
-        data.forEach((warenbestellung: warenbestellung) => {
-          warenbestellung.id.datum = new Date(warenbestellung.id.datum);
-        });
-    
-        this.warenbestellungen = data;
-        this.groupbyDateWarenbestellung = groupDates(this.warenbestellungen);
-
-      });
-      if (mitarbeiter && mitarbeiter.filiale) {
-        this.loggedInUserFilialeName = mitarbeiter.filiale.name;
-      }
-    })
-  }
 
   onDateSelect(event: Date) {
     this.selectedDate = event;
-  }
+    let success: boolean = false;
+    for (const ware of this.warenbestellungen) {
+        const formattedSelectedDate = this.formatDate(event);
+        const formattedWareDate = this.formatDate(new Date(ware.id.datum));
+
+        if (formattedSelectedDate === formattedWareDate) {
+            this.router.navigate(['/bestelluebersichtAbgeschickt', formattedSelectedDate]);
+            success = true;
+            break; 
+        }
+    }
+
+    if (!success) {
+        this.toastr.error("Es wurde keine Bestellung zu diesem Datum gefunden", "Error");
+    }
+}
+
 
   // Kundenbestellungen
   toggleKundenbestellungDropdown() {
@@ -237,80 +273,148 @@ export class LoginFirstPageComponent implements OnInit {
   }
 
   // Vorlagen
+  isVorlageDropdown: boolean = false;
+  dropdownUpVorlage: boolean = true;
 
-        isVorlageDropdown: boolean = false;
-        dropdownUpVorlage: boolean = true;
+  produkte: lieferbar[] = [];
+  angezeigteProdukte: lieferbar[] = [];
+  produktgruppen: produktgruppe[] = [];
+  ausgewaehlteProduktgruppe: produktgruppe | null = null;
+  toggleVorlagenDropdown() {
+    this.isVorlageDropdown = !this.isVorlageDropdown;
+    this.dropdownUpVorlage = !this.dropdownUpVorlage;
+  }
 
-        produkte: lieferbar[] = [];
-        angezeigteProdukte: lieferbar[] = [];
-        produktgruppen: produktgruppe[] = [];
-        ausgewaehlteProduktgruppe: produktgruppe | null = null;
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const element = event.target as HTMLElement;
+    if (element.id === 'save') {
+      this.vorlageSpeichern();
+    }
+  }
+  
+  vorlageSpeichern(){
+    let insertVorlage: vorlageModel[] = []
+    console.log(this.angezeigteProdukte)
+    const vorlageName = document.getElementById("vorlagenname") as HTMLInputElement
+    if(!vorlageName.value){
+      this.toastr.error("Sie müssen dieser Vorlage einen Namen geben", "Input Error")
+      return
+    }
 
-        toggleVorlagenDropdown() {
-          this.isVorlageDropdown = !this.isVorlageDropdown;
-          this.dropdownUpVorlage = !this.dropdownUpVorlage;
-        }
+    if(this.produktInputs.hasOwnProperty(vorlageName.value)){
+      this.toastr.error("Der Vorlagenname ist schon vergeben", "Input Error")
+      return
+    }
 
-        searchProduct(event: Event): void {
-          const query = (event.target as HTMLInputElement).value;
-          if (query) {
-            this.angezeigteProdukte = this.produkte.filter((produkt) =>
-              produkt.id.produkt.name.toLowerCase().includes(query.toLowerCase())
-            );
-          } else {
-            // zeige alle Produkte an (wenn leer)
-            this.angezeigteProdukte = this.produkte;
+    for (const key of Object.keys(this.produktInputs)) {
+      const elementIdFrisch = 'frisch_' + key;
+      const elementFrisch = document.getElementById(elementIdFrisch) as HTMLInputElement;
+
+      const elementIdTeigig = 'teigig_' + key;
+      const elementTeigig = document.getElementById(elementIdTeigig) as HTMLInputElement;
+
+      const selectedLieferbar: lieferbar | undefined = this.angezeigteProdukte.find((data: lieferbar) => data.id.produkt.name == key)    
+      if(selectedLieferbar){
+        const selectedLieferbarHB: produkt | undefined = this.Allprodukte.find((data: produkt) => data.id == selectedLieferbar?.id.produkt.id + 2000)
+        if (elementFrisch && parseInt(elementFrisch.value) > 0 && selectedLieferbar) {
+          const vorlageId: vorlageId = {
+            name: vorlageName.value,
+            produkt: selectedLieferbar.id.produkt,
+            filiale: this.loggedInUserFiliale
           }
+          const vorlagemodel: vorlageModel = new vorlageModel(vorlageId, parseInt(elementFrisch.value))
+          insertVorlage.push(vorlagemodel)
         }
 
-        getProdukteAndGruppen(mitabeiter: mitabeiter) {
-          if(mitabeiter.filiale?.firma == null){
-            return
+        if (elementTeigig && parseInt(elementTeigig.value) > 0 && selectedLieferbarHB) {
+          console.log(selectedLieferbarHB, selectedLieferbar?.id.produkt.id + 2000)
+          const vorlageId: vorlageId = {
+            name: vorlageName.value,
+            produkt: selectedLieferbarHB,
+            filiale: this.loggedInUserFiliale
           }
-          // Produkte
-          this.lieferbarService.getLieferbarByFirma(mitabeiter.filiale?.firma.name).subscribe((data: any) => {
-            this.produkte = data;
-            this.angezeigteProdukte = data
-            // Save input values before changing the displayed products
-            this.saveInputValues();
-          });
-
-          //Produktgruppen
-          this.produktgruppeService.getProduktgruppen().subscribe((data: any) => {
-            this.produktgruppen = data;
-          });
+          const vorlagemodel: vorlageModel = new vorlageModel(vorlageId, parseInt(elementTeigig.value))
+          insertVorlage.push(vorlagemodel)
         }
+      }
+    }
 
-        produktInputs: { [key: string]: { frisch: number, teigig: number } } = {};
-        saveInputValues(): void {
-          for (const produkt of this.angezeigteProdukte) {
-            this.produktInputs[produkt.id.produkt.name] = {
-              frisch: 0,
-              teigig: 0,
-            };
-          }
+    if(insertVorlage.length > 0){
+      this.vorlageService.insertVorlage(insertVorlage).subscribe((data: any) => {
+        const reset = document.getElementById('reset') as HTMLButtonElement;
+        if (reset) {
+          reset.click();
         }
+  
+        this.toastr.success("Vorlage erstellt", "Erfolg")
+      })
+    }
+  }
 
-        onProduktgruppeClicked(produktgruppe: produktgruppe | null) {
-          if(produktgruppe == null){
-            this.angezeigteProdukte = this.produkte
-          }else{
-            this.ausgewaehlteProduktgruppe = produktgruppe;
-            this.angezeigteProdukte = this.produkte.filter((produkt) =>
-              produkt.id.produkt.produktgruppe && produkt.id.produkt.produktgruppe.name === produktgruppe.name
-            );
-          }
-          
-        }
+  validateProdukt(event: KeyboardEvent, produktGruppeName: string): void {
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+    if (allowedKeys.includes(event.key)) {
+        return;
+    }
 
-        validateInput(event: any): boolean {
-          return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46;
-        }
+    const isDecimalPoint = event.key === '.' || event.key === ',';
+    const isDigit = event.key.match(/^\d$/);
 
-        resetForm() {
-          (document.getElementById('auftragnameKundenbestellung') as HTMLInputElement).value = '';
-          (document.getElementById('datumInput') as HTMLInputElement).value = '';
-          this.ausgewaehlteProduktgruppe = null;
-        }
+    if (isDecimalPoint && produktGruppeName !== 'VK Brot Stangen') {
+        event.preventDefault();
+    }
+
+    if (!isDigit && !isDecimalPoint) {
+        event.preventDefault();
+    }
+  }
+
+  produktInputs: { [key: string]: { frisch: number, teigig: number } } = {};
+  saveInputValues(): void {
+    for (const produkt of this.angezeigteProdukte) {
+      this.produktInputs[produkt.id.produkt.name] = {
+        frisch: 0,
+        teigig: 0,
+      };
+    }
+  }
+
+  onProduktgruppeClicked(produktgruppe: produktgruppe | null) {
+    if(produktgruppe == null){
+      this.angezeigteProdukte = this.produkte
+    }else{
+      this.ausgewaehlteProduktgruppe = produktgruppe;
+      this.angezeigteProdukte = this.produkte.filter((produkt) =>
+        produkt.id.produkt.produktgruppe && produkt.id.produkt.produktgruppe.name === produktgruppe.name
+      );
+    }
+  }
+
+  validateInput(event: KeyboardEvent, produktGruppeName: string): void {
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+    if (allowedKeys.includes(event.key)) {
+        return; // Allow navigation and deletion keys
+    }
+
+    const isDecimalPoint = event.key === '.' || event.key === ',';
+    const isDigit = event.key.match(/^\d$/); // Matches any digit from 0 to 9
+
+    // Allow decimal points only for 'VK Brot Stangen'
+    if (isDecimalPoint && produktGruppeName !== 'VK Brot Stangen') {
+        event.preventDefault();
+    }
+
+    // Prevent if not a digit or a decimal point
+    if (!isDigit && !isDecimalPoint) {
+        event.preventDefault();
+    }
+  }
+
+  resetForm() {
+    (document.getElementById('auftragnameKundenbestellung') as HTMLInputElement).value = '';
+    (document.getElementById('datumInput') as HTMLInputElement).value = '';
+    this.ausgewaehlteProduktgruppe = null;
+  }
   
 }

@@ -22,19 +22,19 @@ export class WarenbestellungService {
     return this.http.get(this.baseUri + '/warenbestellung/filiale/'+filialeId)
   }
 
-  getWarenbestellungByDate(datum: Date){
+  getWarenbestellungByDate(datum: string){
     return this.http.get(this.baseUri + '/warenbestellung/date/'+datum)
   }
 
-  updateWarenbestellung(datum: Date, produktId: number, filialeId: number, warenbestellungToUpdate: warenbestellung){
+  updateWarenbestellung(datum: string, produktId: number, filialeId: number, warenbestellungToUpdate: warenbestellung){
     return this.http.put(this.baseUri + '/warenbestellung/'+datum+'/'+produktId+'/'+filialeId, warenbestellungToUpdate);
   }
 
-  deleteWarenbestellung(datum: Date, produktId: number, filialeId: number){
+  deleteWarenbestellung(datum: string, produktId: number, filialeId: number){
     return this.http.delete(this.baseUri+'/warenbestellung/'+datum+'/'+produktId+'/'+filialeId)
   }
 
-  createWarenbestellung(warenbestellungToCreate: warenbestellung){
+  createWarenbestellung(warenbestellungToCreate: warenbestellung[]){
     return this.http.post(this.baseUri+'/warenbestellung', warenbestellungToCreate)
   }
 }

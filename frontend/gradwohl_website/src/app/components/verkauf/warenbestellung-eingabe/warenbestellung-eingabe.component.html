@@ -3,9 +3,9 @@
   <br /> <br /><br /><br />
   <section class="text-dark pt-5 mg-auto">
     <div class="container-fluid pl-2">
-      <u><h2>Bestellung für den <span style="font-weight: bold;">2023-12-01</span></h2></u>
+      <u><h2>Bestellung für den <span style="font-weight: bold;">{{date}}</span></h2></u>
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-md-6 col-sm-12">
           <form class="form-row align-items-center">
             <div class="form-group">
               <div class="input-group">
@@ -19,10 +19,13 @@
             </div>
           </form>
         </div>
-        <div class="col-sm-4">
-          <button class="btn btn-primary mb-2 btn-block" style="padding: 12px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Bestellvorlagen-Archiv</button>
-        </div>
+        <div class="col-md-3 col-sm-12">
+          <button class="btn btn-primary mb-2 btn-block" style="padding: 12px; margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Bestellvorlagen-Archiv</button>
+          <button class="btn mb-2 btn-block" style="background-color: #8C5263; color: white; padding: 12px;" (click)="save()">Speichern</button>
+        </div>    
       </div>
+
+
       <!-- Pop-up-ANFANG -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -38,88 +41,102 @@
                   <div *ngFor="let groupName of groupedVorlagen | keyvalue">
                      <button class="btn btn-style card" (click)="toggleProducts(groupName.key)"> Name: {{ groupName.key }}</button>
                      
-                      <div *ngIf="isSelected(groupName.key)">
-                        <br />  
-                        <ng-container *ngFor="let produkt of groupName.value; let i = index">
-                          <table class="table table-striped">
-                            <tbody>
-                                    <ng-container *ngIf="i === 0 || groupedVorlagen[groupName.key][i - 1].id.produkt.produktgruppe.name !== produkt.id.produkt.produktgruppe.name">
-                                        <tr>
-                                            <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{produkt.id.produkt.produktgruppe.name}}</th>
-                                          </tr>
-                                      <tr>
-                                          <th>Produkt</th>
-                                          <th>Frisch</th>
-                                          <th>Teigig</th>
-                                      </tr>
-                                    </ng-container>
-                                      <tr>
-                                          <td>{{produkt.id.produkt.name}}</td>
-                                          <td>
-                                            <input type="text" class="form-control" [ngModel]="produkt.id.produkt.hb ? '0' : produkt.menge" disabled>
-                                          </td>
-                                          <td>
-                                            <input type="text" class="form-control" [ngModel]="produkt.id.produkt.hb ? produkt.menge : '0'" disabled>
-                                          </td>
-                                          <td></td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                          </ng-container>
-                        </div>
+                    <div *ngIf="isSelected(groupName.key)">
+                      <br />  
+                      <ng-container *ngFor="let produkt of groupName.value; let i = index">
+                        <table class="table table-striped" *ngIf="!produkt.id.produkt.hb">
+                          <tbody>
+                                  <ng-container *ngIf="i === 0 || groupedVorlagen[groupName.key][i - 1].id.produkt.produktgruppe.name !== produkt.id.produkt.produktgruppe.name">
+                                    <tr>
+                                      <th colspan="4" style="background-color: #ADA9A9;">Kategorie: {{produkt.id.produkt.produktgruppe.name}}</th>
+                                    </tr>
+                                    <tr>
+                                      <th>Produkt</th>
+                                      <th>Frisch</th>
+                                      <th>Teigig</th>
+                                    </tr>
+                                  </ng-container>
+                                    <tr>
+                                        <td>{{produkt.id.produkt.name}}</td>
+                                        <td>
+                                          <input type="text" class="form-control" [ngModel]="produkt.menge" disabled>
+                                        </td>
+                                        <td>
+                                          <input type="text" class="form-control" [ngModel]="getHBValueFromFrischId(produkt.id.produkt)" disabled>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ng-container>
                       </div>
-          
+                    </div>
                 </div>   
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [routerLink]="'warenbestellungEingabe'">Auswählen</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="insertVorlage(groupedVorlagen)">Auswählen</button>
             </div>
           </div>
         </div>
       </div>
-  <!-- Pop-up-ENDE -->
+      <!-- Pop-up-ENDE -->
+
       <hr>
       <div class="row">
         <!-- Produkte zeigen-->
         <div class="col-sm-8">
           <div class="table-container">
             <div class="scrollable-table">
-              <form>
                 <table class="table">
-                  <thead>
+                <thead>
                     <tr>
-                      <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
-                      <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
-                      <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
+                        <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Produkt</th>
+                        <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Frisch</th>
+                        <th scope="col" class="sticky" style="color: rgb(157, 154, 154);">Teigig</th>
                     </tr>
-                  </thead>
-                  <tbody>
-                    
-                        <tr *ngFor="let produkte of angezeigteProdukte">
-                          <td class="card" style="background-color: whitesmoke">{{ produkte.name }}</td>
-                          <td>
-                            <input type="number" step="0.5" min="0" 
-                                  ondrop="return false;" onpaste="return false;" 
-                                  onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46" 
-                                  required/>
-                          </td>
-                          <td>
-                            <input type="number" step="0.5" min="0"
-                                  ondrop="return false;" onpaste="return false;" 
-                                  onkeypress="return event.charCode>=48 && event.charCode<=57 || event.charCode==46" 
-                                  required/>
-                          </td>
-                        </tr>                                                                                                          
-                  </tbody>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let produkt of angezeigteProdukte">
+                        <td class="card" style="background-color: whitesmoke">{{ produkt.id.produkt.name }}</td>
+                        <td *ngIf="produktInputs[produkt.id.produkt.name]">
+                          <input *ngIf="produkt.id.produkt.produktgruppe.name == 'VK Brot Stangen'" type="number" min="0" step="0.5" 
+                                 id="frisch_{{ produkt.id.produkt.name }}" 
+                                 [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                 (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)"/>
+                      
+                          <input *ngIf="produkt.id.produkt.produktgruppe.name != 'VK Brot Stangen'" type="number" min="0" step="1" 
+                                 id="frisch_{{ produkt.id.produkt.name }}" 
+                                 [(ngModel)]="produktInputs[produkt.id.produkt.name].frisch"
+                                 (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" />
+                      </td>
+                      <td *ngIf="produktInputs[produkt.id.produkt.name]">
+                          <input *ngIf="produkt.id.produkt.produktgruppe.name == 'VK Brot Stangen'" type="number" min="0" step="0.5" 
+                                 id="teigig_{{ produkt.id.produkt.name }}" 
+                                 [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                 (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" 
+                                 [readonly]="!isReadOnly(produkt.id.produkt.id)" />
+                      
+                          <input *ngIf="produkt.id.produkt.produktgruppe.name != 'VK Brot Stangen'" type="number" min="0" step="1" 
+                                 id="teigig_{{ produkt.id.produkt.name }}" 
+                                 [(ngModel)]="produktInputs[produkt.id.produkt.name].teigig"
+                                 (keypress)="validateInput($event, produkt.id.produkt.produktgruppe.name)" 
+                                 [readonly]="!isReadOnly(produkt.id.produkt.id)" />
+                      </td>
+                      </tr>
+                </tbody>
                 </table>
-              </form>
-            </div>
-          </div>
+            </div>                    
+        </div>
         </div>
         <!-- Kategorien abbilden-->
         <div class="col-sm-4 p-3 d-flex justify-content-center">
             <div class="row">
+              <button class="btn stylingButton"
+              [ngClass]="{'selected': ausgewaehlteProduktgruppe === null }"
+              (click)="onProduktgruppeClicked(null)">
+                Alle Produkte
+              </button>
                 <button class="btn stylingButton" *ngFor="let produktgruppe of produktgruppen" 
                                 [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
                                 (click)="onProduktgruppeClicked(produktgruppe)">
@@ -127,13 +144,6 @@
                     {{ produktgruppe.name }}
                 </button>
             </div>
-        </div>
-        
-        <div class="container-fluid">
-            <button type="submit" class="btn" style="float: right; background-color: #8C5263;color:white;margin-left: 5px;">
-                Weiter</button>
-            <button type="submit" class="btn btn-outline-dark" style="float: right;">
-                Abbrechen</button>
         </div>
       </div>
     </div>

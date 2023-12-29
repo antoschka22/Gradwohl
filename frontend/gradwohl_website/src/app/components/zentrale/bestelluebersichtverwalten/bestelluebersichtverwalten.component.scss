@@ -1,0 +1,36 @@
+.box {
+    cursor: pointer;
+    background-color: #8C5263;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.title{
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 25px;
+    padding-bottom: 5px;
+    border-bottom: 1.5px black solid;
+}
+  
+.box:hover {
+    background-color: #b16279;
+    border-radius: 30px;
+    transform: scale(1.07);
+}
+  
+@media (max-width: 768px) {
+    .box {
+    margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .box {
+    margin-bottom: 20px;
+    }
+}
+  

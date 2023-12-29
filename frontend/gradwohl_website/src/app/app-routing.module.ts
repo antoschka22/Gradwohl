@@ -20,6 +20,7 @@ import { FilialeComponent } from './components/zentrale/filiale/filiale.componen
 import { FirmaComponent } from './components/zentrale/firma/firma.component';
 import { ProdukteComponent } from './components/zentrale/produkte/produkte.component';
 import { NachrichtComponent } from './components/zentrale/nachricht/nachricht.component';
+import { BestelluebersichtverwaltenComponent } from './components/zentrale/bestelluebersichtverwalten/bestelluebersichtverwalten.component';
 
 const routes: Routes = [
   {path: '', component: LoginFirstPageComponent,
@@ -35,7 +36,7 @@ const routes: Routes = [
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'abgeschlosseneUebersicht', component: GesamtKundenbestellungsUebersichtComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
-  {path: 'warenbestellungEingabe', component: WarenbestellungEingabeComponent,
+  {path: 'warenbestellungEingabe/:datum', component: WarenbestellungEingabeComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale', 'Leiter', 'Verkauf']}},
   {path: 'vorlagenView', component: VorlagenViewComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Leiter']}},
@@ -54,6 +55,8 @@ const routes: Routes = [
   {path: 'produkte/verwalten', component: ProdukteComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
   {path: 'nachricht/verwalten', component: NachrichtComponent,
+  canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
+  {path: 'bestellungen/verwalten', component: BestelluebersichtverwaltenComponent,
   canActivate: [MasterGuardService], data: {guards: [AuthGuardService], roles: ['Zentrale']}},
 ];
 
