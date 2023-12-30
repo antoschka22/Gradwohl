@@ -1,6 +1,20 @@
-<app-navbar-header></app-navbar-header>
-<body>
-  <br /> <br /><br /><br />
+<ng-container *ngIf="role != 'Zentrale'">
+  <app-navbar-header></app-navbar-header>
+</ng-container>
+<ng-container *ngIf="role == 'Zentrale'">
+  <app-zentrale-navbar (newItemEvent)="toggleNavbar($event)"></app-zentrale-navbar>
+  <div style="padding: 25px 0px; display: flex; align-items: center; background: linear-gradient(to bottom, #f0f0f0, white);">
+    <button style="margin-left: 20px; color: rgb(255, 94, 94); text-decoration: none;" type="button" class="btn btn-link" [routerLink]="['/bestellungen/verwalten']">
+      <i class="bi bi-arrow-left"></i>Zurück
+    </button>
+    <h1 style="margin: 0 auto; font-size: 35px;">Bestellungen</h1>
+  </div>
+</ng-container>
+
+<body [style.margin-right.px]="navbarToggle ? 20 : 240">
+  <ng-container *ngIf="role != 'Zentrale'">
+    <br /> <br /><br /><br />
+  </ng-container>
   <section class="text-dark pt-5 mg-auto">
     <div class="container-fluid pl-2">
       <u><h2>Bestellung für den <span style="font-weight: bold;">{{date}}</span></h2></u>

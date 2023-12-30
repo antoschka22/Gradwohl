@@ -52,11 +52,13 @@ export class WarenbestellungEingabeComponent {
   vorlage: vorlage[] = [];
   selectedVorlage: vorlage | null = null;
   groupedVorlagen: { [key: string]: vorlage[] } = {};
+  role: string = ""
 
 
   constructor(
     private route: ActivatedRoute,
     private filialeService: FilialeService,
+    private authService: AuthService,
     private produktgruppeService: ProduktgruppeService,
     private produktService: ProduktService,
     private warenbestellungService: WarenbestellungService,
@@ -73,8 +75,13 @@ export class WarenbestellungEingabeComponent {
         this.date = date
         this.loadWarenbestellungenForDate(this.date, parseInt(filialeId));
       }
+      this.role = this.authService.getUserRole()
     })
+  }
 
+  navbarToggle: boolean = false;
+  toggleNavbar(bol: boolean){
+    this.navbarToggle = bol
   }
 
   loadWarenbestellungenForDate(date: string, filialeId: number): void {

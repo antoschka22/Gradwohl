@@ -13,7 +13,7 @@
       <div class="row">
         <ng-container *ngFor="let filiale of filialenMitFirma">
           <div class="col-md-4 col-sm-6 mb-4" *ngIf="filiale.firma.name === firmaName">
-            <div class="box" [routerLink]="['/warenbestellungEingabe', filiale.id]">
+            <div class="box" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="selectFiliale(filiale)">
               <h2>{{ filiale.name }}</h2>
             </div>
           </div>
@@ -25,11 +25,34 @@
       <div class="row">
         <ng-container *ngFor="let filiale of filialenOhneFirma">
           <div class="col-md-4 col-sm-6 mb-4">
-            <div class="box" [routerLink]="['/dienstplan/view', filiale.id]">
+            <div class="box" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="selectFiliale(filiale)">
               <h2>{{ filiale.name }}</h2>
             </div>
           </div>
         </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL  -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="selectedFiliale">
+        <h2 class="modal-title" id="exampleModalLabel"> Datum für Filiale {{ selectedFiliale.name }} auswählen</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #close></button>
+      </div>
+      <div class="modal-body">
+        <mat-calendar
+        [(selected)]="selectedDateBestellung"
+        [startAt]="currentDate"
+        (selectedChange)="onDateSelectBestellung($event)"
+        class="custom-calendar"
+        ></mat-calendar>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="typeBestellung()">Bestellung ansehen</button>
       </div>
     </div>
   </div>
