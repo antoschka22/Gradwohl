@@ -17,10 +17,11 @@ import { LieferbarService } from 'src/app/service/lieferbar/lieferbar.service';
 import { lieferbar } from 'src/model/lieferbar/lieferbar';
 import { warenbestellung } from 'src/model/warenbestellung/warenbestellung';
 import { warenbestellungID } from 'src/model/warenbestellung/warenbestellungID';
-import { mitabeiter } from 'src/model/mitarbeiter/mitarbeiter';
 import { ToastrService } from 'ngx-toastr';
 import { produkt } from 'src/model/produkt/produkt';
 import { ActivatedRoute } from '@angular/router';
+import { filiale } from 'src/model/filiale/filiale';
+import { FilialeService } from 'src/app/service/filiale/filiale.service';
 
 class warenbestellungModel implements warenbestellung {
   constructor(
@@ -39,7 +40,7 @@ export class WarenbestellungEingabeComponent {
   angezeigteProdukte: lieferbar[] = [];
   produkte: lieferbar[] = [];
   tippedProdukte: warenbestellung[] = []
-  mitarbeiter!: mitabeiter;
+  filiale!: filiale;
   Allprodukte: produkt[] = []
   
   //Buttons
@@ -55,8 +56,7 @@ export class WarenbestellungEingabeComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService,
-    private mitarbeiterService: MitabeiterService,
+    private filialeService: FilialeService,
     private produktgruppeService: ProduktgruppeService,
     private produktService: ProduktService,
     private warenbestellungService: WarenbestellungService,
@@ -68,21 +68,22 @@ export class WarenbestellungEingabeComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const date = params.get('datum')
-      if(date != null){
+      const filialeId = params.get('id')
+      if(date != null && filialeId != null){
         this.date = date
-        this.loadWarenbestellungenForDate(this.date);
-        this.loadAllBestellvorlagen();
+        this.loadWarenbestellungenForDate(this.date, parseInt(filialeId));
       }
     })
 
   }
 
-  loadWarenbestellungenForDate(date: string): void {
-    var username: String = this.authService.getUsernameFromToken();
+  loadWarenbestellungenForDate(date: string, filialeId: number): void {
+    this.filialeService.getFilialeById(filialeId).subscribe((filiale: any)=>{
+      this.filiale = filiale
 
-    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
-      this.mitarbeiter = mitarbeiter;
-      this.lieferbarService.getLieferbarByFirma(mitarbeiter.filiale.firma.name).subscribe((data: any) => {
+      this.loadAllBestellvorlagen(filiale)
+      
+      this.lieferbarService.getLieferbarByFirma(filiale.firma.name).subscribe((data: any) => {
         this.angezeigteProdukte = data; 
         this.produkte = data
 
@@ -92,7 +93,7 @@ export class WarenbestellungEingabeComponent {
         this.produktgruppen = data;
       });
 
-      this.warenbestellungService.getWarenbestellungByDate(this.date).subscribe((data: any) => {
+      this.warenbestellungService.getWarenbestellungByDate(date).subscribe((data: any) => {
         this.tippedProdukte = data
         console.log(this.tippedProdukte)
         setTimeout(() => {
@@ -103,20 +104,17 @@ export class WarenbestellungEingabeComponent {
       this.produktService.getAllProdukts().subscribe((data: any) => {
         this.Allprodukte = data
       })
-    });
+    })
   }
 
-  loadAllBestellvorlagen(): void {
-    var username: String = this.authService.getUsernameFromToken();
-    this.mitarbeiterService.getMitarbeiterByName(username).subscribe((mitarbeiter: any) => {
-      this.vorlageService.getVorlageByFiliale(mitarbeiter.filiale.id).subscribe((data: any) => {
-        this.vorlageId = data;
-        this.vorlage = data;
+  loadAllBestellvorlagen(filiale: filiale): void {
+    this.vorlageService.getVorlageByFiliale(filiale.id).subscribe((data: any) => {
+      this.vorlageId = data;
+      this.vorlage = data;
 
-        // Group Vorlagen by name
-        this.groupedVorlagen = this.groupByTemplateName(this.vorlage);
-        console.log(this.groupedVorlagen)
-      });
+      // Group Vorlagen by name
+      this.groupedVorlagen = this.groupByTemplateName(this.vorlage);
+      console.log(this.groupedVorlagen)
     });
   }
 
@@ -178,11 +176,11 @@ export class WarenbestellungEingabeComponent {
 
           // check produkt for new value frisch
           const matchingNeuProdukt = this.tippedProdukte.find(tipped => tipped.id.produkt.id == produkt.id.produkt.id && tipped.id.datum == this.date)
-          if(!matchingNeuProdukt && this.mitarbeiter.filiale && this.produktInputs[produkt.id.produkt.name].frisch > 0){
+          if(!matchingNeuProdukt && this.filiale && this.produktInputs[produkt.id.produkt.name].frisch > 0){
             const id: warenbestellungID = {
               datum: this.date,
               produkt: produkt.id.produkt,
-              filiale: this.mitarbeiter.filiale
+              filiale: this.filiale
             }
 
             const warenModel: warenbestellungModel = new warenbestellungModel(id, this.produktInputs[produkt.id.produkt.name].frisch)
@@ -193,11 +191,11 @@ export class WarenbestellungEingabeComponent {
           const teigigIdNewProdukt = produkt.id.produkt.id < 100 ? 2000 + produkt.id.produkt.id : 2000 + produkt.id.produkt.id;
           const matchingNewTeigigProdukt = this.tippedProdukte.find(tipped => tipped.id.produkt.id === teigigIdNewProdukt && tipped.id.datum == this.date);
           const produktTeigig = this.Allprodukte.find(pro => pro.id == teigigIdNewProdukt)
-          if (!matchingNewTeigigProdukt && this.mitarbeiter.filiale && this.produktInputs[produkt.id.produkt.name].teigig > 0 && produktTeigig) {
+          if (!matchingNewTeigigProdukt && this.filiale && this.produktInputs[produkt.id.produkt.name].teigig > 0 && produktTeigig) {
             const id: warenbestellungID = {
               datum: this.date,
               produkt: produktTeigig,
-              filiale: this.mitarbeiter.filiale
+              filiale: this.filiale
             }
 
             const warenModel: warenbestellungModel = new warenbestellungModel(id, this.produktInputs[produkt.id.produkt.name].teigig)
@@ -206,16 +204,16 @@ export class WarenbestellungEingabeComponent {
 
           // check existing produkt for new value frisch
           const matchingProdukt = this.tippedProdukte.find(tipped => tipped.id.produkt.id == this.produktInputs[produkt.id.produkt.name].id)
-          if(matchingProdukt != undefined && this.mitarbeiter.filiale && matchingProdukt.id.datum == this.date){
+          if(matchingProdukt != undefined && this.filiale && matchingProdukt.id.datum == this.date){
             if(matchingProdukt.menge != this.produktInputs[produkt.id.produkt.name].frisch){
               const id: warenbestellungID = {
                 datum: this.date,
                 produkt: matchingProdukt.id.produkt,
-                filiale: this.mitarbeiter.filiale
+                filiale: this.filiale
               }
 
               const warenModel: warenbestellungModel = new warenbestellungModel(id, this.produktInputs[produkt.id.produkt.name].frisch)
-              this.warenbestellungService.updateWarenbestellung(this.date, matchingProdukt.id.produkt.id, this.mitarbeiter.filiale.id,warenModel).subscribe((data: any) => {
+              this.warenbestellungService.updateWarenbestellung(this.date, matchingProdukt.id.produkt.id, this.filiale.id,warenModel).subscribe((data: any) => {
                 this.toastr.success("Bestellung gespeichert", "Erfolg")
               })
             }
@@ -224,16 +222,16 @@ export class WarenbestellungEingabeComponent {
           // check existing produkt for new value teigig
           const teigigId = produkt.id.produkt.id < 100 ? 2000 + produkt.id.produkt.id : 2000 + produkt.id.produkt.id;
           const matchingTeigigProdukt = this.tippedProdukte.find(tipped => tipped.id.produkt.id === teigigId);
-          if (matchingTeigigProdukt != undefined && this.mitarbeiter.filiale && matchingTeigigProdukt.id.datum == this.date) {
+          if (matchingTeigigProdukt != undefined && this.filiale && matchingTeigigProdukt.id.datum == this.date) {
             if(matchingTeigigProdukt.menge != this.produktInputs[produkt.id.produkt.name].teigig){
               const id: warenbestellungID = {
                 datum: this.date,
                 produkt: matchingTeigigProdukt.id.produkt,
-                filiale: this.mitarbeiter.filiale
+                filiale: this.filiale
               }
 
               const warenModel: warenbestellungModel = new warenbestellungModel(id, this.produktInputs[produkt.id.produkt.name].teigig)
-              this.warenbestellungService.updateWarenbestellung(this.date, matchingTeigigProdukt.id.produkt.id, this.mitarbeiter.filiale.id, warenModel).subscribe((data: any) => {
+              this.warenbestellungService.updateWarenbestellung(this.date, matchingTeigigProdukt.id.produkt.id, this.filiale.id, warenModel).subscribe((data: any) => {
                 this.toastr.success("Bestellung gespeichert", "Erfolg")
               })
             }

@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { authRequest } from 'src/model/auth/AuthRequest';
 
 interface AuthName {
   name: string;
@@ -17,7 +18,9 @@ export class NavbarHeaderComponent {
 
   loggedInUserName: string ='';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private toastr: ToastrService,
+              private router: Router) {
     this.isMobile = window.innerWidth <= 1199;
     
   }
@@ -30,5 +33,12 @@ export class NavbarHeaderComponent {
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     this.isMobile = window.innerWidth <= 1199;
+  }
+
+  logout(){
+    this.authService.logoutUser();
+    this.toastr.success("Erfolgreich augeloggt", "Erfolg")
+    this.router.navigate(['/login']);
+
   }
 }

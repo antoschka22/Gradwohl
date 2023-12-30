@@ -223,7 +223,7 @@ export class LoginFirstPageComponent implements OnInit {
     if (this.currentDate.getTime() > this.selectedDateBestellung.getTime()) {
       this.toastr.error("Datum darf nicht von früher sein", "Error")
     } else if (this.currentDate.getTime() < this.selectedDateBestellung.getTime()) {
-      this.router.navigate(['/warenbestellungEingabe', this.formatDate(this.selectedDateBestellung)]);
+      this.router.navigate(['/warenbestellungEingabe', this.formatDate(this.selectedDateBestellung), this.loggedInUserFiliale.id]);
     } else {
       this.toastr.error("Datum darf nicht von früher sein", "Error")
     }

@@ -13,7 +13,7 @@
       <div class="row">
         <ng-container *ngFor="let filiale of filialenMitFirma">
           <div class="col-md-4 col-sm-6 mb-4" *ngIf="filiale.firma.name === firmaName">
-            <div class="box" [routerLink]="['/dienstplan/view', filiale.id]">
+            <div class="box" [routerLink]="['/warenbestellungEingabe', filiale.id]">
               <h2>{{ filiale.name }}</h2>
             </div>
           </div>
