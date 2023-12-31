@@ -70,14 +70,8 @@ export class BestelluebersichtverwaltenComponent {
 
   @ViewChild('close') close!: ElementRef<HTMLElement>;
   typeBestellung(){
-    if (this.currentDate.getTime() > this.selectedDateBestellung.getTime()) {
-      this.toastr.error("Datum darf nicht von früher sein", "Error")
-    } else if (this.currentDate.getTime() < this.selectedDateBestellung.getTime()) {
-      this.close.nativeElement.click()
-      this.router.navigate(['/warenbestellungEingabe', this.formatDate(this.selectedDateBestellung), this.selectedFiliale.id]);
-    } else {
-      this.toastr.error("Datum darf nicht von früher sein", "Error")
-    }
+    this.close.nativeElement.click()
+    this.router.navigate(['/warenbestellungEingabe', this.formatDate(this.selectedDateBestellung), this.selectedFiliale.id]);
   }
 
 }

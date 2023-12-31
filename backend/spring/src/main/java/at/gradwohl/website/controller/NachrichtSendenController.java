@@ -63,6 +63,19 @@ public class NachrichtSendenController {
         return new ResponseEntity<>(nachrichtSendenService.getNachrichtSendenByFiliale(filiale), HttpStatus.OK);
     }
 
+    @GetMapping("/nachrichtId/{nachrichtId}")
+    public ResponseEntity<List<NachrichtSenden>> getNachrichtByNachrichtId(
+            @PathVariable("nachrichtId") int nachrichtId,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsZentrale(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        Nachricht nachricht =  nachrichtService.getNachrichtById(nachrichtId);
+
+        return new ResponseEntity<>(nachrichtSendenService.getNachrichtSendenByNachrichtId(nachricht), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<List<NachrichtSenden>> addNachrichtToFiliale(
             @RequestBody List<NachrichtSenden> nachrichten,

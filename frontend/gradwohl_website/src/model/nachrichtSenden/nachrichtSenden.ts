@@ -1,5 +1,6 @@
 import { nachrichtSendenId } from "./nachrichtSendenId"
 
 export interface nachrichtSenden{
-    id: nachrichtSendenId
+    id: nachrichtSendenId,
+    gelesen: boolean
 }

@@ -4,6 +4,7 @@ import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.nachricht.Nachricht;
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSenden;
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;
+import at.gradwohl.website.service.nachricht.NachrichtService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,6 @@ public interface NachrichtSendenRepository extends JpaRepository<NachrichtSenden
     void deleteByFiliale(Filiale filiale);
 
     List<NachrichtSenden> getNachrichtSendenByIdFiliale(Filiale filiale);
+
+    List<NachrichtSenden> getNachrichtSendenByIdNachricht(Nachricht nachricht);
 }

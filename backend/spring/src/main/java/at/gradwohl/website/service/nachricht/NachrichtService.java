@@ -18,9 +18,9 @@ public class NachrichtService {
     private final NachrichtSendenRepository nachrichtSendenRepository;
 
     public List<Nachricht> getAllNachricht() {
-        return nachrichtRepository.findAll();
+        return nachrichtRepository.findAllByOrderByDatumDesc();
     }
-    
+
     public Nachricht getNachrichtById(long id) {
         Optional<Nachricht> nachrichtOptional = nachrichtRepository.findById(id);
         

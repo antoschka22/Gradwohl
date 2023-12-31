@@ -22,7 +22,11 @@ export class NachrichtSendenService {
     return this.http.get(this.baseUri + '/nachrichtSenden/senden/'+filialeId+'/'+nachrichtId)
   }
 
-  insertNachrichtSenden(nachrichtSendenToInsert: nachrichtSenden){
+  getNachrichtSendenByNachrichtId(nachrichtId: number){
+    return this.http.get(this.baseUri + '/nachrichtSenden/senden/nachrichtId/'+nachrichtId)
+  }
+
+  insertNachrichtSenden(nachrichtSendenToInsert: nachrichtSenden[]){
     return this.http.post(this.baseUri+'/nachrichtSenden/senden', nachrichtSendenToInsert)
   }
 

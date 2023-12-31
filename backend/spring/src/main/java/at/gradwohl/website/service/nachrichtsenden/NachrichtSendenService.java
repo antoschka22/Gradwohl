@@ -1,10 +1,12 @@
 package at.gradwohl.website.service.nachrichtsenden;
 
 import at.gradwohl.website.model.filiale.Filiale;
+import at.gradwohl.website.model.nachricht.Nachricht;
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSenden;
 import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;
 import at.gradwohl.website.repository.nachrichtsenden.NachrichtSendenRepository;
 import at.gradwohl.website.service.filiale.FilialeService;
+import at.gradwohl.website.service.nachricht.NachrichtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class NachrichtSendenService {
 
     private final NachrichtSendenRepository nachrichtSendenRepository;
     private final FilialeService filialeService;
+    private final NachrichtService nachrichtService;
 
     public NachrichtSenden getNachrichtSendenById(NachrichtSendenId id) {
         Optional<NachrichtSenden> existingNachrichtSenden = nachrichtSendenRepository.findById(id);
@@ -37,6 +40,17 @@ public class NachrichtSendenService {
 
         Collections.sort(nachrichten);
         Collections.reverse(nachrichten);
+
+        return nachrichten;
+    }
+
+    public List<NachrichtSenden> getNachrichtSendenByNachrichtId(Nachricht nachricht) {
+        Optional<Nachricht> existingNachricht = Optional.ofNullable(nachrichtService.getNachrichtById(nachricht.getId()));
+
+        if(existingNachricht.isEmpty())
+            throw new IllegalArgumentException("Nachricht doesnt exist");
+
+        List<NachrichtSenden> nachrichten = nachrichtSendenRepository.getNachrichtSendenByIdNachricht(nachricht);
 
         return nachrichten;
     }
