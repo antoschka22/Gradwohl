@@ -33,4 +33,8 @@ export class NachrichtSendenService {
   deleteNachrichtSenden(nachrichtId: number, filialeId: number){
     return this.http.delete(this.baseUri+'/nachrichtSenden/senden/'+nachrichtId+'/'+filialeId)
   }
+
+  updateNachrichtSenden(nachrichtId: number, filialeId: number, nachrichtSendenToInsert: nachrichtSenden){
+    return this.http.put(this.baseUri+'/nachrichtSenden/senden/'+filialeId+'/'+nachrichtId, nachrichtSendenToInsert)
+  }
 }

@@ -9,31 +9,27 @@
        
     </div>
 
-    <div *ngFor="let nachricht of nachrichten">
-      {{nachricht.datum}}
-    </div>
       <div class="row">
-          <div class="col-md-3 pt-4 card">
+          <div class="col-md-3 pt-4 card" style="cursor: pointer;">
               <ul id="ueberschriftenListe">
                 <!-- Linke Spalte: Betreff + Datum -->
-                  <li><h1><a class="ueberschrift-link" data-content="Inhalt 1">Betreff 1</a></h1></li>
-                  <hr style="width: 360px; margin-left: -40px;">
-                  <li><h1><a class="ueberschrift-link" data-content="Inhalt 2">Betreff 2</a></h1></li>
+                  <li *ngFor="let nachricht of nachrichten" (click)="selectNachricht(nachricht)">
+                    <h1>
+                      <a class="ueberschrift-link" data-content="Inhalt 2">{{nachricht.id.nachricht.betreff}}</a>
+                    </h1>
+                    <hr style="width: 360px; margin-left: -40px;">
+                  </li>
               </ul>
           </div>
+
           <!-- Rechte Spalte: -->
-          <div class="col-md-9 card">
+          <div class="col-md-9 card" *ngIf="selectedNachricht">
             <div class="container p-3">
-              <p style="text-align: right;"><u>2023-01-01</u></p>
-              <h2>Betreff 1</h2>
+              <p style="text-align: right;"><u>{{selectedNachricht.id.nachricht.datum}}</u></p>
+              <h2>{{selectedNachricht.id.nachricht.betreff}}</h2>
               <hr >
               <div class="Nachrichten inhalt">
-                Das hier ist die erste Nachricht.
-                  <!--Betreff 1 schreiben (rechte Ecke Datum ausgeben) + Nachricht ausgeben-->
-                  <li *ngFor="let nachricht of nachrichten">
-                    <h1><a class="ueberschrift-link" data-content="Inhalt 1">{{ nachricht.nachricht }}</a></h1>
-                    <p>Datum:</p>
-                  </li>
+                {{selectedNachricht.id.nachricht.nachricht}}
               </div>
             </div>
           </div>

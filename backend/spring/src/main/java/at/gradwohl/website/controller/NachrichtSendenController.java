@@ -104,4 +104,28 @@ public class NachrichtSendenController {
         nachrichtSendenService.deleteNachrichtSenden(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{filialeId}/{nachrichtId}")
+    public ResponseEntity<NachrichtSenden> updateNachricht(
+            @PathVariable("filialeId") int filialeId,
+            @PathVariable("nachrichtId") long nachrichtId,
+            @RequestBody NachrichtSenden updatedNachricht,
+            HttpServletRequest request) {
+
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        Filiale filiale = filialeService.getFilialeById(filialeId);
+        Nachricht nachricht = nachrichtService.getNachrichtById(nachrichtId);
+
+        NachrichtSendenId id = new NachrichtSendenId(filiale, nachricht);
+
+        NachrichtSenden result = nachrichtSendenService.updateNachrichtSenden(id, updatedNachricht);
+        if (result != null)
+            return ResponseEntity.ok(result);
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+    }
 }

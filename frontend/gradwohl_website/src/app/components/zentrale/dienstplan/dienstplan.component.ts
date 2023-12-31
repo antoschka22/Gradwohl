@@ -20,16 +20,6 @@ class dienstplanModell implements dienstplan {
     }
   }
 
-/**
- * WICHTIG wenn ein Mitarbeiter gekündigt wird, nicht löschen, wenn man den Dienstplan von dieser Person noch sehen will
- * Wenn man es noch sehen will kann man ihn von der Filiale rauswerfen
- */
-
-
-/**
- * von ZA zu  11:00 - 12:00 geht nicht 
- */
-
 @Component({
   selector: 'app-dienstplan',
   templateUrl: './dienstplan.component.html',
@@ -218,7 +208,6 @@ export class DienstplanComponent implements AfterViewInit{
         this.resultVonBisTageDesMonats.push({ urlaub: jsonData.urlaub, von: jsonData.id.von, bis: jsonData.bis, month: month, year: year, day: datumTeile[2], mitarbeiter: jsonData.id.mitarbeiter})
       }
     }
-    console.log(this.resultVonBisTageDesMonats)
   }
 
   //datum formatierung ändern 
@@ -286,8 +275,6 @@ export class DienstplanComponent implements AfterViewInit{
     }
   }
   
-  
-  
   formatTime(time: string): string {
     const parts = time.split(':');
     if (parts.length >= 2) {
@@ -295,7 +282,6 @@ export class DienstplanComponent implements AfterViewInit{
     }
     return time; 
   }
-  
 
   // This method checks if the item exists in the resultVonBisTageDesMonats array
   isVonBisEntryExists(tag: string, mitarbeiter: any): boolean {

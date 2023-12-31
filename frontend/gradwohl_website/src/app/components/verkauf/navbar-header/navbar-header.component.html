@@ -52,7 +52,7 @@
           <a class="nav-link">
             <button type ="button" class="position-relative nachrichtenAnzeigePunkt" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
                 <i class="bi bi-bell">
-                  <span class="position-absolute top-100 start-300 translate-middle p-2 bg-danger border rounded-circle">
+                  <span *ngIf="nachrichten.length != 0" class="position-absolute top-100 start-300 translate-middle p-2 bg-danger border rounded-circle">
                   </span>
                 </i>
             </button>
@@ -83,9 +83,9 @@
   </div>
   <div class="offcanvas-body">
     <h2>Nachrichten Ansicht</h2>
-    <div class="card p-2">
-      <h2>Überschrift</h2>
-      <p>Test....</p>
+    <div class="card p-2" *ngFor="let nachricht of nachrichten">
+      <h2>{{nachricht.id.nachricht.betreff}}</h2>
+      <p>{{nachricht.id.nachricht.datum}}</p>
     </div>
     <hr>
       <div style="text-align: center;" class="card p-2">

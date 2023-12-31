@@ -7,6 +7,7 @@ import at.gradwohl.website.model.nachrichtSenden.NachrichtSendenId;
 import at.gradwohl.website.repository.nachrichtsenden.NachrichtSendenRepository;
 import at.gradwohl.website.service.filiale.FilialeService;
 import at.gradwohl.website.service.nachricht.NachrichtService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +74,22 @@ public class NachrichtSendenService {
             nachrichtSendenRepository.deleteById(id);
         else
             throw new IllegalArgumentException("NachrichtSenden doesn't exist");
+
+    }
+
+    @Transactional
+    public NachrichtSenden updateNachrichtSenden(NachrichtSendenId id, NachrichtSenden updatedNachricht) {
+        Optional<NachrichtSenden> existingNachricht = nachrichtSendenRepository.findById(id);
+        if(existingNachricht.isPresent()){
+            NachrichtSenden nachrichtToUpdate =
+                    NachrichtSenden.builder()
+                            .id(id)
+                            .gelesen(updatedNachricht.isGelesen())
+                            .build();
+
+            return nachrichtSendenRepository.save(nachrichtToUpdate);
+        } else
+            throw new IllegalArgumentException("Nachricht not found");
 
     }
 }
