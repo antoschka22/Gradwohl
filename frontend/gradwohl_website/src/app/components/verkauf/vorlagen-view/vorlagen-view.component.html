@@ -9,7 +9,7 @@
           <div class="p-2 col-sm-6">
             <div class="card p-2">
                 <div *ngFor="let groupName of groupedVorlagen | keyvalue">
-                    <button class="btn btn-style card" (click)="toggleProducts(groupName.key)"> Name: {{ groupName.key }}</button>
+                    <button class="btn btn-style card" (click)="toggleProducts(groupName.key, true)"> Name: {{ groupName.key }}</button>
                     
                     <div *ngIf="isSelected(groupName.key)">
                       <br />  
@@ -40,7 +40,7 @@
                         </table>
                         </ng-container>
                       </div>
-                      <button style="float:right" class="btn btn-style deleteButton" data-toggle="modal" data-target="#exampleModal" *ngIf="isLeiter" (click)="toggleProducts(groupName.key)">Löschen</button>
+                      <button style="float:right" class="btn btn-style deleteButton" data-toggle="modal" data-target="#exampleModal" *ngIf="isLeiter" (click)="toggleProducts(groupName.key, false)">Löschen</button>
                     </div>
         
               </div>

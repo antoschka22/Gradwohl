@@ -175,6 +175,9 @@ export class KundenbestellungsUebersichtComponent implements OnInit {
     if(parseInt(datumSplit[0]) < this.datum.getFullYear() 
     || parseInt(datumSplit[1]) < this.datum.getMonth()+1
     || parseInt(datumSplit[2]) <= this.datum.getDate()){
+      console.log(parseInt(datumSplit[0]) < this.datum.getFullYear(),
+      parseInt(datumSplit[1]) < this.datum.getMonth()+1,
+      parseInt(datumSplit[2]) <= this.datum.getDate())
       this.toastr.error("Falsches Datum", "Input Fehler")
       return
     }

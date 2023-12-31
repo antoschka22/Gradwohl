@@ -8,6 +8,7 @@ import { VorlageService } from 'src/app/service/vorlage/vorlage.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { MitabeiterService } from 'src/app/service/mitarbeiter/mitabeiter.service';
 import { produkt } from 'src/model/produkt/produkt';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class VorlagenViewComponent {
     constructor(
       private vorlageService: VorlageService,
       private authService: AuthService,
+      private toastr: ToastrService,
       private mitarbeiterService: MitabeiterService,
     ){}
 
@@ -53,6 +55,7 @@ export class VorlagenViewComponent {
           for (const vorlage of this.groupedVorlagen[key]) {
             this.vorlageService.deleteVorlage(vorlage.id.name, vorlage.id.filiale.id, vorlage.id.produkt.id).subscribe()
           }
+          this.toastr.success("Vorlage gelöscht", "Erfolg")
           delete this.groupedVorlagen[key]
         }
       }
@@ -94,10 +97,10 @@ export class VorlagenViewComponent {
     }
 
     // Einklappen / Ausklappen
-    toggleProducts(groupName: string): void {
-      if (this.isSelected(groupName)) {
+    toggleProducts(groupName: string, open: boolean): void {
+      if (this.isSelected(groupName) && open) {
           this.selectedGroupName = null;
-      } else {
+      } else{
           this.selectedGroupName = groupName;
       }
     }
