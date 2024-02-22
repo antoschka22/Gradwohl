@@ -82,12 +82,16 @@
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <h2>Nachrichten Ansicht</h2>
+    <h2>Neue Nachrichten</h2>
     <div class="card p-2" *ngFor="let nachricht of nachrichten">
-      <h2>{{nachricht.id.nachricht.betreff}}</h2>
+      <h2>* {{nachricht.id.nachricht.betreff}}</h2>
       <p>{{nachricht.id.nachricht.datum}}</p>
     </div>
     <hr>
+    <span *ngIf="nachrichten.length == 0" style="text-align: center;">
+      Derzeit keine neuen Nachrichten!
+    </span>
+    <br />
       <div style="text-align: center;" class="card p-2">
         <a style="color: rgb(101, 96, 96);"[routerLink]="'/nachricht'">Alle Anzeigen</a>
       </div>

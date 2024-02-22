@@ -58,6 +58,6 @@ export class NachrichtenUebersichtComponent {
       const nachrichtSendenModel: NachrichtSendenModell = new NachrichtSendenModell(id, true)
       this.nachrichtSendenService.updateNachrichtSenden(nachricht.id.nachricht.id, nachricht.id.filiale.id, nachrichtSendenModel).subscribe()
     }
+     console.log('Selected Nachricht:', nachricht);
   }
-
 }

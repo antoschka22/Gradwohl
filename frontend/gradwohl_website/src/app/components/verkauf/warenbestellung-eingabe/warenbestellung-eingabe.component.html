@@ -11,7 +11,8 @@
   </div>
 </ng-container>
 
-<body [style.margin-right.px]="navbarToggle ? 20 : 240">
+<!--<body [style.margin-right.px]="navbarToggle ? 20 : 240">-->
+<body>
   <ng-container *ngIf="role != 'Zentrale'">
     <br /> <br /><br /><br />
   </ng-container>
@@ -34,8 +35,7 @@
           </form>
         </div>
         <div class="col-md-3 col-sm-12">
-          <button class="btn btn-primary mb-2 btn-block" style="padding: 12px; margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Bestellvorlagen-Archiv</button>
-          <button class="btn mb-2 btn-block" style="background-color: #8C5263; color: white; padding: 12px;" (click)="save()">Speichern</button>
+          <button class="btn mb-2 btn-block" style="background-color: #d6bdc5;padding: 12px; margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Bestellvorlagen-Archiv</button>
         </div>    
       </div>
 
@@ -53,7 +53,9 @@
 
                 <div class="card p-2">
                   <div *ngFor="let groupName of groupedVorlagen | keyvalue">
-                     <button class="btn btn-style card" (click)="toggleProducts(groupName.key)"> Name: {{ groupName.key }}</button>
+                    <div class="card pt-3 container">
+                     <button class="btn btn-style" (click)="toggleProducts(groupName.key)"> 
+                      <i class="bi bi-chevron-down"> Vorlage: {{ groupName.key }}</i></button>
                      
                     <div *ngIf="isSelected(groupName.key)">
                       <br />  
@@ -85,6 +87,7 @@
                         </ng-container>
                       </div>
                     </div>
+                    </div>
                 </div>   
               </div>
             </div>
@@ -95,11 +98,25 @@
         </div>
       </div>
       <!-- Pop-up-ENDE -->
-
+      <br />
+ <!-- Kategorien abbilden-->
+ <div class="container2"  [style.margin-right.px]="navbarToggle ? 0 : 100">
+  <button class="btn stylingButton"
+  [ngClass]="{'selected': ausgewaehlteProduktgruppe === null }"
+  (click)="onProduktgruppeClicked(null)">
+    Alle Produkte
+  </button>
+    <button class="btn stylingButton" *ngFor="let produktgruppe of produktgruppen" 
+                    [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
+                    (click)="onProduktgruppeClicked(produktgruppe)">
+        
+        {{ produktgruppe.name }}
+    </button>
+</div>
       <hr>
       <div class="row">
         <!-- Produkte zeigen-->
-        <div class="col-sm-8">
+        <div class="col-sm-12">
           <div class="table-container">
             <div class="scrollable-table">
                 <table class="table">
@@ -143,23 +160,50 @@
             </div>                    
         </div>
         </div>
-        <!-- Kategorien abbilden-->
-        <div class="col-sm-4 p-3 d-flex justify-content-center">
-            <div class="row">
-              <button class="btn stylingButton"
-              [ngClass]="{'selected': ausgewaehlteProduktgruppe === null }"
-              (click)="onProduktgruppeClicked(null)">
-                Alle Produkte
-              </button>
-                <button class="btn stylingButton" *ngFor="let produktgruppe of produktgruppen" 
-                                [ngClass]="{'selected': ausgewaehlteProduktgruppe === produktgruppe }"
-                                (click)="onProduktgruppeClicked(produktgruppe)">
-                    
-                    {{ produktgruppe.name }}
-                </button>
-            </div>
-        </div>
       </div>
+      
+      <button class="btn btn-success mb-2 btn-block" style=" padding: 10px; margin-right: 20px;" (click)="save()">Warenbestellung Speichern</button>
+
+<!-- Button Übersich-Warenbestellung -->
+<button class="btn btn-primary mb-2 btn-block" style="padding: 10px;" data-bs-toggle="modal" data-bs-target="#summaryModal">Übersicht der Auswahl</button>
+
+<div class="modal fade" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h3 class="modal-title" id="summaryModalLabel">
+          <u>Übersicht der eingegebenen Mengen für den <span style="font-weight: bold;">{{date}}
+          </span></u></h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Produkt</th>
+              <th scope="col">Frisch</th>
+              <th scope="col">Teigig</th>
+            </tr>
+          </thead>
+          <tbody>
+           <!-- Produkte anzeigen -->
+           <ng-container *ngFor="let produkt of angezeigteProdukte">
+            <tr *ngIf="produktInputs[produkt.id.produkt.name].frisch > 0 || produktInputs[produkt.id.produkt.name].teigig > 0">
+              <td class="card" style="background-color: whitesmoke">{{ produkt.id.produkt.name }}</td>
+              <td>{{ produktInputs[produkt.id.produkt.name].frisch || 0 }}</td>
+              <td>{{ produktInputs[produkt.id.produkt.name].teigig || 0 }}</td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success mb-2 btn-block" style=" padding: 10px; margin-right: 20px;" (click)="save()">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     </div>
   </section>
 </body>

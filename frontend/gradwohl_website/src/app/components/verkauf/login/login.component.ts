@@ -13,7 +13,6 @@ class loginModel implements authRequest{
 
   }
 }
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

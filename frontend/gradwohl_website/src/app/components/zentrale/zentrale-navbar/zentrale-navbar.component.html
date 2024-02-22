@@ -1,10 +1,15 @@
 <div class="toggle-button" *ngIf="isNavbarCollapsed" (click)="toggleNavbar('')">
+  <button class="logoutbtn" (click)="logout()">
+    <i class="bi bi-door-open" style="font-size: 30px; float: right;"><u style="font-size: 15px;vertical-align:3px;">Logout</u></i>
+  </button>
   <i style="font-size:30px;" class="bi bi-toggle-off"></i>
 </div>
-
 <div class="vertical-navbar" [ngClass]="{ 'collapsed': isNavbarCollapsed }">
   <div class="vertical-navbar">
     <div class="toggle-button" (click)="toggleNavbar('')" *ngIf="!isNavbarCollapsed">
+      <button class="logoutbtn" (click)="logout()">
+        <i class="bi bi-door-open" style="font-size: 30px; float: right;"><u style="font-size: 15px;vertical-align:3px">Logout</u></i>
+      </button>
       <i style="font-size:30px;" class="bi bi-toggle-on"></i>
     </div>
     <div class="nav-item" [routerLink]="['/produkte/verwalten']">Produkte</div>

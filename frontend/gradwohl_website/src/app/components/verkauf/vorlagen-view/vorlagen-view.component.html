@@ -6,10 +6,10 @@
       <div class="container row">
         <h2><u>Bestellvorlagen Übersicht:</u></h2>
         <div>
-          <div class="p-2 col-sm-6">
-            <div class="card p-2">
-                <div *ngFor="let groupName of groupedVorlagen | keyvalue">
-                    <button class="btn btn-style card" (click)="toggleProducts(groupName.key, true)"> Name: {{ groupName.key }}</button>
+                <div *ngFor="let groupName of groupedVorlagen | keyvalue" class="col-lg-8 col-md-12 pb-3">
+                  <div class="card pt-3 container">
+                    <button class="btn btn-style" (click)="toggleProducts(groupName.key, true)"> <h3>Vorlage: {{ groupName.key }}  
+                      <i class="bi bi-chevron-down"></i></h3></button>
                     
                     <div *ngIf="isSelected(groupName.key)">
                       <br />  
@@ -39,14 +39,15 @@
                           </tbody>
                         </table>
                         </ng-container>
+                    
+                        <small>
+                          <button style="float:right" class="btn btn-style deleteButton" data-toggle="modal" data-target="#exampleModal" *ngIf="isLeiter" (click)="toggleProducts(groupName.key, false)">Löschen</button>
+                        </small>
+                        <br /><br />
                       </div>
-                      <button style="float:right" class="btn btn-style deleteButton" data-toggle="modal" data-target="#exampleModal" *ngIf="isLeiter" (click)="toggleProducts(groupName.key, false)">Löschen</button>
-                    </div>
-        
+                  </div>
+                </div>
               </div>
-              
-          </div>
-        </div>
       </div>       
 
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -60,6 +61,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="loeschen()">Löschen</button>
+            <button type="button" class="btn btn-secondary active" data-dismiss="modal">Abbrechen</button>
           </div>
         </div>
       </div>

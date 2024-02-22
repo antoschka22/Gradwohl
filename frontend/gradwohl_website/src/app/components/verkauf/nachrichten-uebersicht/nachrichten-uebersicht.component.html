@@ -1,41 +1,47 @@
 <app-navbar-header></app-navbar-header>
-<body>  
-
+<body>
   <br /> <br /> <br /><br />
 
   <section class="text-dark pt-5 mg-auto card">
     <div class="container-fluid card pt-3">
-        <h1 style="color:rgb(128,128,128);">Nachrichten</h1>
-       
+      <h1 style="color:rgb(128,128,128); text-align: center;">Posteingang</h1>
     </div>
 
-      <div class="row">
-          <div class="col-md-3 pt-4 card" style="cursor: pointer;">
-              <ul id="ueberschriftenListe">
-                <!-- Linke Spalte: Betreff + Datum -->
-                  <li *ngFor="let nachricht of nachrichten" (click)="selectNachricht(nachricht)">
-                    <h1>
-                      <a class="ueberschrift-link" data-content="Inhalt 2">{{nachricht.id.nachricht.betreff}}</a>
-                    </h1>
-                    <hr style="width: 360px; margin-left: -40px;">
-                  </li>
-              </ul>
+    <div class="row">
+      <div class="col-md-3 p-3 card">
+        <ul id="ueberschriftenListe" class="list-group">
+          <li *ngFor="let nachricht of nachrichten"
+          (click)="selectNachricht(nachricht)"
+          class="list-group-item"
+          [class.active]="nachricht === selectedNachricht"
+          [class.read]="nachricht.gelesen">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2 class="mb-1" >
+              <a class="ueberschrift-link" data-content="Inhalt 2" *ngIf="!nachricht.gelesen == true">{{ nachricht.id.nachricht.betreff }}</a>
+              <p class="ueberschrift-link" data-content="Inhalt 2" *ngIf="nachricht.gelesen == true"><span style="color: rgb(113, 113, 113);">{{ nachricht.id.nachricht.betreff }}</span></p>
+            </h2>
+            <small class="text-muted">{{ nachricht.id.nachricht.datum}}</small>
           </div>
+          <hr class="linie">
+      </li>      
 
-          <!-- Rechte Spalte: -->
-          <div class="col-md-9 card" *ngIf="selectedNachricht">
-            <div class="container p-3">
-              <p style="text-align: right;"><u>{{selectedNachricht.id.nachricht.datum}}</u></p>
-              <h2>{{selectedNachricht.id.nachricht.betreff}}</h2>
-              <hr >
-              <div class="Nachrichten inhalt">
-                {{selectedNachricht.id.nachricht.nachricht}}
-              </div>
-            </div>
-          </div>
+        </ul>
       </div>
 
+      <!-- Rechte Spalte: -->
+      <div class="col-md-9 card" *ngIf="selectedNachricht">
+        <div class="container p-3">
+          <p style="text-align: right;">
+            <small class="text-muted">{{selectedNachricht.id.nachricht.datum}}</small>
+          </p>
+          <h2 class="mb-1">{{selectedNachricht.id.nachricht.betreff}}</h2>
+          
+          <hr>
+          <div class="Nachrichten inhalt">
+            {{selectedNachricht.id.nachricht.nachricht}}
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
-  
-
 </body>

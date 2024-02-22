@@ -1,7 +1,29 @@
 ul, li{
     list-style: none;
+    border: none;
 }
 
 a{
     color:black;
 }
+
+.linie {
+    margin: 10px 0;
+    border-top: 1px solid #909090;
+}
+
+body {
+background-color: #f9f7f7; 
+}
+
+.list-group-item:hover {
+    background-color: #f4f2f2;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+.list-group-item.active {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+}
+  

@@ -82,19 +82,6 @@ export class VorlagenViewComponent {
         return 0
       }
     }
-  
-    toggleAccordion(group: any) {
-      this.accordionStates[group.vorlage.id.id] = !this.accordionStates[group.vorlage.id.id];
-    }
-  
-    isAccordionOpen(id: number): boolean {
-      return this.accordionStates[id];
-    }
-
-    accordionStates: { [id: number]: boolean } = {};
-    selectVorlage(vorlage: vorlage): void {
-      this.selectedVorlage = vorlage;
-    }
 
     // Einklappen / Ausklappen
     toggleProducts(groupName: string, open: boolean): void {
@@ -124,5 +111,4 @@ export class VorlagenViewComponent {
         this.isLeiter = true;
       }
     }
-
 }

@@ -1,4 +1,7 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-zentrale-navbar',
@@ -7,6 +10,10 @@ import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 })
 export class ZentraleNavbarComponent {
   isNavbarCollapsed: boolean = false;
+
+  constructor(private authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router) {}
 
   @Output() newItemEvent = new EventEmitter<boolean>()
 
@@ -34,5 +41,11 @@ export class ZentraleNavbarComponent {
       this.isNavbarCollapsed = screenWidth < breakpointWidth;
     }
     this.toggleNavbar(null)
+  }
+
+  logout(){
+    this.authService.logoutUser();
+    this.toastr.success("Erfolgreich augeloggt", "Erfolg")
+    this.router.navigate(['/login']);
   }
 }
