@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d924f653-3cf0-4bea-b89d-c13cc724adb0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/app/LSTM_Model.h5" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/app/LSTM_model_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/app/LSTM_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Gradwohl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Gradwohl.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/.ipynb_checkpoints/Untitled-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/.ipynb_checkpoints/readPDF-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/Gradwohl_v2_17.5_error.h5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/PDFconvert.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/app/PDFconvert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/Untitled.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/api.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/model_v01_17.5_error.h5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/multipleRegression.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/multipleRegressionv2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/multipleRegressionv3HeavyWIP.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/products.csv" beforeDir="false" afterPath="$PROJECT_DIR$/AI/app/products.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/readPDF.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AI/app/testv3_unusable.h5" beforeDir="false" />
-    </list>
+    <list default="true" id="d924f653-3cf0-4bea-b89d-c13cc724adb0" name="Changes" comment="Feature(LSTM) cleanup and upload of final AI model" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,6 +146,15 @@
       <option name="presentableId" value="Default" />
       <updated>1678710287549</updated>
     </task>
+    <task id="LOCAL-00001" summary="Feature(LSTM) cleanup and upload of final AI model">
+      <option name="closed" value="true" />
+      <created>1708781595601</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1708781595601</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -186,5 +173,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Feature(LSTM) cleanup and upload of final AI model" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feature(LSTM) cleanup and upload of final AI model" />
   </component>
 </project>
