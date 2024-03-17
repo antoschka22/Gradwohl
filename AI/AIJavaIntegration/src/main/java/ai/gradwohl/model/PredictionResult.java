@@ -1,3 +1,5 @@
+package ai.gradwohl.model;
+
 public class PredictionResult {
     private String productName;
     private float frischPrediction;

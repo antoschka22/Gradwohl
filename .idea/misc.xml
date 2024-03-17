@@ -3,6 +3,16 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.10 (Gradwohl)" />
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/AI/javaApiIntegrations/AI_Integration/pom.xml" />
+        <option value="$PROJECT_DIR$/AI/AIJavaIntegration/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/spring/pom.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="openjdk-21" project-jdk-type="JavaSDK" />
   <component name="PyCharmProfessionalAdvertiser">
     <option name="shown" value="true" />

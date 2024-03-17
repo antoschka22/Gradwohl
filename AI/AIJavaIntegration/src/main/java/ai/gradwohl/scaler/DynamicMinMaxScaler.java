@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+package ai.gradwohl.scaler;
 
 public class DynamicMinMaxScaler {
     private float[] featureMin;

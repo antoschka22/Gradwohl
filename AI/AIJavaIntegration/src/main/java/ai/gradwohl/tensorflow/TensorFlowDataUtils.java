@@ -1,4 +1,5 @@
-import org.tensorflow.Tensor;
+package ai.gradwohl.tensorflow;
+
 import org.tensorflow.ndarray.StdArrays;
 import org.tensorflow.types.TFloat32;
 
@@ -21,12 +22,13 @@ public class TensorFlowDataUtils {
      * @return A 2D float array representing the tensor data, with the tensor being automatically closed after conversion.
      */
     public static float[][] convertTensorToArrayAndClose(TFloat32 tensor) {
-        // Use try-with-resources to ensure the tensor is automatically closed
         try (tensor) {
             long[] shape = tensor.shape().asArray();
-            // Assuming the tensor is 2-dimensional and fits into a float[][]
             float[][] array = new float[(int) shape[0]][(int) shape[1]];
-            tensor.copyTo(array);
+
+            // Read the tensor data into the Java array.
+            tensor.scalars().forEachIndexed((idx, f) -> array[Math.toIntExact(idx[0])][Math.toIntExact(idx[1])] = f.getFloat());
+
             return array;
         }
     }
