@@ -6,6 +6,7 @@ import ai.gradwohl.tensorflow.TensorFlowDataUtils;
 import ai.gradwohl.tensorflow.TensorFlowModelService;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.service.WarenbestellungsService;
+import at.gradwohl.website.service.warenbestellung.WarenbestellungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tensorflow.ndarray.StdArrays;
@@ -23,14 +24,31 @@ public class PredictionService {
     private final TensorFlowModelService modelService;
     private final WarenbestellungsService warenbestellungsService;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final WarenbestellungService warenbestellungService;
 
+
+    // This is left as a Service class, so no hardcoded paths or models
     @Autowired
     public PredictionService(DynamicMinMaxScaler scaler, TensorFlowModelService modelService,
-                             WarenbestellungsService warenbestellungsService) {
+                             WarenbestellungsService warenbestellungsService, WarenbestellungService warenbestellungService) {
         this.scaler = scaler;
         this.modelService = modelService;
         this.warenbestellungsService = warenbestellungsService;
+        this.warenbestellungService = warenbestellungService;
     }
+
+    // Example for LSTM implementation
+//    public PredictionService() {
+//        // more or less static class call
+//        this.scaler = new DynamicMinMaxScaler();
+//        // using example paths
+//        this.modelService = new TensorFlowModelService("AI/backend_python_AI/LSTM_Model");
+//        // use SpringBoot connection
+//        this.warenbestellungsService = new WarenbestellungsService("your_springBoot_Autolink");
+//        }
+//    }
+
+
 
     public List<PredictionResult> predictForFiliale(Filiale filiale) throws InterruptedException, ExecutionException, TimeoutException {
         CompletableFuture<List<PredictionResult>> futurePrediction = CompletableFuture.supplyAsync(() -> {

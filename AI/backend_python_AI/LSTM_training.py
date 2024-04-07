@@ -36,7 +36,7 @@ def prepare_data(csv_file):
     return np.array(sequences), np.array(targets), dates, product_names, scaler
 
 
-csv_file = '/home/eta/PycharmProjects/Gradwohl/AI/app/products.csv'  # Adjust with the actual path to your CSV file
+csv_file = './Gradwohl/AI/app/products.csv'  # Adjust with the actual path to your CSV file
 sequences, targets, dates, product_names, scaler = prepare_data(csv_file)
 
 # Select a sample for demonstration
