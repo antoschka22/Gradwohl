@@ -75,7 +75,7 @@ export class ProdukteModelsComponent {
   update(){
     if(this.idInput.nativeElement.value == ""
       || this.nameInput.nativeElement.value == ""){
-        this.toastrService.error("Sie habe nichts veränder", "Input error")
+        this.toastrService.error("Sie habe nichts verändert", "Input error")
         return
     }
 
@@ -83,13 +83,13 @@ export class ProdukteModelsComponent {
       if(this.idInput.nativeElement.value == this.selectedProdukt.id
         && this.nameInput.nativeElement.value == this.selectedProdukt.name
         && (this.selectedProduktInput.name == this.selectedProdukt.produktgruppe.name)){
-          this.toastrService.error("Sie habe nichts veränder", "Input error")
+          this.toastrService.error("Sie habe nichts verändert", "Input error")
           return
         }
     }else if(!this.selectedProduktInput
               && this.idInput.nativeElement.value == this.selectedProdukt.id
               && this.nameInput.nativeElement.value == this.selectedProdukt.name){
-      this.toastrService.error("Sie habe nichts veränder", "Input error")
+      this.toastrService.error("Sie habe nichts verändert", "Input error")
       return
     }
 

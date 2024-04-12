@@ -47,7 +47,7 @@
 }
 
 .box {
-  background-color: whitesmoke;
+  background-color: #f5f5f5;
   padding: 10px;
   margin-bottom: 10px;
 }
@@ -194,3 +194,10 @@
   color: inherit; 
   appearance: none;
 }
+
+.disabled-sunday {
+  pointer-events: none; /* Deaktiviert Klicks auf das Datum */
+  opacity: 0.5; /* Verringert die Opazität, um das Datum visuell zu deaktivieren */
+  /* Füge weitere Stile hinzu, um das Aussehen der deaktivierten Sonntage anzupassen */
+}
+

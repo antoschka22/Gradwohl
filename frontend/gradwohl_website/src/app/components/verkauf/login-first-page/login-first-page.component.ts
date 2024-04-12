@@ -26,6 +26,10 @@ import { vorlage } from 'src/model/vorlage/vorlage';
 import { vorlageId } from 'src/model/vorlage/vorlageId';
 import { ProduktService } from 'src/app/service/produkt/produkt.service';
 
+// Kalender warenbestellung einsehen: 
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
+
+
 class vorlageModel implements vorlage {
   constructor(
     public id: vorlageId,
@@ -33,33 +37,69 @@ class vorlageModel implements vorlage {
 }
 
 interface warenbestellungID {
-  datum: string | Date;
+  datum: string | Date ;
   produkt: produkt;
   filiale: filiale;
 }
 
-function groupDates(warenbestellungen: warenbestellung[]): { [datum: string]: warenbestellungID[] } {
-  const groupedData: { [datum: string]: warenbestellungID[] } = {};
+function groupAndSortDates(warenbestellungen: warenbestellung[]): { [datum: string]: warenbestellungID[] } {
+  // Gruppierung der Bestellungen nach Datum
+  const groupedOrders: { [datum: string]: warenbestellungID[] } = {};
 
-
-  for (const warenbestellung of warenbestellungen) {
-    const datum = warenbestellung.id.datum.toString();
-
-    if (!groupedData[datum]) {
-      groupedData[datum] = [];
+  warenbestellungen.forEach(warenbestellung => {
+    // Datum formatieren
+    let formattedDatum: Date;
+    if (typeof warenbestellung.id.datum === 'string') {
+      formattedDatum = new Date(warenbestellung.id.datum);
+    } else {
+      formattedDatum = warenbestellung.id.datum as Date;
     }
 
-    const warenbestellungAusgabe: warenbestellungID = {
-      datum: warenbestellung.id.datum.toString(),
-      produkt: warenbestellung.id.produkt,
-      filiale: warenbestellung.id.filiale,
-    };
+    // Überprüfen, ob das Datum in der Vergangenheit liegt
+    const currentDate = new Date();
+    if (formattedDatum >= currentDate) {
+      // Datum als Schlüssel für die Gruppierung verwenden
+      const year = formattedDatum.getFullYear();
+      const month = formattedDatum.getMonth() + 1;
+      const day = formattedDatum.getDate();
+      const key = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
 
-    groupedData[datum].push(warenbestellungAusgabe);
-  }
+      // Gruppierung erstellen, wenn noch nicht vorhanden
+      if (!groupedOrders[key]) {
+        groupedOrders[key] = [];
+      }
 
-  return groupedData;
+      // Bestellung zur entsprechenden Gruppe hinzufügen
+      groupedOrders[key].push({
+        datum: formattedDatum,
+        produkt: warenbestellung.id.produkt,
+        filiale: warenbestellung.id.filiale,
+      });
+    }
+  });
+
+  // Sortieren der Gruppen nach Datum
+  const sortedKeys = Object.keys(groupedOrders).sort();
+
+  // Neue sortierte Gruppen erstellen
+  const sortedGroupedOrders: { [datum: string]: warenbestellungID[] } = {};
+  sortedKeys.forEach(key => {
+    sortedGroupedOrders[key] = groupedOrders[key];
+  });
+
+  return sortedGroupedOrders;
 }
+
+
+// Datum in das gewünschte Format
+function formatDate(date: string | Date): string {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 
 @Component({
   selector: 'app-login-first-page',
@@ -89,6 +129,7 @@ export class LoginFirstPageComponent implements OnInit {
 
   loggedInUserFilialeName: string = '';
   loggedInUserFiliale!: filiale;
+
 
   constructor(
     private warenbestellungService: WarenbestellungService,
@@ -132,7 +173,8 @@ export class LoginFirstPageComponent implements OnInit {
         });
     
         this.warenbestellungen = data;
-        this.groupbyDateWarenbestellung = groupDates(this.warenbestellungen);
+        this.groupbyDateWarenbestellung = groupAndSortDates(this.warenbestellungen);
+
 
       });
 
@@ -170,15 +212,20 @@ export class LoginFirstPageComponent implements OnInit {
   // Kundenbestellungen zaehlen für die Linke und Rechte Box oben
 
   // Linke Box-----------
-  heutigeKundenbestellungenCount: number = 0;
+  heutigeKundenbestellungenCount: number = 0 ;
   countHeutigeKundenbestellungen() {
     const datum = new Date();
-    const heute = datum.getFullYear().toString()+"-"+(datum.getMonth()+1).toString()+"-"+datum.getDate().toString()
+    const heute = `${datum.getFullYear()}-${(datum.getMonth() + 1).toString().padStart(2, '0')}-${datum.getDate().toString().padStart(2, '0')}`;
+  
     this.kundenbestellungService.getKundenbestellungByDate(heute).subscribe((data: any) => {
-      this.heutigeKundenbestellungenCount = data.length;
+      if (Array.isArray(data)) {
+        this.heutigeKundenbestellungenCount = data.length;
+      } else {
+        this.heutigeKundenbestellungenCount = 0;
+      }
     });
   }
-
+  
   // Rechte Box-----------
   heutigerWarenbestellungsStatus: string = '';
   updateHeutigeWarenbestellungStatus() {
@@ -217,15 +264,13 @@ export class LoginFirstPageComponent implements OnInit {
     return `${year}-${formattedMonth}-${formattedDay}`;
   }
 
-  ///----------------------------------------------------------------------
-
   typeBestellung(){
     if (this.currentDate.getTime() > this.selectedDateBestellung.getTime()) {
-      this.toastr.error("Datum darf nicht von früher sein", "Error")
+      this.toastr.error("Datum ist schon vergangen!", "Error")
     } else if (this.currentDate.getTime() < this.selectedDateBestellung.getTime()) {
       this.router.navigate(['/warenbestellungEingabe', this.formatDate(this.selectedDateBestellung), this.loggedInUserFiliale.id]);
     } else {
-      this.toastr.error("Datum darf nicht von früher sein", "Error")
+      this.toastr.error("Datum ist schon vergangen!", "Error")
     }
   }
 
@@ -233,10 +278,10 @@ export class LoginFirstPageComponent implements OnInit {
 
   getFormattedDate(dateStr: string): string {
     const date = new Date(dateStr);
-  
     const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' } as Intl.DateTimeFormatOptions;
     return date.toLocaleDateString('de-DE', options);
   }
+  
 
   // is Leiter? Ja, mache  die Vorlagen-erstellen sichtbar
   isLeiter: boolean = false;
@@ -416,5 +461,9 @@ export class LoginFirstPageComponent implements OnInit {
     (document.getElementById('datumInput') as HTMLInputElement).value = '';
     this.ausgewaehlteProduktgruppe = null;
   }
+
   
+
+
+
 }

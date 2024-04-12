@@ -100,7 +100,7 @@
       <!-- Pop-up-ENDE -->
       <br />
  <!-- Kategorien abbilden-->
- <div class="container2"  [style.margin-right.px]="navbarToggle ? 0 : 100">
+ <div class="container2 col-sm-12"  [style.margin-right.px]="navbarToggle ? 0 : 100">
   <button class="btn stylingButton"
   [ngClass]="{'selected': ausgewaehlteProduktgruppe === null }"
   (click)="onProduktgruppeClicked(null)">
@@ -112,9 +112,9 @@
         
         {{ produktgruppe.name }}
     </button>
-</div>
+  </div>
       <hr>
-      <div class="row">
+      <div class="row col-sm-12">
         <!-- Produkte zeigen-->
         <div class="col-sm-12">
           <div class="table-container">
