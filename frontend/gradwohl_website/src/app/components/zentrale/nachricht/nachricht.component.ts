@@ -82,6 +82,10 @@ export class NachrichtComponent {
     this.seeNachrichtSenden = !this.seeNachrichtSenden
   }
 
+  formatMonth(month: number): string {
+    return month < 10 ? '0' + month : '' + month;
+  }
+
   insertNachricht(){
     const currDate = new Date()
     console.log(this.nachrichtText, this.betreff, this.selectedFilialen, currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate())
@@ -102,7 +106,7 @@ export class NachrichtComponent {
     }
 
     const nachrichtModel: NachrichtModell = 
-    new NachrichtModell(99999, this.nachrichtText, currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate(), this.betreff)
+    new NachrichtModell(99999, this.nachrichtText, currDate.getFullYear()+"-"+this.formatMonth(currDate.getMonth()+1)+"-"+currDate.getDate(), this.betreff)
 
     let nachrichtenSendenModel: NachrichtSendenModell[] = []
     this.nachrichtenService.insertNachricht(nachrichtModel).subscribe((data: any) => {

@@ -1,7 +1,5 @@
 # export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
 
-# Container für Simon, er soll zugriff aud DB haben
-
 version: '3'
 services:
  frontend:

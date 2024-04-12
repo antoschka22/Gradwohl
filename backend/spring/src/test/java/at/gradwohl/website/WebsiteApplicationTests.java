@@ -36,6 +36,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @SpringBootTest
 class WebsiteApplicationTests {
@@ -75,6 +76,32 @@ class WebsiteApplicationTests {
 						.build();
 
 		roleRepo.save(role);
+	}
+
+	@Test
+	void filialeVerwalten() throws Exception {
+		List<Filiale> filialen =  filialeRepository.findAll();
+		int filialeCount = filialen.size();
+
+		Filiale neueFiliale =
+				Filiale.builder()
+						.name("Spengergasse")
+						.build();
+		filialeRepository.save(neueFiliale);
+
+		filialen = filialeRepository.findAll();
+		if(filialen.size() <= filialeCount)
+			throw new Exception("Fehler beim Speichern");
+
+		filialen.get(0).setName("Testfall");
+		filialeRepository.save(filialen.get(0));
+		if(filialen.get(0).getName() != "Testfall")
+			throw new Exception("Fehler beim Ändern");
+
+		filialeRepository.deleteById(filialen.get(filialeCount).getId());
+		filialen = filialeRepository.findAll();
+		if(filialen.size() != filialeCount)
+			throw new Exception("Fehler beim Löschen");
 	}
 
 	@Test

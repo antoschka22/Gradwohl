@@ -16,11 +16,24 @@ import java.util.List;
 @RequiredArgsConstructor
 @SecurityRequirement(name ="jwt-auth")
 @RequestMapping(path = "firma")
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
+@CrossOrigin(origins = "*", allowedHeaders = "*",
+        methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class FirmaController {
 
     private final FirmaService firmaService;
     private final JwtService jwtService;
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFirma(
+            @PathVariable("id") String id,
+            HttpServletRequest request) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsZentrale(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        firmaService.deleteFirma(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping
     public ResponseEntity<List<Firma>> getAllFirma(HttpServletRequest request) {
@@ -58,16 +71,5 @@ public class FirmaController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFirma(
-            @PathVariable("id") String id,
-            HttpServletRequest request) {
-        String myHeader = request.getHeader("Authorization").substring(7);
-        if(!jwtService.getRoleIsZentrale(myHeader))
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-
-        firmaService.deleteFirma(id);
-        return ResponseEntity.noContent().build();
     }
 }

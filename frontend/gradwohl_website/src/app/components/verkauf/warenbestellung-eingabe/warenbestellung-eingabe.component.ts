@@ -101,8 +101,18 @@ export class WarenbestellungEingabeComponent {
       });
 
       this.warenbestellungService.getWarenbestellungByDate(date).subscribe((data: any) => {
+        for(const produkt of data){
+          const teigigId = produkt.id.produkt.id < 100 ? 2000 + produkt.id.produkt.id : 2000 + produkt.id.produkt.id;
+          const matchingTeigigProdukt = this.tippedProdukte.find(tipped => tipped.id.produkt.id === teigigId);
+          if (matchingTeigigProdukt && matchingTeigigProdukt.id.datum == this.date) {
+            this.produktInputs[produkt.id.produkt.name] = {
+              frisch: frischValue,
+              teigig: teigigValue,
+              id: frischId
+          };
+        }
+        }
         this.tippedProdukte = data
-        console.log(this.tippedProdukte)
         setTimeout(() => {
           this.saveInputValues();
         }, 500);
@@ -336,5 +346,11 @@ export class WarenbestellungEingabeComponent {
       // zeige alle Produkte an (wenn leer)
       this.angezeigteProdukte = this.produkte;
     }
+  }
+
+  generateOrder(){
+    this.warenbestellungService.getGenerateWarenbestellung(this.date, this.filiale.id).subscribe((data: any) => {
+      this.loadWarenbestellungenForDate(this.date, this.filiale.id);
+    });
   }
 }

@@ -18,6 +18,10 @@ export class WarenbestellungService {
     return this.http.get(this.baseUri + '/warenbestellung')
   }
 
+  getGenerateWarenbestellung(date: string, filiale: number){
+    return this.http.get(this.baseUri + '/warenbestellung/generate/'+date+'/'+filiale)
+  }
+
   getWarenbestellungByFiliale(filialeId: number){
     return this.http.get(this.baseUri + '/warenbestellung/filiale/'+filialeId)
   }

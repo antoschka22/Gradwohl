@@ -38,6 +38,18 @@ public class WarenbestellungController {
         return new ResponseEntity<>(warenbestellungService.getAllWarenbestellungen(), HttpStatus.OK);
     }
 
+    @GetMapping("/generate/{datum}/{filiale}")
+    public ResponseEntity<List<Warenbestellung>> getGenerateWarenbestellungen(
+            HttpServletRequest request,
+            @PathVariable("datum") LocalDate datum,
+            @PathVariable("filiale") int filiale) {
+        String myHeader = request.getHeader("Authorization").substring(7);
+        if(!jwtService.getRoleIsVerkauf(myHeader))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity<>(warenbestellungService.getGenerateWarenbestellungen(datum, filiale), HttpStatus.OK);
+    }
+
     @GetMapping("/date/{datum}")
     public ResponseEntity<List<Warenbestellung>> getWarenbestellungenByDate(
             @PathVariable("datum") LocalDate datum,

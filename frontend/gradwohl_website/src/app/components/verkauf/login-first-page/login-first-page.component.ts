@@ -265,7 +265,9 @@ export class LoginFirstPageComponent implements OnInit {
   }
 
   typeBestellung(){
-    if (this.currentDate.getTime() > this.selectedDateBestellung.getTime()) {
+    if (!this.loggedInUserFiliale.sooffen && this.selectedDateBestellung.getDay() == 0){
+      this.toastr.error("Sonntag ist nicht offen!", "Error")
+    } else if (this.currentDate.getTime() > this.selectedDateBestellung.getTime()) {
       this.toastr.error("Datum ist schon vergangen!", "Error")
     } else if (this.currentDate.getTime() < this.selectedDateBestellung.getTime()) {
       this.router.navigate(['/warenbestellungEingabe', this.formatDate(this.selectedDateBestellung), this.loggedInUserFiliale.id]);

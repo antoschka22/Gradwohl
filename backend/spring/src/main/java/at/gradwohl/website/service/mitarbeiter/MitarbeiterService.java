@@ -3,7 +3,6 @@ package at.gradwohl.website.service.mitarbeiter;
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.mitarbeiter.Mitarbeiter;
 import at.gradwohl.website.repository.dienstplan.DienstplanRepository;
-import at.gradwohl.website.repository.filiale.FilialeRepository;
 import at.gradwohl.website.repository.mitarbeiter.MitarbeiterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -2,14 +2,11 @@ package at.gradwohl.website.model.kundenbestellung;
 
 import at.gradwohl.website.model.filiale.Filiale;
 import at.gradwohl.website.model.produkt.Produkt;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Objects;
 
 @Embeddable
 @Builder

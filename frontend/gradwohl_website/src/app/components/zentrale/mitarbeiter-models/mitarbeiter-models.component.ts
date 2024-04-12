@@ -73,11 +73,8 @@ export class MitarbeiterModelsComponent {
       }
       
       this.toastr.success(this.changeMitarbeiter.name + " wurde gelöscht.");
-      this.schliessenButton.nativeElement.click();
-      const index = this.mitarbeiter.indexOf(this.changeMitarbeiter);
-      if (index !== -1) {
-        this.mitarbeiter.splice(index, 1);
-      }
+
+      window.location.reload()
     })
   }
 
