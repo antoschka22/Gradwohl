@@ -4,18 +4,82 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d924f653-3cf0-4bea-b89d-c13cc724adb0" name="Changes" comment="" />
+    <list default="true" id="d924f653-3cf0-4bea-b89d-c13cc724adb0" name="Changes" comment="Rewrite(PredictionService) Rewrote the prediction service to be more intuitive and taking into account the data structure">
+      <change afterPath="$PROJECT_DIR$/AI/AIJavaIntegration/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/backend_python_AI/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/AIJavaIntegration/src/main/java/ai/gradwohl/prediction/PredictionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AI/AIJavaIntegration/src/main/java/ai/gradwohl/prediction/PredictionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/AIJavaIntegration/src/main/java/ai/gradwohl/tensorflow/TensorFlowModelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AI/AIJavaIntegration/src/main/java/ai/gradwohl/tensorflow/TensorFlowModelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/backend_python_AI/LSTM_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/backend_python_AI/LSTM_training.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/AI/javaApiIntegrations">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/AI/javaApiIntegrations/model">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Etaselia&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/antoschka22/Gradwohl.git",
+    "accountId": "c988e812-2069-4869-b0ba-eda9ef8d4385"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="false" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="downloadAnnotationsAutomatically" value="true" />
+        <option name="downloadDocsAutomatically" value="true" />
+        <option name="downloadSourcesAutomatically" value="true" />
+        <option name="workspaceImportForciblyTurnedOn" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2MxXcdwbiGFTywEeVcs4ta29ug5" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -24,13 +88,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/antoniomolina/Spenger/Gradwohl"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.DockerCompose.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle./home/eta/IdeaProjects/Gradwohl/AI/javaApiIntegrations.executor&quot;: &quot;Run&quot;,
+    &quot;Python.LSTM_model_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.LSTM_training.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PDFconvert.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ai_file_3.4a.executor&quot;: &quot;Run&quot;,
+    &quot;Python.multipleRegression.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/eta/IdeaProjects/Gradwohl&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/eta/IdeaProjects/Gradwohl/AI/AIJavaIntegration/src/main/java/ai/gradwohl/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="Gradwohl" is-module-sdk="true">
@@ -41,12 +126,21 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/AI/javaApiIntegrations" />
       <recent name="C:\Users\simon\Documents\GitHub\Gradwohl\AI" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/AI/AIJavaIntegration/src/main/java/ai/gradwohl" />
+      <recent name="$PROJECT_DIR$/AI/javaApiIntegrations/AI_Integration/src" />
+      <recent name="$PROJECT_DIR$/AI/javaApiIntegrations/scaler" />
+      <recent name="$PROJECT_DIR$/AI/javaApiIntegrations/tensorflow" />
+      <recent name="$PROJECT_DIR$/AI/javaApiIntegrations/model" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Docker.DockerCompose">
     <configuration name="multipleRegression" type="PythonConfigurationType" factoryName="Python">
       <module name="Gradwohl" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -57,6 +151,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AI/multipleRegression.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -68,6 +163,7 @@
     </configuration>
     <configuration name="multipleRegressionv2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Gradwohl" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -78,6 +174,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AI/multipleRegressionv2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -89,6 +186,7 @@
     </configuration>
     <configuration name="multipleRegressionv3HeavyWIP" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Gradwohl" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -99,6 +197,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="C:\Users\simon\Documents\GitHub\Gradwohl\AI\multipleRegressionv3HeavyWIP.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -108,6 +207,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="WebsiteApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="website" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="at.gradwohl.website.WebsiteApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DockerCompose" type="docker-deploy" factoryName="docker-compose.yml" singleton="false" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.DockerCompose" />
+      <item itemvalue="Gradle./home/eta/IdeaProjects/Gradwohl/AI/javaApiIntegrations/model" />
+      <item itemvalue="Spring Boot.WebsiteApplication" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -117,8 +245,45 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678710287549</updated>
+      <workItem from="1710682778029" duration="2778000" />
+      <workItem from="1710686675645" duration="575000" />
+      <workItem from="1710687270728" duration="159000" />
+      <workItem from="1710687439066" duration="285000" />
+      <workItem from="1710687992271" duration="5496000" />
+      <workItem from="1712493189216" duration="4156000" />
     </task>
+    <task id="LOCAL-00001" summary="Feature(TensorFlowApiIntegration) Initial Upload">
+      <option name="closed" value="true" />
+      <created>1708785993485</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1708785993485</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Improvement(PredictionService) Automatic Timeout and Fallback to simpler calculations">
+      <option name="closed" value="true" />
+      <created>1708787259136</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1708787259136</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Rewrite(PredictionService) Rewrote the prediction service to be more intuitive and taking into account the data structure">
+      <option name="closed" value="true" />
+      <created>1710707246402</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710707246402</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.cfg" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -133,5 +298,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/frontend/gradwohl_website" />
+    </ignored-roots>
+    <MESSAGE value="Feature(TensorFlowApiIntegration) Initial Upload" />
+    <MESSAGE value="Improvement(PredictionService) Automatic Timeout and Fallback to simpler calculations" />
+    <MESSAGE value="Rewrite(PredictionService) Rewrote the prediction service to be more intuitive and taking into account the data structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rewrite(PredictionService) Rewrote the prediction service to be more intuitive and taking into account the data structure" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -199,7 +199,7 @@ def fnc_convert_pdf():
         pass
     # print(text_body)
 
-    # add in two dimensional array the product with the amount
+    # add in two-dimensional array the product with the amount
     while i < len(text_body):
         if text_body[i].isdigit() and 60 <= int(text_body[i]) <= 5000:
             j = i + 1
